@@ -72,9 +72,6 @@ group :test do
   gem "dotenv-rails"
 end
 
-gem "devise", "~> 4.9"
-
-
 gem "simple_form", "~> 5.3"
 
 gem "geocoder", "~> 1.8"
@@ -82,3 +79,6 @@ gem "geocoder", "~> 1.8"
 gem "pundit", "~> 2.5"
 
 gem "cloudinary"
+
+
+gem "devise", "~> 4.9"
