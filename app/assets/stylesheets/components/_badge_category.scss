@@ -1,0 +1,46 @@
+
+.badge-category {
+  width: 100%;
+  margin: 10px auto;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  flex-direction: column;
+}
+
+.badge-category__emoji {
+  font-size: 24px;
+  margin-right: 0px;
+}
+
+.badge-category__title {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.badge-category__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+}
+
+.pet-badge {
+  position: relative;
+  border-radius: 67.18px;
+  border: 1px solid #cac6c6;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  text-align: center;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.badge-checkbox:checked + .pet-badge {
+  border: 1px solid #e0a03f;
+  color: #e0a03f;
+}

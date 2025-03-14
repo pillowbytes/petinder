@@ -1,61 +1,43 @@
-<h1>New Pet</h1>
+    <div class="pet-header-card container p-3">
+      <div class="row align-items-center">
+        <div class="col-6">
+          <%= link_to root_path, class: "pet-header-card__back" do %>
+            <%= image_tag "arrow-back.svg", alt: "Go back" %>
+          <% end %>
+        </div>
+        <div class="col-6 text-end">
+          <%= link_to "#", class: "pet-header-card__skip" do %>
+            Skip
+          <% end %>
+        </div>
+      </div>
 
+      <div class="row mt-4">
+        <div class="col">
+          <h1 class="pet-header-card__title">This is a title</h1>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <p class="pet-header-card__subtitle">This is a very interesting subtitle.</p>
+        </div>
+      </div>
+    </div>
+<div class="container">
 <%= simple_form_for @pet, html: { class: "form-horizontal" } do |f| %>
-  <div class="form-group">
-    <%= f.input :name, label: "Pet Name" %>
-    <%= f.input :species, label: "Species" %>
-    <%= f.input :breed, label: "Breed" %>
-  </div>
+  <%= render "badge_category", emoji: "🐶", title: "Personality Traits", name: "pet[personality_traits]", options: ["Friendly", "Playful", "Lazy", "Energetic", "Friendly", "Playful", "Lazy", "Energetic"] %>
 
-  <div class="form-group">
-    <label>Personality Traits</label>
-    <%= f.input :personality_traits,
-                as: :check_boxes,
-                collection: ["Friendly", "Playful", "Lazy", "Energetic"],
-                input_html: { class: "badge-checkbox" },
-                item_wrapper_class: 'tag-item',
-                multiple: true %>
-  </div>
+  <%= render "badge_category", emoji: "🩺", title: "Medical Conditions", name: "pet[medical_conditions]", options: ["Allergy", "Hip Dysplasia", "Heart Condition","Allergy", "Hip Dysplasia", "Heart Condition","Allergy", "Hip Dysplasia", "Heart Condition"] %>
 
-  <div class="form-group">
-    <label>Medical Conditions</label>
-    <%= f.input :medical_conditions,
-                as: :check_boxes,
-                collection: ["Allergy", "Hip Dysplasia", "Heart Condition"],
-                input_html: { class: "badge-checkbox" },
-                item_wrapper_class: 'tag-item',
-                multiple: true %>
-  </div>
+  <%= render "badge_category", emoji: "💌", title: "Looking For", name: "pet[looking_for]", options: ["Playmate", "Adoption", "Breeding Partner"] %>
 
-  <div class="form-group">
-    <label>Looking For</label>
-    <%= f.input :looking_for,
-                as: :check_boxes,
-                collection: ["Playmate", "Adoption", "Breeding Partner"],
-                input_html: { class: "badge-checkbox" },
-                item_wrapper_class: 'tag-item',
-                multiple: true %>
-  </div>
+  <%= render "badge_category", emoji: "🐾", title: "Preferred Species", name: "pet[preferred_species]", options: ["Dog", "Cat", "Bird"] %>
 
-  <div class="form-group">
-    <label>Preferred Species</label>
-    <%= f.input :preferred_species,
-                as: :check_boxes,
-                collection: ["Dog", "Cat", "Bird"],
-                input_html: { class: "badge-checkbox" },
-                item_wrapper_class: 'tag-item',
-                multiple: true %>
-  </div>
+  <%= render "badge_category", emoji: "📏", title: "Preferred Size", name: "pet[preferred_size]", options: ["Small", "Medium", "Large"] %>
+</div>
 
-  <div class="form-group">
-    <label>Preferred Size</label>
-    <%= f.input :preferred_size,
-                as: :check_boxes,
-                collection: ["Small", "Medium", "Large"],
-                input_html: { class: "badge-checkbox" },
-                item_wrapper_class: 'tag-item',
-                multiple: true %>
+  <div class="pet-footer-btn">
+    <%= f.submit "Create Pet", class: "pet-btn-primary" %>
   </div>
-
-  <%= f.submit "Create Pet", class: "btn btn-primary" %>
 <% end %>
