@@ -1,2 +1,15 @@
 <h1>Pets#show</h1>
-<p>Find me in app/views/pets/show.html.erb</p>
+<div class="container mt-4">
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <h2 class="card-title"><%= @pet.name %></h2>
+      <h6 class="text-muted"><%= @pet.species %> - <%= @pet.breed %></h6>
+      <p class="mb-1"><strong>Age:</strong> <%= @pet.age %> years</p>
+      <p class="mb-1"><strong>Gender:</strong> <%= @pet.gender %></p>
+      <p class="mb-1"><strong>Size:</strong> <%= @pet.size %></p>
+      <p class="mb-3"><strong>Bio:</strong> <%= @pet.bio %></p>
+
+      <a href="<%= pets_path %>" class="btn btn-outline-primary">Back to Pets</a>
+    </div>
+  </div>
+</div>

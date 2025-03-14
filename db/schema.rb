@@ -10,7 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema[7.1].define(version: 2025_03_14_191353) do
+=======
+ActiveRecord::Schema[7.1].define(version: 2025_03_14_192459) do
+>>>>>>> 5cf989e7e1b018314b0529a6fc6d879996dd1fdc
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -61,19 +65,18 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_14_191353) do
     t.integer "age"
     t.string "gender"
     t.text "bio"
-    t.text "personality_traits"
+    t.string "personality_traits", default: [], array: true
     t.string "temperament"
     t.string "size"
     t.string "age_group"
     t.boolean "is_vaccinated"
     t.boolean "is_neutered"
-    t.text "medical_conditions"
+    t.string "medical_conditions", default: [], array: true
     t.boolean "is_available_for_breeding"
-    t.text "breeding_history"
     t.boolean "registered_pedigree"
-    t.string "looking_for"
-    t.string "preferred_species"
-    t.string "preferred_size"
+    t.string "looking_for", default: [], array: true
+    t.string "preferred_species", default: [], array: true
+    t.string "preferred_size", default: [], array: true
     t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

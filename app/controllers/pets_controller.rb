@@ -48,20 +48,19 @@ class PetsController < ApplicationController
       :age,
       :gender,
       :bio,
-      :personality_traits,
       :temperament,
       :size,
       :age_group,
       :is_vaccinated,
       :is_neutered,
-      :medical_conditions,
       :is_available_for_breeding,
-      :breeding_history,
       :registered_pedigree,
-      :looking_for,
-      :preferred_species,
-      :preferred_size,
-      :status
+      :status,
+      personality_traits: [],
+      medical_conditions: [],
+      looking_for: [],
+      preferred_species: [],
+      preferred_size: []
     )
   end
 
