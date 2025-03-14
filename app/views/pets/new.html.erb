@@ -1,2 +1,61 @@
-<h1>Pets#new</h1>
-<p>Find me in app/views/pets/new.html.erb</p>
+<h1>New Pet</h1>
+
+<%= simple_form_for @pet, html: { class: "form-horizontal" } do |f| %>
+  <div class="form-group">
+    <%= f.input :name, label: "Pet Name" %>
+    <%= f.input :species, label: "Species" %>
+    <%= f.input :breed, label: "Breed" %>
+  </div>
+
+  <div class="form-group">
+    <label>Personality Traits</label>
+    <%= f.input :personality_traits,
+                as: :check_boxes,
+                collection: ["Friendly", "Playful", "Lazy", "Energetic"],
+                input_html: { class: "badge-checkbox" },
+                item_wrapper_class: 'tag-item',
+                multiple: true %>
+  </div>
+
+  <div class="form-group">
+    <label>Medical Conditions</label>
+    <%= f.input :medical_conditions,
+                as: :check_boxes,
+                collection: ["Allergy", "Hip Dysplasia", "Heart Condition"],
+                input_html: { class: "badge-checkbox" },
+                item_wrapper_class: 'tag-item',
+                multiple: true %>
+  </div>
+
+  <div class="form-group">
+    <label>Looking For</label>
+    <%= f.input :looking_for,
+                as: :check_boxes,
+                collection: ["Playmate", "Adoption", "Breeding Partner"],
+                input_html: { class: "badge-checkbox" },
+                item_wrapper_class: 'tag-item',
+                multiple: true %>
+  </div>
+
+  <div class="form-group">
+    <label>Preferred Species</label>
+    <%= f.input :preferred_species,
+                as: :check_boxes,
+                collection: ["Dog", "Cat", "Bird"],
+                input_html: { class: "badge-checkbox" },
+                item_wrapper_class: 'tag-item',
+                multiple: true %>
+  </div>
+
+  <div class="form-group">
+    <label>Preferred Size</label>
+    <%= f.input :preferred_size,
+                as: :check_boxes,
+                collection: ["Small", "Medium", "Large"],
+                input_html: { class: "badge-checkbox" },
+                item_wrapper_class: 'tag-item',
+                multiple: true %>
+  </div>
+
+  <%= f.submit "Create Pet", class: "btn btn-primary" %>
+<% end %>
