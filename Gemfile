@@ -57,7 +57,7 @@ end
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
-
+  gem "dotenv-rails"
   # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
   # gem "rack-mini-profiler"
 
@@ -69,6 +69,7 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
+  gem "dotenv-rails"
 end
 
 gem "devise", "~> 4.9"
@@ -79,3 +80,5 @@ gem "simple_form", "~> 5.3"
 gem "geocoder", "~> 1.8"
 
 gem "pundit", "~> 2.5"
+
+gem "cloudinary"
