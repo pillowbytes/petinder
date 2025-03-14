@@ -1,1 +1,61 @@
-<h1>Home Page Works!</h1>
+<div class="container" style="background-color:rgb(232, 232, 232);">
+  <h1 class="text center">Components Test Page</h1>
+  <hr>
+  <h2>Buttons</h2>
+  <br>
+  <p><strong>Class:</strong> pet-btn-primary</p>
+  <div class="pet-btn-primary">Button</div>
+  <br>
+  <p><strong>Class:</strong> pet-btn-secondary</p>
+  <div class="pet-btn-secondary">Button</div>
+  <br>
+  <p><strong>Class:</strong> pet-btn-accent</p>
+  <div class="pet-btn-accent">Button</div>
+  <br>
+  <p><strong>Class:</strong> pet-btn-disabled</p>
+  <div class="pet-btn-disabled">Button</div>
+  <hr>
+
+
+  <h2>Components</h2>
+  <br>
+  <p><strong>Component:</strong> Footer Button</p>
+  <div class="pet-footer-btn">
+    <div class="pet-btn-primary">Main Button</div>
+  </div>
+  <br>
+  <hr>
+
+  <p><strong>Component:</strong> Header Banner</p>
+  <br>
+
+    <div class="pet-header-card container p-3">
+      <div class="row align-items-center">
+        <div class="col-6">
+          <%= link_to root_path, class: "pet-header-card__back" do %>
+            <%= image_tag "arrow-back.svg", alt: "Go back" %>
+          <% end %>
+        </div>
+        <div class="col-6 text-end">
+          <%= link_to "#", class: "pet-header-card__skip" do %>
+            Skip
+          <% end %>
+        </div>
+      </div>
+
+      <div class="row mt-4">
+        <div class="col">
+          <h1 class="pet-header-card__title">This is a title</h1>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <p class="pet-header-card__subtitle">This is a very interesting subtitle.</p>
+        </div>
+      </div>
+    </div>
+
+  <br>
+  <hr>
+</div>
