@@ -58,5 +58,5 @@ class Pet < ApplicationRecord
   validates :is_vaccinated, :is_neutered, :is_available_for_breeding, :registered_pedigree, inclusion: { in: [true, false] }
 
   ## Status Field
-  validates :status, presence: true, inclusion: { in: STATUS_OPTIONS }
+  validates :status, inclusion: { in: STATUS_OPTIONS }, allow_nil: true
 end
