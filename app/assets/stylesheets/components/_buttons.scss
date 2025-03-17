@@ -1,8 +1,9 @@
     .pet-btn-primary {
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 67.18px;
-    background: linear-gradient(90deg, #723EDE, #6833C9 97%);
-    width: 100%;
+    width: 200px;
+    height: 35px;
+    background: linear-gradient(90deg, #723EDE, #6833C9 100%);
     overflow: hidden;
     display: flex;
     flex-direction: row;
@@ -13,9 +14,10 @@
     font-size: 12px;
     color: $pet-color-background;
     font-family: 'Plus Jakarta Sans';
+    text-decoration: none;
 
     &:hover {
-      background: linear-gradient(90deg, #723EDE, #6833C9 100%);
+      background: linear-gradient(90deg, #723EDE, #6833C9 30%);
 
     }
   }
@@ -23,8 +25,9 @@
   .pet-btn-secondary {
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 67.18px;
-    background: linear-gradient(90deg, #ff7f67, #ffc75f);
-    width: 100%;
+    background: $pet-color-background;
+    width: 200px;
+    height: 35px;
     overflow: hidden;
     display: flex;
     flex-direction: row;
@@ -33,13 +36,14 @@
     padding: 10px 51px;
     box-sizing: border-box;
     font-size: 12px;
-    color: $pet-color-background;
+    color: $pet-color-primary;
     font-family: 'Plus Jakarta Sans';
+    text-decoration: none;
 
-    &:hover {
-      background: linear-gradient(90deg, #ff7f67, #ff7f67 97%);
-
-    }
+    // &:hover {
+    //   background: $pet-color-primary;
+    //   color: $pet-color-background;
+    // }
   }
 
   .pet-btn-accent {

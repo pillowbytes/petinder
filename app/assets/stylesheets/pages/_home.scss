@@ -4,7 +4,6 @@
   left: 0;
   width: 100%;
   height: 100vh; /* Viewport height to make it full-screen */
-  background: url('images/home_img.png') no-repeat center center;
   background-size: cover; /* Ensures the image covers the whole div */
   z-index: -1; /* Keeps the image in the background */
 }
@@ -24,4 +23,23 @@
 .centered-container img {
   max-width: 50%;  /* Optional: ensures the image scales responsively */
   max-height: 50%; /* Optional: ensures the image scales responsively */
+}
+.container-login-btn {
+  position: fixed;
+  bottom: 108px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container-cadastre-btn {
+  position: fixed;
+  bottom: 157px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
