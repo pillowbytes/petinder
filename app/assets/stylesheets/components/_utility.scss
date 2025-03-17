@@ -1,0 +1,27 @@
+// These classes are utility classes for possition
+
+// Use this class to fix a top bar will always stick to the top
+.fixed-top-layout {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+// Make sure to apply this class to whatver content that comes below
+// fixed top layout so the content appears below the top bar
+.with-fixed-top {
+  margin-top: 115px;
+  margin-bottom: 60px;
+}
+
+
+// Use this class if you want a fixed footer button on the bottom
+.fixed-bottom-layout {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
