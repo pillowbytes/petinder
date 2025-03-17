@@ -12,9 +12,6 @@ class PetsController < ApplicationController
     @pet = Pet.new
   end
 
-  def edit
-  end
-
   def create
     @pet = current_user.pets.build(pet_params)
 
@@ -28,6 +25,10 @@ class PetsController < ApplicationController
       render :new, status: :unprocessable_entity
     end
   end
+
+  def edit
+  end
+
   def update
     if @pet.update(pet_params)
       redirect_to @pet, notice: 'Amiguinho atualizado.'
