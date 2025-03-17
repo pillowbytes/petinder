@@ -4,12 +4,49 @@
     <div class="card-body">
       <h2 class="card-title"><%= @pet.name %></h2>
       <h6 class="text-muted"><%= @pet.species %> - <%= @pet.breed %></h6>
-      <p class="mb-1"><strong>Age:</strong> <%= @pet.age %> years</p>
-      <p class="mb-1"><strong>Gender:</strong> <%= @pet.gender %></p>
-      <p class="mb-1"><strong>Size:</strong> <%= @pet.size %></p>
-      <p class="mb-3"><strong>Bio:</strong> <%= @pet.bio %></p>
 
-      <a href="<%= pets_path %>" class="btn btn-outline-primary">Back to Pets</a>
+      <hr>
+
+      <p class="mb-1"><strong>Age:</strong> <%= @pet.age %> years</p>
+      <p class="mb-1"><strong>Gender:</strong> <%= @pet.gender.capitalize %></p>
+      <p class="mb-1"><strong>Size:</strong> <%= @pet.size.capitalize %></p>
+      <p class="mb-1"><strong>Age Group:</strong> <%= @pet.age_group.capitalize %></p>
+      <p class="mb-3"><strong>Bio:</strong> <%= @pet.bio.presence || 'No bio provided' %></p>
+
+      <hr>
+
+      <p class="mb-1"><strong>Temperament:</strong> <%= @pet.temperament.capitalize %></p>
+      <p class="mb-1"><strong>Personality Traits:</strong>
+        <%= @pet.personality_traits.any? ? @pet.personality_traits.join(', ') : 'Not specified' %>
+      </p>
+
+      <hr>
+
+      <p class="mb-1"><strong>Looking For:</strong> <%= @pet.looking_for.join(', ') %></p>
+      <p class="mb-1"><strong>Preferred Species:</strong> <%= @pet.preferred_species.join(', ') %></p>
+      <p class="mb-1"><strong>Preferred Size:</strong>
+        <%= @pet.preferred_size.any? ? @pet.preferred_size.join(', ') : 'Not specified' %>
+      </p>
+
+      <hr>
+
+      <p class="mb-1"><strong>Medical Conditions:</strong>
+        <%= @pet.medical_conditions.any? ? @pet.medical_conditions.join(', ') : 'None' %>
+      </p>
+
+      <hr>
+
+      <p class="mb-1"><strong>Vaccinated:</strong> <%= @pet.is_vaccinated ? 'Yes' : 'No' %></p>
+      <p class="mb-1"><strong>Neutered:</strong> <%= @pet.is_neutered ? 'Yes' : 'No' %></p>
+      <p class="mb-1"><strong>Available for Breeding:</strong> <%= @pet.is_available_for_breeding ? 'Yes' : 'No' %></p>
+      <p class="mb-1"><strong>Registered Pedigree:</strong> <%= @pet.registered_pedigree ? 'Yes' : 'No' %></p>
+
+      <hr>
+
+      <p class="mb-1"><strong>Status:</strong> <%= @pet.status.capitalize %></p>
+
+      <a href="<%= pets_path %>" class="btn btn-outline-primary mt-3">Back to Pets</a>
     </div>
   </div>
 </div>
+4

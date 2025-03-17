@@ -1,0 +1,31 @@
+<div class="badge-category">
+  <div class="row align-items-center">
+    <div class="col-auto">
+      <span class="badge-category__emoji"><%= emoji %></span>
+    </div>
+    <div class="col">
+      <h3 class="badge-category__title"><%= title %></h3>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <div class="badge-category__badges">
+        <% options.each do |option| %>
+          <% unique_id = "#{name.to_s.parameterize}-#{option.parameterize}" %> <!-- Ensures unique ID -->
+
+          <% if local_assigns[:single_select] %>
+            <input type="radio" id="<%= unique_id %>" name="<%= name %>" value="<%= option %>"
+              class="badge-radio"
+              data-action="<%= name == 'pet[species]' ? 'click->pet-form#updateBreedOptions' : '' %>"
+            >
+          <% else %>
+            <input type="checkbox" id="<%= unique_id %>" name="<%= name %>[]" value="<%= option %>" class="badge-checkbox">
+          <% end %>
+
+          <label for="<%= unique_id %>" class="pet-badge"><%= option %></label>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
