@@ -1,4 +1,7 @@
 <h1>Pets#show</h1>
+<%= button_to "❤️ Start Swiping", swipe_pet_path(@pet), method: :get, class: "pet-btn-primary mt-3" %>
+<%= link_to "Find Matches", swipe_pet_path(@pet), class: "pet-btn-primary mt-3" %>
+
 <div class="container mt-4">
   <div class="card shadow-sm">
     <div class="card-body">

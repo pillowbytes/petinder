@@ -42,7 +42,40 @@ class PetsController < ApplicationController
     redirect_to pets_url, notice: 'Amiguinho deletato :(', status: :see_other
   end
 
+  def swipe
+    @pet = Pet.find(params[:id])
+
+    # Find all pets that this pet has already swiped on (liked)
+    swiped_pet_ids = @pet.find_votes_for(vote_scope: nil).pluck(:votable_id)
+
+    # Exclude already swiped pets and user's own pets
+    @potential_pets = Pet.where.not(id: swiped_pet_ids)
+                         .where.not(user: current_user)
+  end
+
+  def process_swipe
+    @pet = Pet.find(params[:id])
+    liked_pet = Pet.find(params[:liked_pet_id])
+
+    # Register the like
+    @pet.liked_by(liked_pet)
+
+    # Check for mutual like
+    if liked_pet.voted_up_by?(@pet)
+      match = create_match(@pet, liked_pet)
+      redirect_to match_path(match)
+    end
+  end
+
+  def dev_tests
+    @pets = Pet.includes(:user, :initiated_matches, :received_matches).all
+  end
+
   private
+
+  def create_match(pet1, pet2)
+    Match.create!(pet: pet1, matched_pet: pet2, status: 'matched')
+  end
 
   def pet_params
     permitted_params = params.require(:pet).permit(
