@@ -1,7 +1,7 @@
-  .pet-btn-primary {
+    .pet-btn-primary {
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 67.18px;
-    background: linear-gradient(90deg, #3292c9, #6ccff6 97%);
+    background: linear-gradient(90deg, #723EDE, #6833C9 97%);
     width: 100%;
     overflow: hidden;
     display: flex;
@@ -15,7 +15,7 @@
     font-family: 'Plus Jakarta Sans';
 
     &:hover {
-      background: linear-gradient(90deg, #3292c9, #3292c9 97%);
+      background: linear-gradient(90deg, #723EDE, #6833C9 100%);
 
     }
   }
@@ -85,3 +85,93 @@
 
     }
   }
+
+
+
+  // .pet-btn-primary {
+  //   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  //   border-radius: 67.18px;
+  //   background: linear-gradient(90deg, #3292c9, #6ccff6 97%);
+  //   width: 100%;
+  //   overflow: hidden;
+  //   display: flex;
+  //   flex-direction: row;
+  //   align-items: center;
+  //   justify-content: center;
+  //   padding: 10px 51px;
+  //   box-sizing: border-box;
+  //   font-size: 12px;
+  //   color: $pet-color-background;
+  //   font-family: 'Plus Jakarta Sans';
+
+  //   &:hover {
+  //     background: linear-gradient(90deg, #3292c9, #3292c9 97%);
+
+  //   }
+  // }
+
+  // .pet-btn-secondary {
+  //   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  //   border-radius: 67.18px;
+  //   background: linear-gradient(90deg, #ff7f67, #ffc75f);
+  //   width: 100%;
+  //   overflow: hidden;
+  //   display: flex;
+  //   flex-direction: row;
+  //   align-items: center;
+  //   justify-content: center;
+  //   padding: 10px 51px;
+  //   box-sizing: border-box;
+  //   font-size: 12px;
+  //   color: $pet-color-background;
+  //   font-family: 'Plus Jakarta Sans';
+
+  //   &:hover {
+  //     background: linear-gradient(90deg, #ff7f67, #ff7f67 97%);
+
+  //   }
+  // }
+
+  // .pet-btn-accent {
+  //   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  //   border-radius: 67.18px;
+  //   background: linear-gradient(90deg, #ea4080 33.42%, #ee805f);
+  //   width: 100%;
+  //   overflow: hidden;
+  //   display: flex;
+  //   flex-direction: row;
+  //   align-items: center;
+  //   justify-content: center;
+  //   padding: 10px 51px;
+  //   box-sizing: border-box;
+  //   font-size: 12px;
+  //   color: $pet-color-background;
+  //   font-family: 'Plus Jakarta Sans';
+
+  //   &:hover {
+  //     background: linear-gradient(90deg, #ea4080, #ea4080 97%);
+
+  //   }
+  // }
+
+  // .pet-btn-disabled {
+  //   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  //   border-radius: 67.18px;
+  //   background: linear-gradient(90deg, #5a5a5a, #868585);
+  //   width: 100%;
+  //   overflow: hidden;
+  //   display: flex;
+  //   flex-direction: row;
+  //   align-items: center;
+  //   justify-content: center;
+  //   padding: 10px 51px;
+  //   box-sizing: border-box;
+  //   font-size: 12px;
+  //   color: $pet-color-background;
+  //   font-family: 'Plus Jakarta Sans';
+
+  //   &:hover {
+  //     background: linear-gradient(90deg, #5a5a5a, #5a5a5a 97%);
+
+  //   }
+  // }
