@@ -1,5 +1,3 @@
-<%= simple_form_for @pet do |f| %>
-
 <!-- Top Header with Back & Skip -->
 <div class="pet-header-card fixed-top-layout container p-3">
   <div class="row align-items-center">
@@ -7,9 +5,6 @@
       <%= link_to pets_path, class: "pet-header-card__back" do %>
       <%= image_tag "arrow-back.svg", alt: "Go back" %>
       <% end %>
-    </div>
-    <div class="col-6 text-end">
-      <a href="#" class="pet-header-card__skip">Skip</a>
     </div>
   </div>
 
@@ -19,120 +14,4 @@
     </div>
   </div>
 </div>
-
-<!-- Form Body -->
-<div class="container with-fixed-top">
-  <!-- Basic Info -->
-  <div class="m-5"></div>
-  <%= f.input :name, label: "Pet Name", required: true %>
-
-  <%= f.input :species,
-          collection: Pet::SPECIES_OPTIONS,
-          label: "Species",
-          prompt: "Select a species",
-          required: true %>
-
-  <%= f.input :breed,
-          collection: Pet::BREED_OPTIONS.values.flatten.uniq,
-          label: "Breed",
-          prompt: "Select a breed",
-          required: true %>
-
-  <%= f.input :age_group,
-          collection: Pet::AGE_GROUP_OPTIONS,
-          label: "Age Group",
-          prompt: "Select age group",
-          required: true %>
-
-  <%= f.input :size,
-          collection: Pet::SIZE_OPTIONS,
-          label: "Size",
-          prompt: "Select size",
-          required: true %>
-
-  <%= f.input :gender,
-          collection: Pet::GENDER_OPTIONS,
-          label: "Gender",
-          prompt: "Select gender",
-          required: true %>
-
-  <%= f.input :temperament,
-          collection: Pet::TEMPERAMENT_OPTIONS,
-          label: "Temperament",
-          prompt: "Select temperament",
-          required: true %>
-  <div class="m-5"></div>
-  <hr>
-  <div class="m-5"></div>
-  <!-- Multi-Select Fields (Fixed to Prevent Empty Strings) -->
-  <h2>Personality & Preferences</h2>
-  <%= f.input :personality_traits,
-          collection: Pet::PERSONALITY_TRAITS_OPTIONS,
-          label: "Personality Traits (Max 4)",
-          multiple: true,
-          input_html: { name: "pet[personality_traits][]", required: false } %>
-
-  <%= f.input :looking_for,
-          collection: Pet::LOOKING_FOR_OPTIONS,
-          label: "Looking For (Required)",
-          multiple: false,
-          input_html: { name: "pet[looking_for][]" },
-          required: true %>
-
-  <%= f.input :preferred_species,
-          collection: Pet::PREFERRED_SPECIES_OPTIONS,
-          label: "Preferred Species (Required)",
-          multiple: false,
-          input_html: { name: "pet[preferred_species][]" },
-          required: true %>
-
-  <%= f.input :preferred_size,
-          collection: Pet::SIZE_OPTIONS,
-          label: "Preferred Size",
-          multiple: false,
-          input_html: { name: "pet[preferred_size][]" },
-          required: false %>
-  <div class="m-5"></div>
-  <hr>
-  <div class="m-5"></div>
-  <!-- Boolean Fields (Yes/No, Fixed as true/false) -->
-  <h2>Health & Breeding</h2>
-  <%= f.input :is_vaccinated,
-          collection: { "Yes" => true, "No" => false },
-          label: "Vaccinated?",
-          as: :radio_buttons,
-          required: true %>
-
-  <%= f.input :is_neutered,
-          collection: { "Yes" => true, "No" => false },
-          label: "Neutered?",
-          as: :radio_buttons,
-          required: true %>
-
-  <%= f.input :is_available_for_breeding,
-          collection: { "Yes" => true, "No" => false },
-          label: "Available for Breeding?",
-          as: :radio_buttons,
-          required: true %>
-
-  <%= f.input :registered_pedigree,
-          collection: { "Yes" => true, "No" => false },
-          label: "Registered Pedigree?",
-          as: :radio_buttons,
-          required: true %>
-
-  <%= f.hidden_field :status, value: "available" %>
-
-</div>
-
-<div class="m-5"></div>
-<hr>
-<div class="m-5"></div>
-
-<!-- Submit Button -->
-<div class="pet-footer-btn fixed-bottom-layout">
-  <%= f.submit "Create Pet", class: "pet-btn-primary" %>
-</div>
-
-
-<% end %>
+<%= render 'form' %>

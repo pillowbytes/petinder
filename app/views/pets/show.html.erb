@@ -45,7 +45,8 @@
 
       <p class="mb-1"><strong>Status:</strong> <%= @pet.status.capitalize %></p>
 
-      <a href="<%= pets_path %>" class="btn btn-outline-primary mt-3">Back to Pets</a>
+      <%= link_to "Edit Pet", edit_pet_path, class: "pet-btn-accent mt-3" %>
+      <%= link_to "Back to Pets", pets_path, class: "pet-btn-secondary mt-3" %>
     </div>
   </div>
 </div>
