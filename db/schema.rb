@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_03_17_151816) do
+ActiveRecord::Schema[7.1].define(version: 2025_03_15_142933) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -73,7 +74,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_17_151816) do
     t.string "looking_for", default: [], array: true
     t.string "preferred_species", default: [], array: true
     t.string "preferred_size", default: [], array: true
-    t.string "status"
+    t.string "status", default: "active"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_pets_on_user_id"

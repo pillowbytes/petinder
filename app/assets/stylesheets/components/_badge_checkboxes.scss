@@ -74,3 +74,18 @@
   border: 1px solid #e0a03f;
   color: #e0a03f;
 }
+
+
+// Hide both checkbox and radio inputs but keep them functional
+.badge-checkbox,
+.badge-radio {
+  position: absolute;
+  transform: scale(0);
+}
+
+// Ensure selected styles apply to both radio and checkbox
+.badge-checkbox:checked + .pet-badge,
+.badge-radio:checked + .pet-badge {
+  border: 1px solid #e0a03f;
+  color: #e0a03f;
+}

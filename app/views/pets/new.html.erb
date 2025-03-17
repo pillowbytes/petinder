@@ -1,45 +1,17 @@
-<%= simple_form_for @pet, html: { class: "form-horizontal" } do |f| %>
-
-<div class="pet-header-card container p-3">
+<!-- Top Header with Back & Skip -->
+<div class="pet-header-card fixed-top-layout container p-3">
   <div class="row align-items-center">
     <div class="col-6">
-      <%= link_to root_path, class: "pet-header-card__back" do %>
+      <%= link_to pets_path, class: "pet-header-card__back" do %>
       <%= image_tag "arrow-back.svg", alt: "Go back" %>
-      <% end %>
-    </div>
-    <div class="col-6 text-end">
-      <%= link_to "#", class: "pet-header-card__skip" do %>
-      Skip
       <% end %>
     </div>
   </div>
 
   <div class="row mt-4">
     <div class="col">
-      <h1 class="pet-header-card__title">This is a title</h1>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col">
-      <p class="pet-header-card__subtitle">This is a very interesting subtitle.</p>
+      <h1 class="pet-header-card__title">Create Pet</h1>
     </div>
   </div>
 </div>
-
-<div class="container">
-  <%= render "badge_category", emoji: "🐶", title: "Personality Traits", name: "pet[personality_traits]", options: ["Friendly", "Playful", "Lazy", "Energetic", "Friendly", "Playful", "Lazy", "Energetic"] %>
-
-  <%= render "badge_category", emoji: "🩺", title: "Medical Conditions", name: "pet[medical_conditions]", options: ["Allergy", "Hip Dysplasia", "Heart Condition","Allergy", "Hip Dysplasia", "Heart Condition","Allergy", "Hip Dysplasia", "Heart Condition"] %>
-
-  <%= render "badge_category", emoji: "💌", title: "Looking For", name: "pet[looking_for]", options: ["Playmate", "Adoption", "Breeding Partner"] %>
-
-  <%= render "badge_category", emoji: "🐾", title: "Preferred Species", name: "pet[preferred_species]", options: ["Dog", "Cat", "Bird"] %>
-
-  <%= render "badge_category", emoji: "📏", title: "Preferred Size", name: "pet[preferred_size]", options: ["Small", "Medium", "Large"] %>
-</div>
-
-<div class="pet-footer-btn">
-  <%= f.submit "Create Pet", class: "pet-btn-primary" %>
-</div>
-<% end %>
+<%= render 'form' %>
