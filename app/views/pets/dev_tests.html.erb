@@ -1,0 +1,24 @@
+<h2>Dev Test - Pets and Matches Information</h2>
+
+<% @pets.each do |pet| %>
+  <div class="pet-info">
+    <h3><%= pet.name %> (Owned by: <%= pet.user.email %>)</h3>
+    <p>Age: <%= pet.age %></p>
+    <p>Breed: <%= pet.breed %></p>
+
+    <h4>Likes Given:</h4>
+      <% pet.votes_for.each do |vote| %>
+        <% liked_pet = Pet.find_by(id: vote.voter_id) %>
+        <% if liked_pet %>
+          <p>❤️ <%= liked_pet.name %></p>
+        <% end %>
+      <% end %>
+    <h4>Matches:</h4>
+    <% pet.initiated_matches.each do |match| %>
+      <p>🔥 Matched with: <%= match.matched_pet.name %></p>
+    <% end %>
+  </div>
+  <hr>
+<% end %>
+
+<%= link_to 'Back to Dashboard', root_path, class: "btn btn-secondary" %>

@@ -1,0 +1,5 @@
+<h2>It's a Match! 🎉</h2>
+<p><%= @match.pet.name %> and <%= @match.matched_pet.name %> are now matched!</p>
+
+<%= link_to 'Continue Swiping', swipe_pet_path(@match.pet), class: "btn btn-primary" %>
+<%= link_to 'Go to Messages', messages_path, class: "btn btn-secondary" %>

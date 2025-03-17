@@ -1,11 +1,7 @@
 class MatchesController < ApplicationController
-  def swipe
-  end
+  before_action :authenticate_user!
 
-  
-
-  private
-
-  def set_match
+  def show
+    @match = Match.find(params[:id])
   end
 end
