@@ -1,0 +1,26 @@
+<% if potential_pet.present? %>
+  <div class="pet-card">
+    <h3>Now Swiping: <%= potential_pet.name %></h3>
+    <p>Pet ID: <%= potential_pet.id %></p>
+
+    <% if potential_pet.photos.attached? %>
+      <%= cl_image_tag potential_pet.photos.first.key,
+            transformation: [{ width: 400, height: 500, crop: "fill" }],
+            alt: "#{potential_pet.name}'s profile picture",
+            class: "pet-image" %>
+    <% else %>
+      <%= image_tag "pet_placeholder.webp",
+            alt: "Default pet profile picture",
+            class: "pet-image" %>
+    <% end %>
+
+    <div class="swipe-buttons">
+      <%= link_to '❌', process_swipe_pet_path(current_pet, liked_pet_id: potential_pet.id, action: "left"),
+          data: { turbo_method: :post }, class: "btn-swipe btn-no" %>
+      <%= link_to '✅', process_swipe_pet_path(current_pet, liked_pet_id: potential_pet.id, action: "right"),
+          data: { turbo_method: :post }, class: "btn-swipe btn-yes" %>
+    </div>
+  </div>
+<% else %>
+  <p class="text-center">No more pets available for swiping!</p>
+<% end %>
