@@ -1,0 +1,45 @@
+.header {
+  text-align: center;
+  margin-top: 45px;
+  justify-content: center;
+}
+
+.form-horizontal {
+  max-width: 400px;
+  margin: auto 50px;
+  margin-top: -7px;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.control-label {
+  // font-weight: bold;
+  margin-bottom: 2px;
+  display: block;
+  font-size: 14px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 12px 18px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #a5a8ab;
+  background-color: white;
+  border-radius: 22px;
+  border: 1px solid $pet-color-primary;
+}
+
+.svg_container {
+  width: 100px;
+  height: 100px;
+  display: block; // Removes extra space around the image
+  margin: auto; // Centers the image
+}
+
+.form-actions {
+  max-width: 200px; // Define a largura máxima do contêiner
+  margin: 15px auto;
+}

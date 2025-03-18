@@ -24,3 +24,14 @@ html, body {
   flex-direction: column;
   height: 100dvh;
 }
+
+h2 {
+  color: $pet-color-primary;
+  font-weight: bold;
+}
+
+p {
+  color: #5A5A5A;
+  text-align: center;
+  font-size: 13px;
+}

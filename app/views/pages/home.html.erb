@@ -17,11 +17,13 @@
   </div>
 <% else %>
   <!-- Show Login and Create Account buttons when user is NOT logged in -->
-  <div class="container-login-btn">
-    <%= link_to "Login", new_user_session_path, class: "pet-btn-primary" %>
-  </div>
+  <div class="text-center">
+    <div class="container-login-btn">
+      <%= link_to "Login", new_user_session_path, class: "pet-btn-primary" %>
+    </div>
 
-  <div class="container-cadastre-btn">
-    <%= link_to "Criar uma conta", new_user_registration_path, class: "pet-btn-secondary" %>
+    <div class="container-cadastre-btn">
+      <%= link_to "Criar uma conta", new_user_registration_path, class: "pet-btn-secondary" %>
+    </div>
   </div>
 <% end %>
