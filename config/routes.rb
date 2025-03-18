@@ -9,5 +9,5 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   root "pages#index"
-  get '/locations', to: 'locations#show'
+  get 'current_location', to: 'locations#current', as: :current_location
 end
