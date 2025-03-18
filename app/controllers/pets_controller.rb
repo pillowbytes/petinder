@@ -83,8 +83,8 @@ class PetsController < ApplicationController
                          .where.not(user: current_user)
 
     respond_to do |format|
-      format.html # Normal page load
-      format.turbo_stream # Turbo Stream update
+      format.html
+      format.turbo_stream
     end
   end
 
@@ -97,22 +97,15 @@ class PetsController < ApplicationController
     # Register the like
     @pet.liked_by(liked_pet)
 
-    # Check for mutual like
-    if liked_pet.voted_up_by?(@pet)
-      @match = create_match(@pet, liked_pet)
-    else
-      @match = nil
-    end
+    # testing session
+    session[:swiped_pet_ids] ||= [] # Initialize the session
+    session[:swiped_pet_ids] << liked_pet.id unless session[:swiped_pet_ids].include?(liked_pet.id)
 
-    # Find already swiped pets
-    swiped_pet_ids = @pet.find_votes_for(vote_scope: nil).pluck(:votable_id)
-    swiped_pet_ids << liked_pet.id unless swiped_pet_ids.include?(liked_pet.id)
+    puts "🧐 Swiped Pet IDs (session): #{session[:swiped_pet_ids].inspect}"
 
-    puts "🧐 Swiped Pet IDs: #{swiped_pet_ids.inspect}"
-
-    # Fetch **new** potential pets
-    @potential_pets = Pet.where.not(id: swiped_pet_ids)
+    @potential_pets = Pet.where.not(id: session[:swiped_pet_ids])
                          .where.not(user: current_user)
+                         .order(:id)
 
     puts "🐶 Next Potential Pets: #{@potential_pets.pluck(:id).inspect}"
 
@@ -121,14 +114,14 @@ class PetsController < ApplicationController
         if @potential_pets.any?
           next_pet = @potential_pets.first
 
-          render turbo_stream: turbo_stream.update(
-            'swipe_frame',
+          render turbo_stream: turbo_stream.replace(
+            'pet_card',
             partial: 'pets/swipe_pet',
             locals: { current_pet: @pet, potential_pet: next_pet }
           )
         else
-          render turbo_stream: turbo_stream.update(
-            'swipe_frame',
+          render turbo_stream: turbo_stream.replace(
+            'pet_card',
             "<p class='text-center'>No more pets available for swiping!</p>".html_safe
           )
         end
@@ -137,7 +130,6 @@ class PetsController < ApplicationController
       format.html { redirect_to matches_path }
     end
   end
-
 
   def dev_tests
     @pets = Pet.includes(:user, :initiated_matches, :received_matches).all
