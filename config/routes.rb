@@ -12,9 +12,16 @@ Rails.application.routes.draw do
     collection do
       get 'dev_tests' # Custom route to view test data
     end
+
+    resources :matches, only: [:index, :show] do
+      get 'messages', to: 'matches#messages' # `/pets/:id/matches/:id/messages`
+      resources :messages, only: [:create] # Messages should be nested under matches inside pets
+    end
   end
 
-  resources :matches, only: [:show]
+  resources :matches, only: [:index, :show] do
+    resources :messages, only: [:create] # This is the global matches/messages route (for now)
+  end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -25,6 +32,6 @@ Rails.application.routes.draw do
   root 'pages#home'
   get '/components', to: 'pages#index', as: 'components'
 
-  # Match Routes
-  # get '/swipe', to: 'matches#swipe', as: 'swipe'
+  # Messages Routes
+  # get '/messages', to: 'matches#messages', as: 'messages'
 end

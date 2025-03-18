@@ -1,0 +1,21 @@
+<h2>Chat between <%= @match.pet.name %> & <%= @match.matched_pet.name %></h2>
+
+<%= turbo_stream_from "match_#{@match.id}_messages" %>
+
+<div id="messages">
+  <%= render partial: "messages/message", collection: @messages, as: :message, locals: { match: @match } %>
+</div>
+
+<h2>Send a Message</h2>
+
+<%= form_with model: [@match, Message.new], url: pet_match_messages_path(@match.pet, @match), data: { turbo_stream: true } do |form| %>
+  <div class="form-group">
+    <%= form.label :content, "Your Message" %>
+    <%= form.text_area :content, class: "form-control" %>
+  </div>
+
+  <!-- Hidden Field for pet_id -->
+  <%= form.hidden_field :pet_id, value: (@match.pet.user == current_user ? @match.pet.id : @match.matched_pet.id) %>
+
+  <%= form.submit "Send", class: "btn btn-primary mt-2" %>
+<% end %>

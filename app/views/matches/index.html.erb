@@ -1,0 +1,24 @@
+<h2>Inbox</h2>
+
+<% if @matches.any? %>
+  <ul class="match-list">
+    <% @matches.each do |match| %>
+      <li>
+        <%= link_to pet_match_messages_path(match.pet, match), class: "match-link" do %>
+          <div class="match-item">
+            <div class="match-avatar">
+              <%= cl_image_tag match.pet.photos.first.key, transformation: [{ width: 300, height: 300, crop: "fill" }], class: "avatar-bordered" %>
+              <%= cl_image_tag match.matched_pet.photos.first.key, transformation: [{ width: 300, height: 300, crop: "fill" }], class: "avatar-bordered" %>
+            </div>
+            <div class="match-details">
+              <strong><%= match.pet.name %> & <%= match.matched_pet.name %></strong>
+              <p>Last message: <%= match.messages.any? ? match.messages.last.content : "No messages yet" %></p>
+            </div>
+          </div>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No messages yet.</p>
+<% end %>
