@@ -1,13 +1,24 @@
-<h1>Pets#show</h1>
+  <div class="container mt-4">
+              <div class="row mb-3">
+            <div class="col-4">
+              <%= link_to "Swipe", swipe_pet_path(@pet), method: :get, class: "pet-btn-accent" %>
+            </div>
+            <div class="col-4">
+              <%= link_to "Edit", edit_pet_path, class: "pet-btn-disabled" %>
+            </div>
+            <div class="col-4">
+              <%= link_to "Back", pets_path, class: "pet-btn-accent" %>
+            </div>
+          </div>
+    <div class="card shadow-sm">
+      <div class="card-body">
 
-<div class="container mt-4">
-  <div class="card shadow-sm">
-    <div class="card-body">
         <div class="d-flex justify-content-center">
+
           <% if @pet.photos.attached? %>
-            <%= cl_image_tag @pet.photos.first.key, transformation: [{ width: 300, height: 300, crop: "fill" }], alt: "#{@pet.name}'s profile picture", class: "avatar-main-profile" %>
+          <%= cl_image_tag @pet.photos.first.key, transformation: [{ width: 300, height: 300, crop: "fill" }], alt: "#{@pet.name}'s profile picture", class: "avatar-main-profile" %>
           <% else %>
-            <%= image_tag "pet_placeholder.webp", alt: "Default pet profile picture", class: "avatar-main-profile" %>
+          <%= image_tag "pet_placeholder.webp", alt: "Default pet profile picture", class: "avatar-main-profile" %>
           <% end %>
         </div>
       </div>
@@ -52,11 +63,8 @@
 
       <hr>
 
-      <p class="mb-1"><strong>Status:</strong> <%= @pet.status.capitalize %></p>
 
-      <%= link_to "Start Swiping", swipe_pet_path(@pet), method: :get, class: "pet-btn-accent mt-3" %>
-      <%= link_to "Edit Pet", edit_pet_path, class: "pet-btn-disabled mt-3" %>
-      <%= link_to "Back to Pets", pets_path, class: "pet-btn-accent mt-3" %>
+
     </div>
   </div>
-</div>
+  </div>
