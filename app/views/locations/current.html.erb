@@ -1,0 +1,160 @@
+<div id="status-message" class="alert alert-info text-center my-3">
+    Finding your current location...
+</div>
+
+<div id="map" style="width: 100%; height: 100%; position: relative;">
+
+  <div class="card shadow-sm map-overlay">
+    <div class="card-body">
+      <p class='d-none'>Coordinates:<span id="coordinates">Locating...</span></p>
+      <p><strong>Address:</strong> <span id="address">Searching for address...</span></p>
+      <div class="card-body">
+        <button class="pet-btn-primary"><strong>Refresh</strong></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const statusMessage = document.getElementById('status-message');
+  const coordinatesDisplay = document.getElementById('coordinates');
+  const addressDisplay = document.getElementById('address');
+  const refreshButton = document.getElementById('refresh-location');
+  let marker;
+
+  mapboxgl.accessToken = '<%= ENV['MAPBOX_API_KEY'] %>';
+  const map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/streets-v11',
+    center: [0, 0],
+    zoom: 2
+  });
+
+  function reverseGeocode(lat, lng) {
+
+  fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?access_token=${mapboxgl.accessToken}`)
+      .then(response => response.json())
+      .then(data => {
+        if (data.features && data.features.length > 0) {
+          // Extract just the address and city parts
+          let streetAddress = '';
+          let city = '';
+
+          // Most specific location info
+          const mainFeature = data.features[0];
+
+          // Get street address
+          if (mainFeature.text) {
+            streetAddress = mainFeature.text;
+
+            // Street number if available
+            if (mainFeature.address) {
+              streetAddress = mainFeature.address + ' ' + streetAddress;
+            }
+          }
+
+          // Look for city in the context array
+          if (mainFeature.context && mainFeature.context.length > 0) {
+            // Find the place feature (city)
+            const cityFeature = mainFeature.context.find(item =>
+              item.id.startsWith('place.') || item.id.startsWith('locality.')
+            );
+
+            if (cityFeature) {
+              city = cityFeature.text;
+            }
+          }
+
+          // Combine street address and city
+          let formattedAddress = '';
+          if (streetAddress) {
+            formattedAddress = streetAddress;
+            if (city) {
+              formattedAddress += ', ' + city;
+            }
+          } else if (city) {
+            formattedAddress = city;
+          } else {
+            // Fallback to the place name if we couldn't extract components
+            formattedAddress = mainFeature.place_name.split(',').slice(0, 2).join(',');
+          }
+
+          addressDisplay.textContent = formattedAddress;
+        } else {
+          addressDisplay.textContent = 'Address not found';
+        }
+      })
+      .catch(error => {
+        console.error('Error getting address:', error);
+        addressDisplay.textContent = 'Could not retrieve address';
+      });
+  }
+
+  function getCurrentLocation() {
+    statusMessage.innerHTML = 'Finding your current location...';
+    statusMessage.classList.remove('alert-success', 'alert-danger');
+    statusMessage.classList.add('alert-info');
+
+    coordinatesDisplay.textContent = 'Locating...';
+    addressDisplay.textContent = 'Searching for address...';
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        const lat = position.coords.latitude;
+        const lng = position.coords.longitude;
+
+        if (marker) marker.remove();
+
+        marker = new mapboxgl.Marker()
+          .setLngLat([lng, lat])
+          .addTo(map);
+
+        map.flyTo({
+          center: [lng, lat],
+          zoom: 15,
+          essential: true
+        });
+
+        statusMessage.innerHTML = 'Location found!';
+        statusMessage.classList.remove('alert-info', 'alert-danger');
+        statusMessage.classList.add('alert-success');
+
+
+        coordinatesDisplay.textContent = `${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+        reverseGeocode(lat, lng);
+
+      }, function(error) {
+        console.error('Error getting location:', error);
+        let errorMessage;
+
+        switch(error.code) {
+          case error.PERMISSION_DENIED:
+            errorMessage = 'Locationdenied. Check location access in your browser settings.';
+            break;
+          case error.POSITION_UNAVAILABLE:
+            errorMessage = 'Location information is unavailable. Please try again later.';
+            break;
+          case error.TIMEOUT:
+            errorMessage = 'The request to get your location timed out. Please try again.';
+            break;
+          default:
+            errorMessage = 'An unknown error occurred while trying to get your location.';
+        }
+
+        statusMessage.innerHTML = errorMessage;
+        statusMessage.classList.remove('alert-info', 'alert-success');
+        statusMessage.classList.add('alert-danger');
+      });
+    } else {
+      statusMessage.innerHTML = 'Geolocation is not supported by your browser.';
+      statusMessage.classList.remove('alert-info', 'alert-success');
+      statusMessage.classList.add('alert-danger');
+    }
+  }
+
+  getCurrentLocation();
+
+  refreshButton.addEventListener('click', getCurrentLocation);
+});
+</script>
