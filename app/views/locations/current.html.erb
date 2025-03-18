@@ -1,35 +1,17 @@
-<div class="pet-header-card fixed-top-layout container p-3">
-  <div class="row align-items-center">
-    <div class="col-6">
-      <%= link_to root_path, class: "pet-header-card__back" do %>
-        <%= image_tag "arrow-back.svg", alt: "Go back" %>
-      <% end %>
-    </div>
-  </div>
-
-  <div class="row mt-4">
-    <div class="col">
-      <h1 class="pet-header-card__title">You are here:</h1>
-    </div>
-  </div>
+<div id="status-message" class="alert alert-info text-center my-3">
+    Finding your current location...
 </div>
 
-<div class="container with-fixed-top">
-  <div id="status-message" class="alert alert-info text-center my-3">
-    Finding your current location...
-  </div>
+<div id="map" style="width: 100%; height: 100%; position: relative;">
 
-  <div id="map" style="width: 100%; height: 400px;" class="avatar-bordered"></div>
-
-  <div class="card shadow-sm mt-3">
+  <div class="card shadow-sm map-overlay">
     <div class="card-body">
-      <p class='d-none'><strong>Coordinates:</strong> <span id="coordinates">Locating...</span></p>
+      <p class='d-none'>Coordinates:<span id="coordinates">Locating...</span></p>
       <p><strong>Address:</strong> <span id="address">Searching for address...</span></p>
+      <div class="card-body">
+        <button class="pet-btn-primary"><strong>Refresh</strong></button>
+      </div>
     </div>
-  </div>
-
-  <div class="pet-footer-btn">
-    <button id="refresh-location" class="pet-btn-primary">Refresh Location</button>
   </div>
 </div>
 
@@ -59,14 +41,14 @@ document.addEventListener('DOMContentLoaded', function() {
           let streetAddress = '';
           let city = '';
 
-          // The first feature usually contains the most specific location info (street address)
+          // Most specific location info
           const mainFeature = data.features[0];
 
-          // Get street address - this is usually in the main text
+          // Get street address
           if (mainFeature.text) {
             streetAddress = mainFeature.text;
 
-            // Add street number if available
+            // Street number if available
             if (mainFeature.address) {
               streetAddress = mainFeature.address + ' ' + streetAddress;
             }
@@ -134,7 +116,7 @@ document.addEventListener('DOMContentLoaded', function() {
           essential: true
         });
 
-        statusMessage.innerHTML = 'Your current location has been found!';
+        statusMessage.innerHTML = 'Location found!';
         statusMessage.classList.remove('alert-info', 'alert-danger');
         statusMessage.classList.add('alert-success');
 
