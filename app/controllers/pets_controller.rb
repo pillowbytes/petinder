@@ -43,35 +43,101 @@ class PetsController < ApplicationController
     redirect_to pets_url, notice: 'Amiguinho deletato :(', status: :see_other
   end
 
+  # def swipe
+  #   @pet = Pet.find(params[:id])
+  #   # @matches = @pet.matches.where(user: current_user)
+  #   @matches = Match.where(pet: @pet).or(Match.where(matched_pet: @pet))
+
+  #   # Find all pets that this pet has already swiped on (liked)
+  #   swiped_pet_ids = @pet.find_votes_for(vote_scope: nil).pluck(:votable_id)
+
+  #   # Exclude already swiped pets and user's own pets
+  #   @potential_pets = Pet.where.not(id: swiped_pet_ids)
+  #                        .where.not(user: current_user)
+  # end
+
+  # def process_swipe
+  #   @pet = Pet.find(params[:id])
+  #   liked_pet = Pet.find(params[:liked_pet_id])
+
+  #   # Register the like
+  #   @pet.liked_by(liked_pet)
+
+  #   # Check for mutual like
+  #   if liked_pet.voted_up_by?(@pet)
+  #     match = create_match(@pet, liked_pet)
+  #     redirect_to match_path(match)
+  #   # else
+  #   #   flash[:notice] = '🎉 Match registered!'
+  #   end
+
   def swipe
     @pet = Pet.find(params[:id])
-    # @matches = @pet.matches.where(user: current_user)
     @matches = Match.where(pet: @pet).or(Match.where(matched_pet: @pet))
-    
-    # Find all pets that this pet has already swiped on (liked)
+
+    # Find all pets that this pet has already swiped on
     swiped_pet_ids = @pet.find_votes_for(vote_scope: nil).pluck(:votable_id)
 
     # Exclude already swiped pets and user's own pets
     @potential_pets = Pet.where.not(id: swiped_pet_ids)
                          .where.not(user: current_user)
+
+    respond_to do |format|
+      format.html # Normal page load
+      format.turbo_stream # Turbo Stream update
+    end
   end
 
   def process_swipe
     @pet = Pet.find(params[:id])
     liked_pet = Pet.find(params[:liked_pet_id])
 
+    puts "🔥 Swiping on Pet ID: #{liked_pet.id}"
+
     # Register the like
     @pet.liked_by(liked_pet)
 
     # Check for mutual like
     if liked_pet.voted_up_by?(@pet)
-      match = create_match(@pet, liked_pet)
-      redirect_to match_path(match)
-    # else
-    #   flash[:notice] = '🎉 Match registered!'
+      @match = create_match(@pet, liked_pet)
+    else
+      @match = nil
     end
 
+    # Find already swiped pets
+    swiped_pet_ids = @pet.find_votes_for(vote_scope: nil).pluck(:votable_id)
+    swiped_pet_ids << liked_pet.id unless swiped_pet_ids.include?(liked_pet.id)
+
+    puts "🧐 Swiped Pet IDs: #{swiped_pet_ids.inspect}"
+
+    # Fetch **new** potential pets
+    @potential_pets = Pet.where.not(id: swiped_pet_ids)
+                         .where.not(user: current_user)
+
+    puts "🐶 Next Potential Pets: #{@potential_pets.pluck(:id).inspect}"
+
+    respond_to do |format|
+      format.turbo_stream do
+        if @potential_pets.any?
+          next_pet = @potential_pets.first
+
+          render turbo_stream: turbo_stream.update(
+            'swipe_frame',
+            partial: 'pets/swipe_pet',
+            locals: { current_pet: @pet, potential_pet: next_pet }
+          )
+        else
+          render turbo_stream: turbo_stream.update(
+            'swipe_frame',
+            "<p class='text-center'>No more pets available for swiping!</p>".html_safe
+          )
+        end
+      end
+
+      format.html { redirect_to matches_path }
+    end
   end
+
 
   def dev_tests
     @pets = Pet.includes(:user, :initiated_matches, :received_matches).all
