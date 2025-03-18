@@ -1,7 +1,7 @@
     .pet-btn-primary {
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
     border-radius: 67.18px;
-    width: 200px;
+    width: 100%;
     height: 35px;
     background: linear-gradient(90deg, #723EDE, #6833C9 100%);
     overflow: hidden;
@@ -10,12 +10,13 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    padding: 10px 51px;
     box-sizing: border-box;
     font-size: 12px;
     color: $pet-color-background;
     font-family: 'Plus Jakarta Sans';
     text-decoration: none;
+    border: none;
+    outline: none;
 
     &:hover {
       background: linear-gradient(90deg, #723EDE, #6833C9 30%);
@@ -27,7 +28,7 @@
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 67.18px;
     background: $pet-color-background;
-    width: 200px;
+    width: 100%;
     height: 35px;
     overflow: hidden;
     display: flex;

@@ -26,20 +26,24 @@
 }
 .container-login-btn {
   position: fixed;
-  bottom: 108px;
+  bottom: 40px;
+  max-width: 200px;
   left: 0;
   right: 0;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 66px auto;
 }
 
 .container-cadastre-btn {
   position: fixed;
-  bottom: 157px;
+  bottom: 95px;
+  max-width: 200px;
   left: 0;
   right: 0;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 66px auto;
 }
