@@ -1,0 +1,20 @@
+<div class="match-container">
+  <div class="text-center">
+    <h2>It's a Match! 🎉</h2>
+    <p>Hora de dizer Woof-Woof para o seu amiguinho!</p>
+  </div>
+
+  <div class="match-card-container">
+    <div class="match-card match-card-left">
+      <%= cl_image_tag @match.pet.photos.first.key, transformation: [{ width: 300, height: 300, crop: "fill" }], alt: @match.pet.name, class: "match-img" %>
+    </div>
+
+    <div class="match-card match-card-right">
+      <%= cl_image_tag @match.matched_pet.photos.first.key, transformation: [{ width: 300, height: 300, crop: "fill" }], alt: @match.matched_pet.name, class: "match-img" %>
+    </div>
+  </div>
+
+  <p><%= @match.pet.name %> and <%= @match.matched_pet.name %> are now matched!</p>
+    <%= link_to 'Continue Swiping', swipe_pet_path(@match.pet), class: "pet-btn-accent mt-3" %>
+    <%= link_to 'Go to Messages', pet_match_messages_path(@match.pet, @match), class: "pet-btn-primary mt-3" %>
+</div>

@@ -1,2 +1,20 @@
-<h1>Pets#edit</h1>
-<p>Find me in app/views/pets/edit.html.erb</p>
+<!-- Top Header with Back & Skip -->
+<div class="pet-header-card fixed-top-layout container p-3">
+  <div class="row align-items-center">
+    <div class="col-6">
+      <%= link_to pets_path, class: "pet-header-card__back" do %>
+      <%= image_tag "arrow-back.svg", alt: "Go back" %>
+      <% end %>
+    </div>
+    <div class="col-6 text-end">
+      <a href="#" class="pet-header-card__skip">Cancel</a>
+    </div>
+  </div>
+
+  <div class="row mt-4">
+    <div class="col">
+      <h1 class="pet-header-card__title">Edit Pet</h1>
+    </div>
+  </div>
+</div>
+<%= render 'form' %>

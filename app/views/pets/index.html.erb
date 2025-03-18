@@ -1,15 +1,27 @@
-<h1>Pets#index</h1>
-<p>Find me in app/views/pets/index.html.erb</p>
+<h1 class="text-center">My Registered Pets</h1>
 <div class="container mt-4">
   <h2 class="mb-3">Pets</h2>
 
   <div class="list-group">
     <% @pets.each do |pet| %>
+
       <a href="<%= pet_path(pet) %>" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-        <span><%= pet.name %></span>
+        <span>
+          <% if pet.photos.attached? %>
+            <%= cl_image_tag pet.photos.first.key, transformation: [{ width: 300, height: 300, crop: "fill" }], alt: "#{pet.name}'s profile picture", class: "avatar-bordered" %>
+          <% else %>
+            <%= image_tag "pet_placeholder.webp", alt: "Default pet profile picture", class: "avatar-bordered" %>
+          <% end %>
+        </span>
+        <span><strong><%= pet.name %></strong> </span>
+        <span><%= pet.species.capitalize %></span>
+
         <span class="badge bg-primary">View</span>
       </a>
     <% end %>
   </div>
 </div>
-<%= link_to "New_pet", new_pet_path, class: "pet-btn-primary" %>
+
+<div class="pet-footer-btn fixed-bottom-layout">
+  <%= link_to "New Pet", new_pet_path, class: "pet-btn-accent" %>
+</div>

@@ -82,3 +82,5 @@ gem "geocoder", "~> 1.8"
 gem "pundit", "~> 2.5"
 
 gem "cloudinary"
+
+gem "acts_as_votable", "~> 0.14.0"

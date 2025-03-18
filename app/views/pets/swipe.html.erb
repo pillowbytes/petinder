@@ -1,0 +1,32 @@
+<h2 class="text-center">Find a Match for <%= @pet.name %></h2>
+
+<div class="container ">
+
+<% if @potential_pets.any? %>
+  <% @potential_pets.each do |potential_pet| %>
+    <div class="pet-card text-center">
+        <% if potential_pet.photos.attached? %>
+          <%= cl_image_tag potential_pet.photos.first.key, transformation: [{ width: 300, height: 300, crop: "fill" }], alt: "#{potential_pet.name}'s profile picture", class: "avatar-main-profile" %>
+        <% else %>
+          <%= image_tag "pet_placeholder.webp", alt: "Default pet profile picture", class: "avatar-main-profile" %>
+        <% end %>
+      <h3><%= potential_pet.name %></h3>
+      <p>Age: <%= potential_pet.age %></p>
+      <p>Breed: <%= potential_pet.breed %></p>
+
+      <%= link_to '❤️ Swipe Right', process_swipe_pet_path(@pet, liked_pet_id: potential_pet.id),
+                                                          data: { turbo_method: :post }, class: "pet-btn-primary" %>
+    </div>
+    <div class="m-5"></div>
+    <hr>
+    <div class="m-5"></div>
+  <% end %>
+<% else %>
+  <p>No more pets available for swiping!</p>
+<% end %>
+
+</div>
+
+<div class="footer-btn fixed-bottom-layout">
+  <%= link_to 'Back to My Pets', pets_path, class: "pet-btn-accent" %>
+</div>

@@ -1,0 +1,16 @@
+<div
+  id="message-<%= message.id %>"
+  class="pet-message"
+  data-controller="message"
+  data-message-user-id-value="<%= message.pet.user.id %>">
+
+  <div class="message-info">
+    <%= cl_image_tag message.pet.photos.first.key, transformation: [{ width: 300, height: 300, crop: "fill" }], class: "avatar-bordered", alt: message.pet.name %>
+  </div>
+
+  <small class="message-meta">
+    <i><%= message.created_at.strftime("%a %b %e at %l:%M %p") %></i>
+  </small>
+
+  <p class="pet-message-content"><%= message.content %></p>
+</div>
