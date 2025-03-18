@@ -54,3 +54,55 @@
     text-decoration: none;
   }
 }
+
+
+// Matched Card
+
+.match-container {
+  text-align: center;
+  margin-top: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.match-card-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+  height: 400px;
+}
+
+.match-card {
+  width: 180px;
+  height: 250px;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  position: absolute;
+  transition: transform 0.3s ease-in-out;
+}
+
+.match-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 15px;
+}
+
+.match-card-left {
+  transform: rotate(-12deg) translateX(-20px);
+  z-index: 2;
+}
+
+.match-card-right {
+  transform: rotate(12deg) translateX(20px);
+  z-index: 3;
+}
+
+.match-actions {
+  margin-top: 30px;
+  position: relative;
+  z-index: 1;
+}

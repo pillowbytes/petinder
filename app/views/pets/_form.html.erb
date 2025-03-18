@@ -100,7 +100,7 @@
           label: "Registered Pedigree?",
           as: :radio_buttons,
           required: true %>
-
+  <%= f.input :photos, as: :file, input_html: { multiple: true } %>
   <%= f.hidden_field :status, value: "available" %>
 
 </div>

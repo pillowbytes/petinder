@@ -3,6 +3,8 @@ class Pet < ApplicationRecord
 
   belongs_to :user
 
+  has_many_attached :photos
+
   has_many :initiated_matches,
            class_name: 'Match',
            foreign_key: 'pet_id',

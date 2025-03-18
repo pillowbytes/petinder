@@ -1,8 +1,9 @@
 class PetsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_pet, only: %i[show edit update destroy]
 
   def index
-    @pets = Pet.all
+    @pets = current_user.pets
   end
 
   def show
@@ -64,7 +65,10 @@ class PetsController < ApplicationController
     if liked_pet.voted_up_by?(@pet)
       match = create_match(@pet, liked_pet)
       redirect_to match_path(match)
+    # else
+    #   flash[:notice] = '🎉 Match registered!'
     end
+
   end
 
   def dev_tests
@@ -96,7 +100,8 @@ class PetsController < ApplicationController
       medical_conditions: [],
       looking_for: [],
       preferred_species: [],
-      preferred_size: []
+      preferred_size: [],
+      photos: []
     )
 
     # Converting empty array values to nil to pass model validations
