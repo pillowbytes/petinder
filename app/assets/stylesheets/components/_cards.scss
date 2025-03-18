@@ -92,12 +92,12 @@
 }
 
 .match-card-left {
-  transform: rotate(-12deg) translateX(-20px);
+  transform: rotate(-12deg) translateX(-80px);
   z-index: 2;
 }
 
 .match-card-right {
-  transform: rotate(12deg) translateX(20px);
+  transform: rotate(12deg) translateX(80px);
   z-index: 3;
 }
 
