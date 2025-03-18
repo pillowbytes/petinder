@@ -29,9 +29,9 @@ Rails.application.routes.draw do
   get 'up' => 'rails/health#show', as: :rails_health_check
 
   # Defines the root path route ("/")
-  root 'pages#home
-  
-  get 'current_location', to: 'locations#current', as: :current_location
+  root to: 'pages#home'
+
+  get '/current_location', to: 'locations#current', as: :current_location
 
   get '/components', to: 'pages#index', as: 'components'
 
