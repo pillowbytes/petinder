@@ -45,7 +45,9 @@ class PetsController < ApplicationController
 
   def swipe
     @pet = Pet.find(params[:id])
-
+    # @matches = @pet.matches.where(user: current_user)
+    @matches = Match.where(pet: @pet).or(Match.where(matched_pet: @pet))
+    
     # Find all pets that this pet has already swiped on (liked)
     swiped_pet_ids = @pet.find_votes_for(vote_scope: nil).pluck(:votable_id)
 

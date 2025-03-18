@@ -1,0 +1,54 @@
+.chat {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: space-between;
+
+  .messages {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+  }
+  .pet-message {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+    width: 100%;
+  }
+
+  .pet-message-sent {
+    align-items: flex-end;
+    text-align: right;
+  }
+
+  .pet-message-received {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .message-info {
+    opacity: 0.5;
+    text-align: center;
+    width: fit-content;
+  }
+
+  .pet-message-content {
+    border-radius: 1rem;
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    max-width: 70%;
+    word-wrap: break-word;
+  }
+
+  .pet-message-sent .pet-message-content {
+    align-self: flex-end;
+    background: #007bff;
+    color: white;
+  }
+
+  .pet-message-received .pet-message-content {
+    align-self: flex-start;
+    background: #f1f1f1;
+    color: black;
+  }
+}
