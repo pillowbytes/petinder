@@ -3,7 +3,7 @@
 <%= turbo_stream_from "match_#{@match.id}_messages" %>
 
 <div id="messages">
-  <%= render partial: "messages/message", collection: @messages, as: :message, locals: { match: @match } %>
+  <%= render partial: "messages/message", collection: @messages, as: :message, locals: { match: @match, user: current_user } %>
 </div>
 
 <h2>Send a Message</h2>
