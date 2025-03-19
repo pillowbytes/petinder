@@ -16,5 +16,5 @@
 
   <p><%= match.pet.name %> and <%= match.matched_pet.name %> are now matched!</p>
     <%= link_to 'Continue Swiping', swipe_pet_path(match.pet), class: "pet-btn-accent mt-3" %>
-    <%= link_to 'Go to Messages', pet_match_messages_path(match.pet, match), class: "pet-btn-primary mt-3" %>
+    <%= link_to 'Go to Messages', pet_match_messages_path(match.pet, match), class: "pet-btn-primary mt-3", data: { turbo: false } %>
 </div>

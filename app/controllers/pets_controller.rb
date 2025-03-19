@@ -93,40 +93,40 @@ class PetsController < ApplicationController
     liked_pet = Pet.find(params[:liked_pet_id])
     swipe_action = params[:swipe_action]
 
-    if swipe_action == 'right'
-      # Register the like and trigger match action
-      right_swipe(@pet, liked_pet)
-    elsif swipe_action == 'left'
-      # Logic for rejecting the pet to be implemented lated
-    end
-
-    # testing session
-    session[:swiped_pet_ids] ||= [] # Initialize the session
-    session[:swiped_pet_ids] << liked_pet.id unless session[:swiped_pet_ids].include?(liked_pet.id)
-
-    @potential_pets = Pet.where.not(id: session[:swiped_pet_ids])
-                         .where.not(user: current_user)
-                         .order(:id)
+    match = right_swipe(@pet, liked_pet) if swipe_action == 'right'
 
     respond_to do |format|
       format.turbo_stream do
-        if @potential_pets.any?
-          next_pet = @potential_pets.first
-
+        if match
           render turbo_stream: turbo_stream.replace(
             'pet_card',
-            partial: 'pets/swipe_pet',
-            locals: { current_pet: @pet, potential_pet: next_pet }
+            partial: 'matches/matched',
+            locals: { match: match }
           )
         else
-          render turbo_stream: turbo_stream.replace(
-            'pet_card',
-            "<p class='text-center'>No more pets available for swiping!</p>".html_safe
-          )
+          # Store swiped pets in session
+          session[:swiped_pet_ids] ||= []
+          session[:swiped_pet_ids] << liked_pet.id unless session[:swiped_pet_ids].include?(liked_pet.id)
+
+          @potential_pets = Pet.where.not(id: session[:swiped_pet_ids])
+                               .where.not(user: current_user)
+                               .order(:id)
+
+          if @potential_pets.any?
+            next_pet = @potential_pets.first
+            render turbo_stream: turbo_stream.replace(
+              'pet_card',
+              partial: 'pets/swipe_pet',
+              locals: { current_pet: @pet, potential_pet: next_pet }
+            )
+          else
+            render turbo_stream: turbo_stream.replace(
+              'pet_card',
+              "<p class='text-center'>No more pets available for swiping!</p>".html_safe
+            )
+          end
         end
       end
-
-      # format.html { redirect_to matches_path }
     end
   end
 
