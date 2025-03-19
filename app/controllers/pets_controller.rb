@@ -90,8 +90,8 @@ class PetsController < ApplicationController
 
   def process_swipe
     @pet = Pet.find(params[:id])
-    liked_pet = Pet.find(params[:liked_pet_id])
-    swipe_action = params[:swipe_action]
+    liked_pet = Pet.find(params[:pet][:liked_pet_id])
+    swipe_action = params[:pet][:swipe_action]
 
     match = right_swipe(@pet, liked_pet) if swipe_action == 'right'
 
