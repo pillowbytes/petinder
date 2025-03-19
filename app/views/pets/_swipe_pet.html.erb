@@ -16,9 +16,9 @@
       <% end %>
 
       <div class="swipe-buttons">
-        <%= link_to '❌', process_swipe_pet_path(current_pet, liked_pet_id: potential_pet.id, action: "left"),
+        <%= link_to '❌', process_swipe_pet_path(current_pet, liked_pet_id: potential_pet.id, swipe_action: "left"),
             data: { turbo_method: :post }, class: "btn-swipe btn-no" %>
-        <%= link_to '✅', process_swipe_pet_path(current_pet, liked_pet_id: potential_pet.id, action: "right"),
+        <%= link_to '✅', process_swipe_pet_path(current_pet, liked_pet_id: potential_pet.id, swipe_action: "right"),
             data: { turbo_method: :post }, class: "btn-swipe btn-yes" %>
       </div>
     </div>

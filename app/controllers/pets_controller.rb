@@ -91,23 +91,22 @@ class PetsController < ApplicationController
   def process_swipe
     @pet = Pet.find(params[:id])
     liked_pet = Pet.find(params[:liked_pet_id])
+    swipe_action = params[:swipe_action]
 
-    puts "🔥 Swiping on Pet ID: #{liked_pet.id}"
-
-    # Register the like
-    @pet.liked_by(liked_pet)
+    if swipe_action == 'right'
+      # Register the like and trigger match action
+      right_swipe(@pet, liked_pet)
+    elsif swipe_action == 'left'
+      # Logic for rejecting the pet to be implemented lated
+    end
 
     # testing session
     session[:swiped_pet_ids] ||= [] # Initialize the session
     session[:swiped_pet_ids] << liked_pet.id unless session[:swiped_pet_ids].include?(liked_pet.id)
 
-    puts "🧐 Swiped Pet IDs (session): #{session[:swiped_pet_ids].inspect}"
-
     @potential_pets = Pet.where.not(id: session[:swiped_pet_ids])
                          .where.not(user: current_user)
                          .order(:id)
-
-    puts "🐶 Next Potential Pets: #{@potential_pets.pluck(:id).inspect}"
 
     respond_to do |format|
       format.turbo_stream do
@@ -127,7 +126,7 @@ class PetsController < ApplicationController
         end
       end
 
-      format.html { redirect_to matches_path }
+      # format.html { redirect_to matches_path }
     end
   end
 
@@ -180,5 +179,18 @@ class PetsController < ApplicationController
 
   def set_pet
     @pet = current_user.pets.find(params[:id])
+  end
+
+  def right_swipe(current_pet, liked_pet)
+    # Registering Like
+    current_pet.liked_by(liked_pet)
+
+    # Check for mutual like
+    if liked_pet.voted_up_by?(current_pet)
+      match = create_match(current_pet, liked_pet)
+      return match
+    end
+
+    nil # Return nil if no match
   end
 end
