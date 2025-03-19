@@ -19,7 +19,7 @@
         <%= link_to '❌', process_swipe_pet_path(current_pet, liked_pet_id: potential_pet.id, swipe_action: "left"),
             method: :post, data: { turbo: false }, class: "btn-swipe btn-no" %>
 
-<%= link_to '✅', process_swipe_pet_path(current_pet, liked_pet_id: potential_pet.id, swipe_action: "right"),
+        <%= link_to '✅', process_swipe_pet_path(current_pet, liked_pet_id: potential_pet.id, swipe_action: "right"),
             method: :post, data: { turbo: false }, class: "btn-swipe btn-yes" %>
     </div>
   <% end %>
