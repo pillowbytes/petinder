@@ -1,11 +1,17 @@
+<div class="header">
+  <h2>Adicione um pet 🐾</h2>
+  <p>Queremos saber de tudo sobre<br>o seu amiguinho!</p>
+</div>
+<%= render 'form' %>
+
 <!-- Top Header with Back & Skip -->
-<div class="pet-header-card fixed-top-layout container p-3">
-  <div class="row align-items-center">
-    <div class="col-6">
-      <%= link_to pets_path, class: "pet-header-card__back" do %>
-      <%= image_tag "arrow-back.svg", alt: "Go back" %>
-      <% end %>
-    </div>
+<%# <div class="pet-header-card fixed-top-layout container p-3"> %>
+  <%# <div class="row align-items-center"> %>
+    <%# <div class="col-6"> %>
+      <%# <%= link_to pets_path, class: "pet-header-card__back" do %>
+      <%# <%= image_tag "arrow-back.svg", alt: "Go back" %>
+      <%# <% end %>
+    <%# </div>
   </div>
 
   <div class="row mt-4">
@@ -13,5 +19,4 @@
       <h1 class="pet-header-card__title">Create Pet</h1>
     </div>
   </div>
-</div>
-<%= render 'form' %>
+</div> %>
