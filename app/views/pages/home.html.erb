@@ -9,21 +9,21 @@
 <% if user_signed_in? %>
   <!-- Show "My Pets" link and Log Out button when user is logged in -->
   <div class="container-cadastre-btn">
-    <%= link_to "My Pets", pets_path, class: "pet-btn-secondary" %>
+    <%= button_to "My Pets", pets_path, class: "pet-btn-secondary" %>
   </div>
 
   <div class="container-login-btn">
-    <%= link_to "Log out", destroy_user_session_path, data: { turbo_method: :delete }, class: "pet-btn-primary" %>
+    <%= button_to "Log out", destroy_user_session_path, method: :delete, data: { turbo_method: :delete }, class: "pet-btn-primary" %>
   </div>
 <% else %>
   <!-- Show Login and Create Account buttons when user is NOT logged in -->
   <div class="text-center">
     <div class="container-login-btn">
-      <%= link_to "Entrar", new_user_session_path, class: "pet-btn-primary" %>
+      <%= button_to "Entrar", new_user_session_path, class: "pet-btn-primary" %>
     </div>
 
     <div class="container-cadastre-btn">
-      <%= link_to "Criar uma conta", new_user_registration_path, class: "pet-btn-secondary" %>
+      <%= button_to "Criar uma conta", new_user_registration_path, class: "pet-btn-secondary" %>
     </div>
   </div>
 <% end %>
