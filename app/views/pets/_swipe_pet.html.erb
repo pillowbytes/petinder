@@ -15,18 +15,14 @@
               class: "pet-image" %>
       <% end %>
 
-        <%= simple_form_for current_pet, url: process_swipe_pet_path(current_pet) do  |f| %>
-          <%= f.hidden_field  :liked_pet_id, value: potential_pet.id %>
-          <%= f.hidden_field  :swipe_action, value: "left" %>
-          <%= f.submit '❌' %>
-        <% end %>
+      <div class="swipe-buttons">
+        <%= link_to '❌', process_swipe_pet_path(current_pet, liked_pet_id: potential_pet.id, swipe_action: "left"),
+            method: :post, data: { turbo: false }, class: "btn-swipe btn-no" %>
 
-        <%= simple_form_for current_pet, url: process_swipe_pet_path(current_pet) do  |f| %>
-          <%= f.hidden_field  :liked_pet_id, value: potential_pet.id %>
-          <%= f.hidden_field  :swipe_action, value: "right" %>
-          <%= f.submit '✅' %>
-        <% end %>
-
+        <%= link_to '✅', process_swipe_pet_path(current_pet, liked_pet_id: potential_pet.id, swipe_action: "right"),
+            method: :post, data: { turbo: false }, class: "btn-swipe btn-yes" %>
+    </div>
+    
   <% end %>
 <% else %>
   <p class="text-center">No more pets available for swiping!</p>
