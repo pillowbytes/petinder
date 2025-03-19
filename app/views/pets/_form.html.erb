@@ -1,118 +1,112 @@
-<%= simple_form_for @pet do |f| %>
+<%= simple_form_for @pet, html: { class: "form-horizontal" } do |f| %>
 
-<!-- Form Body -->
-<div class="container with-fixed-top">
-  <!-- Basic Info -->
-  <div class="m-5"></div>
-  <%= f.input :name, label: "Pet Name", required: true %>
+ <div class="form-inputs">
 
-  <%= f.input :species,
-          collection: Pet::SPECIES_OPTIONS,
-          label: "Species",
-          prompt: "Select a species",
-          required: true %>
+    <div class="form-group">
+      <%= f.label :name, "Nome", class: 'control-label' %>
+      <%= f.input :name, label: false, required: true, input_html: { class: "form-control", placeholder: "Nome" } %>
+    </div>
 
-  <%= f.input :breed,
-          collection: Pet::BREED_OPTIONS.values.flatten.uniq,
-          label: "Breed",
-          prompt: "Select a breed",
-          required: true %>
+    <div class="form-group">
+      <%= f.label :species, "Espécie", class: 'control-label' %>
+      <%= f.input :species, collection: Pet::SPECIES_OPTIONS, label: false, required: true, prompt: "Selecione uma espécie", input_html: { class: "form-control" } %>
+    </div>
 
-  <%= f.input :age_group,
-          collection: Pet::AGE_GROUP_OPTIONS,
-          label: "Age Group",
-          prompt: "Select age group",
-          required: true %>
+    <div class="form-group">
+       <%= f.label :breed, "Tipo", class: 'control-label' %>
+      <%= f.input :breed, collection: Pet::BREED_OPTIONS.values.flatten.uniq, label: false, prompt: "Selecione um tipo", required: true, input_html: { class: "form-control" } %>
+    </div>
 
-  <%= f.input :size,
-          collection: Pet::SIZE_OPTIONS,
-          label: "Size",
-          prompt: "Select size",
-          required: true %>
+    <div class="form-group">
+      <%= f.label :age_group, "Faixa etária", class: 'control-label' %>
+      <%= f.input :age_group, collection: Pet::AGE_GROUP_OPTIONS, label: false, prompt: "Selecione uma faixa etária", required: true, input_html: { class: "form-control" } %>
+    </div>
 
-  <%= f.input :gender,
-          collection: Pet::GENDER_OPTIONS,
-          label: "Gender",
-          prompt: "Select gender",
-          required: true %>
+    <div class="form-group">
+      <%= f.label :size, "Tamanho", class: 'control-label' %>
+      <%= f.input :size, collection: Pet::SIZE_OPTIONS, label: false, prompt: "Selecione um tamanho", required: true, input_html: { class: "form-control" } %>
+    </div>
 
-  <%= f.input :temperament,
-          collection: Pet::TEMPERAMENT_OPTIONS,
-          label: "Temperament",
-          prompt: "Select temperament",
-          required: true %>
-  <div class="m-5"></div>
-  <hr>
-  <div class="m-5"></div>
-  <!-- Multi-Select Fields (Fixed to Prevent Empty Strings) -->
-  <h2>Personality & Preferences</h2>
-  <%= f.input :personality_traits,
-          collection: Pet::PERSONALITY_TRAITS_OPTIONS,
-          label: "Personality Traits (Max 4)",
-          multiple: true,
-          input_html: { name: "pet[personality_traits][]", required: false } %>
+    <div class="form-group">
+    <%= f.label :gender, "Gênero", class: 'control-label' %>
+      <%= f.input :gender, collection: Pet::GENDER_OPTIONS, label: false, prompt: "Selecione um gênero", required: true, input_html: { class: "form-control" } %>
+    </div>
 
-  <%= f.input :looking_for,
-          collection: Pet::LOOKING_FOR_OPTIONS,
-          label: "Looking For (Required)",
-          multiple: false,
-          input_html: { name: "pet[looking_for][]" },
-          required: true %>
-
-  <%= f.input :preferred_species,
-          collection: Pet::PREFERRED_SPECIES_OPTIONS,
-          label: "Preferred Species (Required)",
-          multiple: false,
-          input_html: { name: "pet[preferred_species][]" },
-          required: true %>
-
-  <%= f.input :preferred_size,
-          collection: Pet::SIZE_OPTIONS,
-          label: "Preferred Size",
-          multiple: false,
-          input_html: { name: "pet[preferred_size][]" },
-          required: false %>
-  <div class="m-5"></div>
-  <hr>
-  <div class="m-5"></div>
-  <!-- Boolean Fields (Yes/No, Fixed as true/false) -->
-  <h2>Health & Breeding</h2>
-  <%= f.input :is_vaccinated,
-          collection: { "Yes" => true, "No" => false },
-          label: "Vaccinated?",
-          as: :radio_buttons,
-          required: true %>
-
-  <%= f.input :is_neutered,
-          collection: { "Yes" => true, "No" => false },
-          label: "Neutered?",
-          as: :radio_buttons,
-          required: true %>
-
-  <%= f.input :is_available_for_breeding,
-          collection: { "Yes" => true, "No" => false },
-          label: "Available for Breeding?",
-          as: :radio_buttons,
-          required: true %>
-
-  <%= f.input :registered_pedigree,
-          collection: { "Yes" => true, "No" => false },
-          label: "Registered Pedigree?",
-          as: :radio_buttons,
-          required: true %>
-  <%= f.input :photos, as: :file, input_html: { multiple: true } %>
-  <%= f.hidden_field :status, value: "available" %>
+    <div class="form-group">
+      <%= f.label :temperament, "Temperamento", class: 'control-label' %>
+      <%= f.input :temperament, collection: Pet::TEMPERAMENT_OPTIONS, label: false, prompt: "Selecione um temperamento", required: true, input_html: { class: "form-control" } %>
+    </div>
 
 </div>
 
-<div class="m-5"></div>
-<hr>
-<div class="m-5"></div>
+        <!-- Multi-Select Fields (Fixed to Prevent Empty Strings) -->
+    <h2>Personality & Preferences</h2>
+    <%= f.input :personality_traits,
+            collection: Pet::PERSONALITY_TRAITS_OPTIONS,
+            label: "Personality Traits (Max 4)",
+            multiple: true,
+            input_html: { name: "pet[personality_traits][]", required: false } %>
 
-<!-- Submit Button -->
-<div class="pet-footer-btn fixed-bottom-layout">
-  <%= f.submit "Create Pet", class: "pet-btn-primary" %>
-</div>
+    <%= f.input :looking_for,
+            collection: Pet::LOOKING_FOR_OPTIONS,
+            label: "Looking For (Required)",
+            multiple: false,
+            input_html: { name: "pet[looking_for][]" },
+            required: true %>
 
+    <%= f.input :preferred_species,
+            collection: Pet::PREFERRED_SPECIES_OPTIONS,
+            label: "Preferred Species (Required)",
+            multiple: false,
+            input_html: { name: "pet[preferred_species][]" },
+            required: true %>
+
+    <%= f.input :preferred_size,
+            collection: Pet::SIZE_OPTIONS,
+            label: "Preferred Size",
+            multiple: false,
+            input_html: { name: "pet[preferred_size][]" },
+            required: false %>
+    <div class="m-5"></div>
+    <hr>
+    <div class="m-5"></div>
+    <!-- Boolean Fields (Yes/No, Fixed as true/false) -->
+    <h2>Health & Breeding</h2>
+    <%= f.input :is_vaccinated,
+            collection: { "Yes" => true, "No" => false },
+            label: "Vaccinated?",
+            as: :radio_buttons,
+            required: true %>
+
+    <%= f.input :is_neutered,
+            collection: { "Yes" => true, "No" => false },
+            label: "Neutered?",
+            as: :radio_buttons,
+            required: true %>
+
+    <%= f.input :is_available_for_breeding,
+            collection: { "Yes" => true, "No" => false },
+            label: "Available for Breeding?",
+            as: :radio_buttons,
+            required: true %>
+
+    <%= f.input :registered_pedigree,
+            collection: { "Yes" => true, "No" => false },
+            label: "Registered Pedigree?",
+            as: :radio_buttons,
+            required: true %>
+    <%= f.input :photos, as: :file, input_html: { multiple: true } %>
+    <%= f.hidden_field :status, value: "available" %>
+
+  </div>
+
+  <div class="m-5"></div>
+  <hr>
+  <div class="m-5"></div>
+
+  <!-- Submit Button -->
+  <div class="pet-footer-btn fixed-bottom-layout">
+    <%= f.submit "Create Pet", class: "pet-btn-primary" %>
+  </div>
 
 <% end %>
