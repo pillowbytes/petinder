@@ -1,20 +1,25 @@
-<h2>Log in</h2>
-
-<%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="form-inputs">
-    <%= f.input :email,
-                required: false,
-                autofocus: true,
-                input_html: { autocomplete: "email" } %>
-    <%= f.input :password,
-                required: false,
-                input_html: { autocomplete: "current-password" } %>
-    <%= f.input :remember_me, as: :boolean if devise_mapping.rememberable? %>
+<div style="margin-top: 145px">
+  <div class="header">
+    <h2>Bem-vindo de volta!😊</h2>
+    <p>Entre na sua conta para continuar<br>seus matches</p>
   </div>
 
-  <div class="form-actions">
-    <%= f.button :submit, "Log in" %>
-  </div>
-<% end %>
+  <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "form-horizontal" }) do |f| %>
+    <div class="form-inputs">
+      <%= f.label :email, "E-mail" %>
+      <%= f.input :email, required: false, autofocus: true, label: false,  input_html: { class: "form-control", placeholder: "we@matchpet.com" } %>
 
-<%= render "devise/shared/links" %>
+      <%= f.label :password, "Senha" %>
+      <%= f.input :password, required: false, label: false, input_html: { class: 'form-control', placeholder: '••••••', autocomplete: "new-password" } %>
+
+      <%= f.check_box :remember_me, as: :boolean, style: "margin-right: 5px;" if devise_mapping.rememberable? %>
+      <%= f.label :remember_me, "Lembre de mim"%>
+    </div>
+
+    <div class="form-actions">
+      <%= f.button :submit, "Entrar", class: 'pet-btn-primary' %>
+    </div>
+  <% end %>
+</div>
+
+<%# <%= render "devise/shared/links" %>
