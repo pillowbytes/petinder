@@ -5,7 +5,7 @@ Rails.application.routes.draw do
 
   resources :pets do
     member do
-      post 'process_swipe'
+      patch 'process_swipe'
       get 'swipe'
     end
 
