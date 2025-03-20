@@ -3,9 +3,13 @@ Rails.application.routes.draw do
 
   devise_for :users
 
+  # Pet Selection Routes (Outside `resources :pets` to avoid conflicts)
+  get '/select_pet', to: 'pets#select', as: :select_pet
+  post '/set_selected_pet', to: 'pets#set_selected_pet', as: :set_selected_pet
+
   resources :pets do
     member do
-      post 'process_swipe'
+      patch 'process_swipe'
       get 'swipe'
     end
 

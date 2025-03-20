@@ -1,0 +1,169 @@
+.header-nav {
+  padding: 15px;
+  background: #FFFAF2;
+  // box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.pet-icon {
+  width: 70px;
+  height: 50px;
+  border-radius: 15px;
+  // background: #6A35CB;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+}
+
+.current-pet-image {
+  border: 2px solid #6A35CB;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  padding: 8px;
+  width: 150px;
+  align-content: left;
+}
+
+.pet-dropdown-image {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+}
+
+/* Pet Image */
+.pet-dropdown-image {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Pet Name */
+.pet-name {
+  font-size: 16px;
+  color: #333;
+  font-weight: bold;
+}
+
+.dropdown-item-form {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; /* Aligns items to the left */
+  width: 100%;
+  padding: 8px;
+  gap: 8px;
+}
+
+.dropdown-item-button {
+  all: unset; // Remove default button styling
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+  border: 2px solid #6A35CB;
+  border-radius: 50px;
+  padding: 5px;
+}
+
+.toggle-btn {
+  padding: 10px 25px;
+  color: #6A35CB;
+  font-size: 18px;
+  text-decoration: none;
+}
+
+.toggle-btn.active {
+  background: #6A35CB;
+  color: white;
+  border-radius: 50px;
+}
+
+/* Right Placeholder (For Future Content) */
+.right-placeholder {
+  width: 50px;
+  height: 50px;
+}
+
+
+/* Prevent Content from Being Hidden by Header/Footer */
+.main-content {
+  padding-top: 100px;
+  padding-bottom: 90px;
+}
+
+.pet-fixed-height {
+  height: 50px;
+}
+
+
+.footer-nav {
+  display: flex;
+  justify-content: space-between;
+  background: #6A35CB;
+  padding: 10px 30px;
+  border-radius: 25px;
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  max-width: 400px;
+
+
+  .nav-btn {
+    font-size: 24px;
+    color: rgba(255, 255, 255, 0.4);
+    text-decoration: none;
+    transition: color 0.3s ease;
+
+    &.active {
+      color: #FFFAF2;
+    }
+  }
+}
+
+body.scrollable {
+  animation: appear linear;
+  animation-timeline: view();
+  animation-range: entry 0% cover 40%;
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+    clip-path: inset(100% 100% 0 0);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+.scrollable {
+  animation: appear linear;
+  animation-timeline: view();
+  animation-range: entry 0% cover 40%;
+}
