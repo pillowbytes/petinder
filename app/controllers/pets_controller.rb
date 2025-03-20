@@ -1,5 +1,6 @@
 class PetsController < ApplicationController
   before_action :authenticate_user!
+  before_action :require_pet_selection, only: [:swipe]
   before_action :set_pet, only: %i[show edit update destroy]
 
   def index
@@ -72,7 +73,7 @@ class PetsController < ApplicationController
   #   end
 
   def swipe
-    @pet = Pet.find(params[:id])
+    @pet = @current_pet
     @matches = Match.where(pet: @pet).or(Match.where(matched_pet: @pet))
 
     # Find all pets that this pet has already swiped on
@@ -89,7 +90,7 @@ class PetsController < ApplicationController
   end
 
   def process_swipe
-    @pet = Pet.find(params[:id])
+    @pet = @current_pet
     liked_pet = Pet.find(params[:pet][:liked_pet_id])
     swipe_action = params[:pet][:swipe_action]
 
@@ -127,6 +128,21 @@ class PetsController < ApplicationController
           end
         end
       end
+    end
+  end
+
+  def select
+    @pets = current_user.pets
+    @redirect_path = params[:redirect_to] || root_path
+  end
+
+  def set_selected_pet
+    pet = current_user.pets.find_by(id: params[:pet_id])
+    if pet
+      session[:current_pet_id] = pet.id
+      redirect_to swipe_pet_path(pet), notice: "Pet selected!"
+    else
+      redirect_to select_pet_path, alert: "Invalid pet selection."
     end
   end
 

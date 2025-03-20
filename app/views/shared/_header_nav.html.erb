@@ -1,0 +1,51 @@
+<header class="header-nav">
+  <div class="container">
+    <div class="row align-items-center pet-fixed-height">
+      <!-- Left: Pet Icon -->
+      <div class="col-4 d-flex justify-content-start">
+        <div class="dropdown">
+          <button class="btn pet-icon dropdown-toggle" type="button" id="petDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <% if @current_pet && @current_pet.photos.attached? %>
+              <%= cl_image_tag @current_pet.photos.first.key, transformation: [{ width: 40, height: 40, crop: "fill" }], class: "current-pet-image" %>
+            <% else %>
+              🐶
+            <% end %>
+          </button>
+
+          <ul class="dropdown-menu" aria-labelledby="petDropdown">
+            <% @current_user.pets.each do |pet| %>
+              <li>
+                <%= form_with url: set_selected_pet_path, method: :post, data: { turbo: false }, class: "dropdown-item-form" do %>
+                  <%= hidden_field_tag :pet_id, pet.id %>
+                  <%= submit_tag "", class: "dropdown-item-button" %>
+                  <% if pet.photos.attached? %>
+                    <%= cl_image_tag pet.photos.first.key, transformation: [{ width: 30, height: 30, crop: "fill" }], class: "pet-dropdown-image" %>
+                  <% end %>
+                  <span class="pet-name"><%= pet.name %></span>
+                <% end %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Center: Toggle Switch -->
+      <div class="col-4 d-flex justify-content-center">
+        <div class="toggle">
+          <%= link_to swipe_pet_path(@current_pet), class: "toggle-btn #{request.path.include?("swipe") ? 'active animate__animated animate__pulse' : ''}" do %>
+            <i class="fa-solid fa-clone"></i>
+          <% end %>
+
+          <%= link_to current_location_path, class: "toggle-btn #{current_page?(current_location_path) ? 'active animate__animated animate__pulse' : ''}" do %>
+            <i class="fa-solid fa-map-location-dot"></i>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Right: Placeholder for Future Content -->
+      <div class="col-4 d-flex justify-content-end">
+        <div class="right-placeholder"></div>
+      </div>
+    </div>
+  </div>
+</header>

@@ -1,0 +1,12 @@
+<h2>Select a Pet</h2>
+
+<% @pets.each do |pet| %>
+  <%= form_with url: set_selected_pet_path, method: :post, data: { turbo: false } do %>
+    <%= hidden_field_tag :pet_id, pet.id %>
+    <%= hidden_field_tag :redirect_to, @redirect_path %>
+    <%= submit_tag "Select #{pet.name}" %>
+  <% end %>
+<% end %>
+
+<!-- Button to Create a New Pet -->
+<%= link_to "Create a Pet", new_pet_path(redirect_to: @redirect_path), class: "btn btn-primary" %>

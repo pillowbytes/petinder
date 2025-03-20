@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   before_action :authenticate_user!
+  before_action :set_current_pet
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   protected
@@ -7,6 +8,26 @@ class ApplicationController < ActionController::Base
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: [:first_name, :last_name])
     devise_parameter_sanitizer.permit(:account_update, keys: [:first_name, :last_name])
+  end
+
+  private
+
+  def set_current_pet
+    if session[:current_pet_id]
+      @current_pet = current_user.pets.find_by(id: session[:current_pet_id])
+    end
+  end
+
+  def require_pet_selection
+    if @current_pet.nil?
+      if current_user.pets.any?
+        flash[:alert] = "Please select a pet to continue."
+        redirect_to select_pet_path
+      else
+        flash[:alert] = "You need to create a pet before proceeding."
+        redirect_to new_pet_path
+      end
+    end
   end
 end
 

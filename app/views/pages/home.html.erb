@@ -2,14 +2,15 @@
   <%= image_tag 'home_img.png', alt: "Two dogs on the grass" %>
 </div>
 
-<div class="centered-container">
+<div class="centered-container animate__animated animate__fadeIn">
   <%= image_tag 'matchpetlogo.png', alt: "matchpet-icon" %>
 </div>
 
 <% if user_signed_in? %>
   <!-- Show "My Pets" link and Log Out button when user is logged in -->
-  <div class="container-cadastre-btn">
-    <%= link_to "My Pets", pets_path, class: "pet-btn-secondary" %>
+  <div class="container-cadastre-btn animate__animated animate__zoomIn">
+    <%= link_to "Start Socializing", select_pet_path, class: "pet-btn-secondary" %>
+
   </div>
 
   <div class="container-login-btn">
