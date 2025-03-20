@@ -44,6 +44,7 @@ class Pet < ApplicationRecord
   ## Basic Info (Text Inputs)
   validates :name, presence: true, length: { maximum: 50 }
   validates :bio, length: { maximum: 500 }, allow_blank: true
+  validates :age, presence: true, numericality: { only_integer: true, greater_than: 0, less_than_or_equal_to: 25 }
 
   ## Selection Fields (Dropdowns/Badges)
   validates :species, presence: true, inclusion: { in: SPECIES_OPTIONS }

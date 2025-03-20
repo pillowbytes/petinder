@@ -8,6 +8,12 @@
     </div>
 
     <div class="form-group">
+      <%= f.label :age, "Idade", class: 'control-label' %>
+      <%= f.input :age, label: false, required: true,
+            input_html: { class: "form-control", placeholder: "Idade", type: "number", min: 1, max: 25 } %>
+    </div>
+    
+    <div class="form-group">
       <%= f.label :species, "Espécie", class: 'control-label' %>
       <%= f.input :species, collection: Pet::SPECIES_OPTIONS, label: false, required: true, prompt: "Selecione uma espécie", input_html: { class: "form-control" } %>
     </div>
