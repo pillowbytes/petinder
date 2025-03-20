@@ -1,0 +1,23 @@
+<footer class="footer-nav">
+  <div class="container">
+    <div class="row justify-content-between">
+      <div class="col-auto">
+        <%= link_to swipe_pet_path(@current_pet), class: "nav-btn #{request.path.include?("swipe") ? 'active animate__animated animate__bounce' : ''}" do %>
+          <i class="fa-solid fa-heart"></i>
+        <% end %>
+      </div>
+
+      <div class="col-auto">
+        <%= link_to pet_matches_path(pet_id: @current_pet.id), class: "nav-btn #{request.path.include?("match") ? 'active animate__animated animate__bounce' : ''}" do %>
+          <i class="fa-solid fa-comment-dots"></i>
+        <% end %>
+      </div>
+
+      <div class="col-auto">
+        <%= link_to edit_user_registration_path, class: "nav-btn #{current_page?(edit_user_registration_path) ? 'active animate__animated animate__bounce' : ''}" do %>
+          <i class="fa-solid fa-user"></i>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</footer>
