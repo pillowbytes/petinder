@@ -162,6 +162,7 @@ class PetsController < ApplicationController
       :species,
       :breed,
       :age_group,
+      :age,
       :size,
       :gender,
       :temperament,
