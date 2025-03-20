@@ -15,7 +15,7 @@
 
   <body data-current-user-id="<%= current_user ? current_user.id : '' %>">
     <%= render "shared/flashes" %>
-    <% if current_page?(pets_path) || current_page?(current_location_path) || request.path.include?("swipe") %>
+    <% if current_page?(pets_path) || current_page?(current_location_path) || request.path.include?("swipe") || request.path.include?("match") %>
             <% if @current_pet %>
         <%= render "shared/header_nav" %>
       <% end %>

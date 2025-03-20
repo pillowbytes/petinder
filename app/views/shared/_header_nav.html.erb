@@ -15,13 +15,14 @@
           <ul class="dropdown-menu" aria-labelledby="petDropdown">
             <% @current_user.pets.each do |pet| %>
               <li>
-                <%= form_with url: set_selected_pet_path, method: :post, data: { turbo: false }, class: "dropdown-item-form" do %>
+                <%= form_with url: set_selected_pet_path, method: :post, data: { turbo: false }, class: "dropdown-item-form" do |f| %>
                   <%= hidden_field_tag :pet_id, pet.id %>
-                  <%= submit_tag "", class: "dropdown-item-button" %>
-                  <% if pet.photos.attached? %>
-                    <%= cl_image_tag pet.photos.first.key, transformation: [{ width: 30, height: 30, crop: "fill" }], class: "pet-dropdown-image" %>
+                  <%= f.button :submit, class: "dropdown-item-button" do %>
+                    <% if pet.photos.attached? %>
+                      <%= cl_image_tag pet.photos.first.key, transformation: [{ width: 30, height: 30, crop: "fill" }], class: "pet-dropdown-image" %>
+                    <% end %>
+                    <span class="pet-name"><%= pet.name %></span>
                   <% end %>
-                  <span class="pet-name"><%= pet.name %></span>
                 <% end %>
               </li>
             <% end %>
