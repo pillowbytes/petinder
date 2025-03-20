@@ -3,8 +3,8 @@ Geocoder.configure(
   timeout: 5,                   # Geocoding service timeout (secs)
   lookup: :mapbox,              # Name of geocoding service
   api_key: ENV['MAPBOX_API_KEY'],
-  units: :km,                   # :km for kilometers or :mi for miles
-  distances: :linear            # :spherical or :linear
+  units: :km # :km for kilometers or :mi for miles
+  # distances: :linear            # :spherical or :linear
 )
   # Geocoding options
   # timeout: 3,                 # geocoding service timeout (secs)
