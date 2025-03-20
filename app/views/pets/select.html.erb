@@ -10,7 +10,7 @@ You can change the pet you're impersonating at any time
 <div class="row mx-3 my-5">
   <% @pets.each do |pet| %>
     <div class="col-6">
-      <div class="select-pet-card mt-4 animate__animated animate__pulse">
+      <div class="select-pet-card mt-2 mb-2 animate__animated animate__pulse">
 
         <% if pet.photos.attached? %>
           <%= cl_image_tag pet.photos.first.key, transformation: [{ crop: "fill" }], class: "select-pet-image" %>
@@ -27,13 +27,16 @@ You can change the pet you're impersonating at any time
       </div>
     </div>
   <% end %>
-</div>
 
-<div class="select-create-pet-container animate__animated animate__pulse">
-  <%= link_to new_pet_path(redirect_to: @redirect_path) do %>
-    <%= image_tag 'add-button.svg', alt: "Add pet button" %>
-  <% end %>
-</div>
 
+<div class="col-6">
+  <div class="select-pet-card-plus mt-2 mb-2 animate__animated animate__pulse">
+    <h1>Add Pet</h1>
+    <%= link_to new_pet_path(redirect_to: @redirect_path) do %>
+      <%= image_tag 'add-button.svg', alt: "Add pet button" %>
+    <% end %>
+  </div>
+</div>
+</div>
 
 </div>
