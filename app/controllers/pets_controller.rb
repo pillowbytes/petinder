@@ -123,7 +123,7 @@ class PetsController < ApplicationController
           else
             render turbo_stream: turbo_stream.replace(
               'pet_card',
-              "<p class='text-center'>No more pets available for swiping!</p>".html_safe
+              partial: 'pets/no-pets'
             )
           end
         end

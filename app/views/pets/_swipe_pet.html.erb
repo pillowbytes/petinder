@@ -19,19 +19,26 @@
       </div>
     </div>
 
-        <%= simple_form_for current_pet, url: process_swipe_pet_path(current_pet) do  |f| %>
-          <%= f.hidden_field  :liked_pet_id, value: potential_pet.id %>
-          <%= f.hidden_field  :swipe_action, value: "left" %>
-          <%= f.submit '❌' %>
-        <% end %>
+        <div class="swipe-buttons">
+          <%= simple_form_for current_pet, url: process_swipe_pet_path(current_pet) do  |f| %>
+            <%= f.hidden_field  :liked_pet_id, value: potential_pet.id %>
+            <%= f.hidden_field  :swipe_action, value: "left" %>
+            <button type="submit" class="btn-swipe btn-no">
+                <%= image_tag "btn-no.svg", alt: "Rejeitar", class: "swipe-icon" %>
+            </button>
+          <% end %>
 
-        <%= simple_form_for current_pet, url: process_swipe_pet_path(current_pet) do  |f| %>
-          <%= f.hidden_field  :liked_pet_id, value: potential_pet.id %>
-          <%= f.hidden_field  :swipe_action, value: "right" %>
-          <%= f.submit '✅' %>
-        <% end %>
+          <%= simple_form_for current_pet, url: process_swipe_pet_path(current_pet) do  |f| %>
+            <%= f.hidden_field  :liked_pet_id, value: potential_pet.id %>
+            <%= f.hidden_field  :swipe_action, value: "right" %>
+                <button type="submit" class="btn-swipe btn-yes">
+                  <%= image_tag "btn-yes.svg", alt: "Aceitar", class: "swipe-icon" %>
+                </button>
+          <% end %>
+        </div>
+      </div>
 
   <% end %>
 <% else %>
-  <p class="text-center">No more pets available for swiping!</p>
+  <%= render 'pets/no-pets' %>
 <% end %>
