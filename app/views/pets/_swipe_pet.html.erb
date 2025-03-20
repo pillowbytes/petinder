@@ -1,19 +1,24 @@
 <% if potential_pet.present? %>
   <%= turbo_frame_tag "pet_card" do %>
     <div class="pet-card">
-      <h3>Now Swiping: <%= potential_pet.name %></h3>
-      <p>Pet ID: <%= potential_pet.id %></p>
+      <div class="pet-image-container">
 
-      <% if potential_pet.photos.attached? %>
-        <%= cl_image_tag potential_pet.photos.first.key,
-              transformation: [{ width: 400, height: 500, crop: "fill" }],
-              alt: "#{potential_pet.name}'s profile picture",
-              class: "pet-image" %>
-      <% else %>
-        <%= image_tag "pet_placeholder.webp",
-              alt: "Default pet profile picture",
-              class: "pet-image" %>
-      <% end %>
+        <% if potential_pet.photos.attached? %>
+          <%= cl_image_tag potential_pet.photos.first.key,
+                transformation: [{ width: 400, height: 500, crop: "fill" }],
+                alt: "#{potential_pet.name}'s profile picture",
+                class: "pet-image" %>
+        <% else %>
+          <%= image_tag "pet_placeholder.webp",
+                alt: "Default pet profile picture",
+                class: "pet-image" %>
+        <% end %>
+
+        <div class="pet-info">
+          <h3>Now Swiping: <%= potential_pet.name %></h3>
+          <p>Pet ID: <%= potential_pet.id %></p>
+      </div>
+    </div>
 
         <%= simple_form_for current_pet, url: process_swipe_pet_path(current_pet) do  |f| %>
           <%= f.hidden_field  :liked_pet_id, value: potential_pet.id %>
