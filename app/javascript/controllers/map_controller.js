@@ -5,7 +5,8 @@ import mapboxgl from 'mapbox-gl' // Don't forget this!
 export default class extends Controller {
   static values = {
     apiKey: String,
-    markers: Array
+    markers: Array,
+    userMarker: Object
   }
 
   connect() {
@@ -18,11 +19,26 @@ export default class extends Controller {
 
     this.#addMarkersToMap()
     this.#fitMapToMarkers()
+    this.#getUserLocation()
+  }
+
+  #getUserLocation() {
+    navigator.geolocation.getCurrentPosition((position) => {
+      const customMarker = document.createElement("div")
+      customMarker.innerHTML = this.userMarkerValue.marker_html
+      const { latitude, longitude } = position.coords
+      this.map.setCenter([longitude, latitude])
+      new mapboxgl.Marker(customMarker)
+      .setLngLat([ longitude, latitude ])
+      .addTo(this.map)
+    })
   }
 
   #addMarkersToMap() {
     this.markersValue.forEach((marker) => {
-      new mapboxgl.Marker()
+      const customMarker = document.createElement("div")
+      customMarker.innerHTML = marker.marker_html
+      new mapboxgl.Marker(customMarker)
         .setLngLat([ marker.lng, marker.lat ])
         .addTo(this.map)
     })
