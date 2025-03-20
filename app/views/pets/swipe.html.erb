@@ -5,7 +5,7 @@
     <% if @potential_pets.any? %>
       <%= render partial: "pets/swipe_pet", locals: { current_pet: @pet, potential_pet: @potential_pets.first } %>
     <% else %>
-      <p class="text-center">No more pets available for swiping!</p>
+      <%= render 'pets/no-pets' %>
     <% end %>
   <% end %>
 </div>
