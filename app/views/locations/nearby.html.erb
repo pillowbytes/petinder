@@ -2,7 +2,13 @@
     Finding your current location...
 </div>
 
-<div id="map" style="width: 100%; height: 100%; position: relative;">
+<%# <div id="map" style="width: 100%; height: 100%; position: relative;"> %>
+
+<div id="map" style="width: 100%; height: 600px;"
+  data-controller="map"
+  data-map-markers-value="<%= @markers.to_json %>"
+  data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>"></div>
+
 
   <div class="card shadow-sm map-overlay">
     <div class="card-body">

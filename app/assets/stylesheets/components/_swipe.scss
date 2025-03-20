@@ -1,0 +1,68 @@
+.pet-card {
+  background: #fdf9f3;
+  padding: 50px;
+  border-radius: 20px;
+  text-align: center;
+  max-width: 400px;
+  margin: auto;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.pet-image-container {
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  margin-bottom: 15px;
+
+  .pet-image {
+    width: 100%;
+    height: auto;
+    border-radius: 20px;
+  }
+
+  .pet-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 30px;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.6));
+    color: white;
+    text-align: left;
+    border-radius: 0 0 20px 20px;
+  }
+}
+
+.swipe-buttons {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 10px;
+
+  .btn-swipe {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+
+    &.btn-no {
+      background: white;
+      color: $pet-color-primary;
+      border: 1px solid $pet-color-primary;
+    }
+
+    &.btn-yes {
+      background: $pet-color-primary;
+      color: white;
+    }
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+}
