@@ -1,6 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 import mapboxgl from 'mapbox-gl' // Don't forget this!
 
+// Connects to data-controller="map"
 export default class extends Controller {
   static values = {
     apiKey: String,
@@ -12,7 +13,24 @@ export default class extends Controller {
 
     this.map = new mapboxgl.Map({
       container: this.element,
-      style: "mapbox://styles/pillowbytes/cm8etq0em00jf01s5567mc7e6"
+      style: "mapbox://styles/mapbox/streets-v10"
     })
+
+    this.#addMarkersToMap()
+    this.#fitMapToMarkers()
+  }
+
+  #addMarkersToMap() {
+    this.markersValue.forEach((marker) => {
+      new mapboxgl.Marker()
+        .setLngLat([ marker.lng, marker.lat ])
+        .addTo(this.map)
+    })
+  }
+
+  #fitMapToMarkers() {
+    const bounds = new mapboxgl.LngLatBounds()
+    this.markersValue.forEach(marker => bounds.extend([ marker.lng, marker.lat ]))
+    this.map.fitBounds(bounds, { padding: 70, maxZoom: 15, duration: 0 })
   }
 }
