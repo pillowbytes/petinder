@@ -1,5 +1,7 @@
 class MatchesController < ApplicationController
   before_action :authenticate_user!
+  before_action :require_pet_selection
+
 
   # Getting all pets messages for now (future: impersonate(sudo) functionality)
   def index
