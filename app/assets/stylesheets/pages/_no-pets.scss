@@ -1,0 +1,22 @@
+.error-container {
+  justify-content: center; /* Horizontally centers the div */
+  align-items: center; /* Vertically centers the div */
+  height: 100vh;
+  padding: 75px;
+}
+
+h4 {
+  font-size: 50px;
+  color: #EAE6DE;
+  font-weight: bolder;
+}
+
+h5 {
+  font-size: 20px;
+  color: #EAE6DE;
+  font-weight: lighter;
+}
+
+.img-error {
+  margin: 20px auto;
+}
