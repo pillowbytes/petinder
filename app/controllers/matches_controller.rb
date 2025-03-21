@@ -2,10 +2,11 @@ class MatchesController < ApplicationController
   before_action :authenticate_user!
   before_action :require_pet_selection
 
-
   # Getting all pets messages for now (future: impersonate(sudo) functionality)
   def index
-    @matches = Match.where(pet: current_user.pets).or(Match.where(matched_pet: current_user.pets))
+    @current_pet = Pet.find_by(id: session[:current_pet_id])
+    # @matches = Match.where(pet: current_user.pets).or(Match.where(matched_pet: current_user.pets))
+    @matches = Match.where(pet: @current_pet).or(Match.where(matched_pet: @current_pet))
   end
 
   # We want pet specific messages `/pets/:id/matches`

@@ -204,10 +204,20 @@ class PetsController < ApplicationController
 
     # Check for mutual like
     if liked_pet.voted_up_by?(current_pet)
+      # Check if a match already exists between these two pets
+      existing_match = Match.find_by(
+        "(pet_id = :pet1 AND matched_pet_id = :pet2) OR (pet_id = :pet2 AND matched_pet_id = :pet1)",
+        pet1: current_pet.id, pet2: liked_pet.id
+      )
+
+      return existing_match if existing_match.present?
+
+      # Otherwise, create a new match
       match = create_match(current_pet, liked_pet)
       return match
     end
 
     nil # Return nil if no match
   end
+
 end

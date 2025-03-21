@@ -13,6 +13,8 @@
   overflow: hidden;
   border-radius: 20px;
   margin-bottom: 15px;
+  border: 1px solid white;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
 
   .pet-image {
     width: 100%;
@@ -68,7 +70,7 @@
     }
 
     &:hover {
-      transform: scale(1.1);
+      transform: scale(1.2);
     }
   }
 }
