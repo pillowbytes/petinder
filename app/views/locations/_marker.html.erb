@@ -1,19 +1,12 @@
 <div class="message-info">
   <% if pet.photos.attached? %>
-    <% if pet.id == @current_pet.id %>
-      <%= cl_image_tag pet.photos.first.key,
-          transformation: [{ width: 100, height: 100, crop: "fill" }],
-          alt: "#{pet.name}'s profile picture (Big)",
-          class: "avatar-bordered animate__animated animate__rubberBand" %>
-    <% else %>
-      <%= cl_image_tag pet.photos.first.key,
+    <%= cl_image_tag pet.photos.first.key,
           transformation: [{ width: 80, height: 80, crop: "fill" }],
-          alt: "#{pet.name}'s profile picture3",
-          class: "avatar-bordered animate__animated animate__fadeInDown" %>
-    <% end %>
+          alt: "#{pet.name}'s profile picture",
+          class: "avatar-bordered" %>
   <% else %>
     <%= image_tag "pet_placeholder.webp",
           alt: "Default pet profile picture",
-          class: "avatar-bordered animate__animated animate__fadeInDown" %>
+          class: "avatar-bordered" %>
   <% end %>
 </div>
