@@ -1,3 +1,10 @@
+.select-container {
+  height: 100dvh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
 .select-title {
   text-align: center;
   margin-bottom: 20px;
@@ -71,11 +78,4 @@
 .select-create-pet-container {
   text-align: center;
   margin-top: 20px;
-}
-
-.select-container {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  overflow-y: auto;
 }

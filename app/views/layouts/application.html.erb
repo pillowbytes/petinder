@@ -16,17 +16,20 @@
   <body data-current-user-id="<%= current_user ? current_user.id : '' %>">
     <%= render "shared/flashes" %>
     <% if current_page?(pets_path) || current_page?(nearby_locations_path) || request.path.include?("swipe") || request.path.include?("match") %>
-            <% if @current_pet %>
+      <% if @current_pet %>
         <%= render "shared/header_nav" %>
       <% end %>
     <% end %>
 
-
-    <main class="main-content">
+    <% if current_page?(pets_path) || current_page?(nearby_locations_path) || request.path.include?("swipe") || request.path.include?("match") %>
+      <main class="main-content">
+        <%= yield %>
+      </main>
+    <% else %>
       <%= yield %>
-    </main>
+    <% end %>
 
-    <% if current_page?(root_path) || request.path.include?("match") || request.path.include?("swipe") || current_page?(edit_user_registration_path) %>
+    <% if request.path.include?("match") || request.path.include?("swipe") || current_page?(edit_user_registration_path) %>
       <% if @current_pet %>
         <%= render "shared/footer_nav" %>
       <% end %>

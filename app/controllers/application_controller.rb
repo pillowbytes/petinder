@@ -21,10 +21,10 @@ class ApplicationController < ActionController::Base
   def require_pet_selection
     if @current_pet.nil?
       if current_user.pets.any?
-        flash[:alert] = "Please select a pet to continue."
+        # flash[:alert] = "Please select a pet to continue."
         redirect_to select_pet_path
       else
-        flash[:alert] = "You need to create a pet before proceeding."
+        # flash[:alert] = "You need to create a pet before proceeding."
         redirect_to new_pet_path
       end
     end
