@@ -33,6 +33,12 @@
   }
 }
 
+.swipe-container {
+  height: 74vh;
+  overflow: hidden;
+  padding: 20px;
+}
+
 .swipe-buttons {
   display: flex;
   justify-content: space-around;

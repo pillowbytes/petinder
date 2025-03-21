@@ -1,20 +1,34 @@
 <div class="match-container">
-  <div class="text-center">
-    <h2>It's a Match! 🎉</h2>
-    <p>Hora de dizer Woof-Woof para o seu amiguinho!</p>
+  <div class="text-center animate__animated animate__rubberBand">
+    <h2 class="animate__animated animate__rubberBand">It's a Match! 🎉</h2>
+    <p class="animate__animated animate__fadeIn">Hora de dizer Woof-Woof para o seu amiguinho!</p>
   </div>
 
-  <div class="match-card-container">
-    <div class="match-card match-card-left">
+  <div class="match-card-container animate__animated animate__bounceInDown">
+    <div class="match-card match-card-left animate__animated animate__zoomInLeft">
       <%= cl_image_tag match.pet.photos.first.key, transformation: [{ width: 300, height: 300, crop: "fill" }], alt: match.pet.name, class: "match-img" %>
     </div>
 
-    <div class="match-card match-card-right">
+    <div class="match-card match-card-right animate__animated animate__zoomInRight">
       <%= cl_image_tag match.matched_pet.photos.first.key, transformation: [{ width: 300, height: 300, crop: "fill" }], alt: match.matched_pet.name, class: "match-img" %>
     </div>
   </div>
 
-  <p><%= match.pet.name %> and <%= match.matched_pet.name %> are now matched!</p>
-    <%= link_to 'Continue Swiping', swipe_pet_path(match.pet), class: "pet-btn-accent mt-3" %>
-    <%= link_to 'Go to Messages', pet_match_messages_path(match.pet, match), class: "pet-btn-primary mt-3", data: { turbo: false } %>
+  <h3 class="animate__animated animate__pulse"><%= match.pet.name %> and <%= match.matched_pet.name %> are now matched!</h3>
+    <div class="match-btn">
+    <div class="row">
+      <div class="col-6 animate__animated animate__fadeInLeft">
+        <%= link_to swipe_pet_path(match.pet), class: "match-btn-item" do %>
+        <i class="fa-solid fa-arrow-rotate-right"></i>
+        <p>Continuar Swiping</p>
+        <% end %>
+      </div>
+      <div class="col-6 animate__animated animate__fadeInRight">
+        <%= link_to pet_match_messages_path(match.pet, match), class: "match-btn-item", data: { turbo: false } do %>
+          <i class="fa-solid fa-comments"></i>
+          <p>Continuar Swiping</p>
+        <% end %>
+      </div>
+    </div>
+    </div>
 </div>

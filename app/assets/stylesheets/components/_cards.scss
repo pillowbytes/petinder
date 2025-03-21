@@ -60,7 +60,7 @@
 
 .match-container {
   text-align: center;
-  margin-top: 20px;
+  // margin-top: 20px;
   position: relative;
   z-index: 1;
 }
@@ -71,7 +71,7 @@
   justify-content: center;
   align-items: center;
   margin: 20px 0;
-  height: 400px;
+  height: 290px;
 }
 
 .match-card {
@@ -105,4 +105,24 @@
   margin-top: 30px;
   position: relative;
   z-index: 1;
+}
+
+.match-btn {
+  justify-content: center;
+  align-items: center;
+  margin: 20px auto;
+  width: 55%;
+
+  i {
+    font-size: 35px;
+    margin-bottom: 5px;
+  }
+}
+
+.match-btn-item {
+
+  &:hover {
+    transform: scale(0.95);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
 }
