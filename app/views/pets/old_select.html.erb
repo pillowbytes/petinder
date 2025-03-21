@@ -1,17 +1,13 @@
+<div class="select-container my-3">
 
-  <div class="edit-user">
-      <%= link_to edit_user_registration_path do %>
-        <i class="fa-solid fa-user-pen edit-btn"></i>
-      <% end %>
-  </div>
+<h2 class="select-title animate__animated animate__fadeInDown">Select a Pet</h2>
 
-<div class="select-container">
+<p class="mx-5 my-1 animate__animated animate__fadeIn">
+<strong>You must Select a Pet before proceeding</strong><br>
+You can change the pet you're impersonating at any time
+</p>
 
-  <h2 class="select-title">Selecione um pet</h2>
-
-  <p class="mx-5 my-1">Você deve <strong>selecionar</strong> um pet antes de continuar.</p>
-
-<div class="row mx-3 my-4">
+<div class="row mx-3 my-5">
   <% @pets.each do |pet| %>
     <div class="col-6">
       <div class="select-pet-card mt-2 mb-2 animate__animated animate__pulse">
@@ -26,7 +22,7 @@
         <%= form_with url: set_selected_pet_path, method: :post, data: { turbo: false }, class: "select-form" do %>
           <%= hidden_field_tag :pet_id, pet.id %>
           <%= hidden_field_tag :redirect_to, @redirect_path %>
-          <button type="submit" class="select-btn">Selecionar</button>
+          <button type="submit" class="select-btn">Select</button>
         <% end %>
       </div>
     </div>
@@ -35,7 +31,7 @@
 
 <div class="col-6">
   <div class="select-pet-card-plus mt-2 mb-2 animate__animated animate__pulse">
-    <p>Adicione um pet</p>
+    <h1>Add Pet</h1>
     <%= link_to new_pet_path(redirect_to: @redirect_path) do %>
       <%= image_tag 'add-button.svg', alt: "Add pet button" %>
     <% end %>
@@ -44,10 +40,3 @@
 </div>
 
 </div>
-
-<%#   <h2 class="select-title animate__animated animate__fadeInDown">Selecione um pet</h2>
- %>
-
-<%#  <p class="mx-5 my-1 animate__animated animate__fadeIn">
-  Você deve <strong>selecionar</strong> um pet antes de continuar.</p>
- %>

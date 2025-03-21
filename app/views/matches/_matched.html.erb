@@ -1,7 +1,7 @@
 <div class="match-container">
   <div class="text-center animate__animated animate__rubberBand">
     <h2 class="animate__animated animate__rubberBand">It's a Match! 🎉</h2>
-    <p class="animate__animated animate__fadeIn">Hora de dizer Woof-Woof para o seu amiguinho!</p>
+    <p class="animate__animated animate__fadeIn">Hora de dizer olá para o seu amiguinho!</p>
   </div>
 
   <div class="match-card-container animate__animated animate__bounceInDown">
@@ -14,19 +14,19 @@
     </div>
   </div>
 
-  <h3 class="animate__animated animate__pulse"><%= match.pet.name %> and <%= match.matched_pet.name %> are now matched!</h3>
+  <h3 class="animate__animated animate__pulse" style="margin-top: 40px"><%= match.pet.name %> e <%= match.matched_pet.name %> são um match!</h3>
     <div class="match-btn">
     <div class="row">
       <div class="col-6 animate__animated animate__fadeInLeft">
         <%= link_to swipe_pet_path(match.pet), class: "match-btn-item" do %>
         <i class="fa-solid fa-arrow-rotate-right"></i>
-        <p>Continuar Swiping</p>
+        <p>Procurar mais</p>
         <% end %>
       </div>
       <div class="col-6 animate__animated animate__fadeInRight">
         <%= link_to pet_match_messages_path(match.pet, match), class: "match-btn-item", data: { turbo: false } do %>
           <i class="fa-solid fa-comments"></i>
-          <p>Continuar Swiping</p>
+          <p>Mensagem</p>
         <% end %>
       </div>
     </div>
