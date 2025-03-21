@@ -21,7 +21,7 @@ class PetsController < ApplicationController
     Rails.logger.debug "Final Pet Status Before Save: #{@pet.status.inspect}" # Debugging
 
     if @pet.save
-      redirect_to @pet, notice: 'Amiguinho criado.'
+      redirect_to @pet
     else
       Rails.logger.debug "Pet save failed: #{@pet.errors.full_messages}" # Debugging
       render :new, status: :unprocessable_entity
@@ -33,7 +33,7 @@ class PetsController < ApplicationController
 
   def update
     if @pet.update(pet_params)
-      redirect_to @pet, notice: 'Amiguinho atualizado.'
+      redirect_to @pet
     else
       render :edit, status: :unprocessable_entity
     end
@@ -41,7 +41,7 @@ class PetsController < ApplicationController
 
   def destroy
     @pet.destroy
-    redirect_to pets_url, notice: 'Amiguinho deletato :(', status: :see_other
+    redirect_to pets_url, status: :see_other
   end
 
   # def swipe
@@ -140,7 +140,7 @@ class PetsController < ApplicationController
     pet = current_user.pets.find_by(id: params[:pet_id])
     if pet
       session[:current_pet_id] = pet.id
-      redirect_to swipe_pet_path(pet), notice: "Pet selected!"
+      redirect_to swipe_pet_path(pet)
     else
       redirect_to select_pet_path, alert: "Invalid pet selection."
     end
