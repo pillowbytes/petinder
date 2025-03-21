@@ -17,19 +17,52 @@
     <%= f.input :password_confirmation,
                 required: false,
                 input_html: { autocomplete: "new-password" } %>
+<div class="form-group">
+    <%= f.label :first_name, "Nome", class: "control-label" %>
+    <%= f.input :first_name, required: true, label: false, input_html: { class: "form-control", placeholder: "Nome" } %>
+  </div>
+
+  <div class="form-group">
+      <%= f.label :last_name, "Sobrenome", class: "control-label" %>
+      <%= f.input :last_name, required: true, label: false, input_html: { class: "form-control", placeholder: "Sobrenome" } %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :zip_code, "CEP", class: "control-label" %>
+    <%= f.input :zip_code, required: true, label: false, input_html: { class: "form-control", placeholder: "12422-000" } %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :street, "Endereço", class: "control-label" %>
+    <%= f.input :street, required: true, label: false, input_html: { class: "form-control", placeholder: "Rua adamastor" } %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :city, "Cidade", class: "control-label" %>
+    <%= f.input :city, required: true, label: false, input_html: { class: "form-control", placeholder: "Pindamonhangaba" } %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :state, "Estado", class: "control-label" %>
+    <%= f.input :state, required: true, label: false, input_html: { class: "form-control", placeholder: "São Paulo" } %>
+  </div>
+
+
+
+
+
+
+
+
+
     <%= f.input :current_password,
                 hint: "we need your current password to confirm your changes",
-                required: true,
+                required: false,
                 input_html: { autocomplete: "current-password" } %>
   </div>
 
   <div class="form-actions">
-    <%= f.button :submit, "Update" %>
+  <a class="pet-btn-primary" href="#" onclick="document.forms[0].submit(); return false;">Update</a><br>
+  <%= button_to "Excluir Conta", registration_path(resource_name), class: "pet-btn-excluir" , data: { confirm: "Tem certeza?" }, method: :delete %>
   </div>
 <% end %>
-
-<h3>Cancel my account</h3>
-
-<div>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete %></div>
-
-<%= link_to "Back", :back %>
