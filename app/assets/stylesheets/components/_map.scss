@@ -15,4 +15,26 @@
   border-radius: 10px;
 }
 
+.mapboxgl-popup-content {
+  text-align: center;
+  padding: 10px;
+  background: white;
+  border-radius: 10px;
+  font-size: 14px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
 
+img.rounded-full {
+  border-radius: 50%;
+  border: 3px solid white;
+}
+
+.mapboxgl-popup-close-button {
+  color: #333 !important;
+  font-size: 16px !important;
+}
+
+
+.map_container {
+  height: 100vh;
+}
