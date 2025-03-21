@@ -1,24 +1,40 @@
-<h2>Inbox</h2>
+<div class="chat-container mt-3">
+  <h2 class="mb-4">Messages</h2>
 
-<% if @matches.any? %>
-  <ul class="match-list">
-    <% @matches.each do |match| %>
-      <li>
+  <div class="chat-list">
+    <% if @matches.any? %>
+      <% @matches.each do |match| %>
         <%= link_to pet_match_messages_path(match.pet, match), class: "match-link" do %>
           <div class="match-item">
             <div class="match-avatar">
-              <%= cl_image_tag match.pet.photos.first.key, transformation: [{ width: 300, height: 300, crop: "fill" }], class: "avatar-bordered" %>
-              <%= cl_image_tag match.matched_pet.photos.first.key, transformation: [{ width: 300, height: 300, crop: "fill" }], class: "avatar-bordered" %>
+              <div class="split-avatar">
+                <div class="half left" style="background-image: url(<%= cl_image_path(match.pet.photos.first.key) %>)"></div>
+                <div class="half right" style="background-image: url(<%= cl_image_path(match.matched_pet.photos.first.key) %>)"></div>
+              </div>
             </div>
             <div class="match-details">
               <strong><%= match.pet.name %> & <%= match.matched_pet.name %></strong>
-              <p>Last message: <%= match.messages.any? ? match.messages.last.content : "No messages yet" %></p>
+              <% no_messages_phrases = [
+                "No messages yet. Say hi! 👋",
+                "Break the ice with a message! ❄️",
+                "Start a conversation! 🗨️",
+                "Don't be shy, send a message! 😊",
+                "Introduce your pet with a fun fact! 🐾",
+                "This chat is too quiet... fix that! 🎤",
+                "Your pet is waiting for a message! 🐶",
+                "First message magic happens here! ✨",
+                "Start chatting and make a new friend! ❤️",
+                "Send a message and see where it goes! 🚀"
+              ] %>
+              <p><%= match.messages.any? ? match.messages.last.content : no_messages_phrases.sample %></p>
             </div>
           </div>
         <% end %>
-      </li>
+
+      <% end %>
+
+    <% else %>
+      <p>No messages yet.</p>
     <% end %>
-  </ul>
-<% else %>
-  <p>No messages yet.</p>
-<% end %>
+  </div>
+</div>
