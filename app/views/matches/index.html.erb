@@ -1,11 +1,11 @@
 <div class="chat-container mt-3">
-  <h2 class="mb-4">Messages</h2>
+  <h2 class="mb-4">Mensagens de <%= @current_pet.name.capitalize %></h2>
 
   <div class="chat-list">
     <% if @matches.any? %>
       <% @matches.each do |match| %>
         <%= link_to pet_match_messages_path(match.pet, match), class: "match-link" do %>
-          <div class="match-item">
+          <div class="match-item animate__animated animate__fadeInUpBig ">
             <div class="match-avatar">
               <div class="split-avatar">
                 <div class="half left" style="background-image: url(<%= cl_image_path(match.pet.photos.first.key) %>)"></div>
