@@ -3,16 +3,18 @@
   overflow-y: auto;
   display: flex;
   flex-direction: column;
+  margin-top: 10px;
 }
 
 .select-title {
   text-align: center;
-  margin-bottom: 20px;
+  margin-top: 20px;
 }
 
 .select-pet-card {
   background: #fff;
   border-radius: 25px;
+  border: 1px solid $pet-color-primary;
   padding: 16px;
   text-align: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -33,6 +35,7 @@
   }
 
   .select-btn {
+    font-size: 10px;
     background: #6A35CB;
     color: white;
     border: none;
