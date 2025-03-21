@@ -1,10 +1,15 @@
 
-<div class="select-container my-5">
+  <div class="edit-user">
+      <%= link_to edit_user_registration_path do %>
+        <i class="fa-solid fa-user-pen edit-btn"></i>
+      <% end %>
+  </div>
 
-  <h2 class="select-title animate__animated animate__fadeInDown">Selecione um pet 🎯</h2>
+<div class="select-container">
 
-  <p class="mx-5 my-1 animate__animated animate__fadeIn">
-  Você deve <strong>selecionar</strong> um pet antes de continuar.</p>
+  <h2 class="select-title">Selecione um pet</h2>
+
+  <p class="mx-5 my-1">Você deve <strong>selecionar</strong> um pet antes de continuar.</p>
 
 <div class="row mx-3 my-4">
   <% @pets.each do |pet| %>
@@ -39,3 +44,10 @@
 </div>
 
 </div>
+
+<%#   <h2 class="select-title animate__animated animate__fadeInDown">Selecione um pet</h2>
+ %>
+
+<%#  <p class="mx-5 my-1 animate__animated animate__fadeIn">
+  Você deve <strong>selecionar</strong> um pet antes de continuar.</p>
+ %>

@@ -3,12 +3,12 @@
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  margin-top: 10px;
+  // margin-top: 10px;
 }
 
 .select-title {
   text-align: center;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 .select-pet-card {
@@ -81,4 +81,22 @@
 .select-create-pet-container {
   text-align: center;
   margin-top: 20px;
+}
+
+.edit-user {
+  float: left;
+  margin: 30px 30px 0px 30px;
+}
+
+.edit-btn {
+  font-size: 20px;
+  text-align: right;
+  align-items: 0px auto;
+  float: right;
+}
+.matchpet-logo{
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  margin-top: 65px;
 }
