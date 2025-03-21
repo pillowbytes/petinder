@@ -1,16 +1,27 @@
-<div
-  id="message-<%= message.id %>"
-  class="pet-message"
-  data-controller="message"
-  data-message-user-id-value="<%= message.pet.user.id %>">
+<% if message.present? && message.pet_id.present? %>
+  <% sender_pet = Pet.find_by(id: message.pet_id) %>
+  <% resolved_match = (defined?(match) && match.present?) ? match : Match.find_by(id: message.match_id) %>
+  <% is_sent_by_match_pet = resolved_match.present? && message.pet_id == resolved_match.pet_id %>
 
-  <div class="message-info">
-    <%= cl_image_tag message.pet.photos.first.key, transformation: [{ width: 300, height: 300, crop: "fill" }], class: "avatar-bordered", alt: message.pet.name %>
+  <div id="message-<%= message.id %>"
+       class="pet-message animate__animated animate__bounceInUp <%= is_sent_by_match_pet ? 'sent' : 'received' %>">
+
+    <% if sender_pet.present? %>
+      <div class="avatar">
+        <%= cl_image_tag sender_pet.photos.first.key,
+                         transformation: [{ width: 50, height: 50, crop: "fill" }],
+                         class: "avatar-image",
+                         alt: sender_pet.name %>
+      </div>
+    <% end %>
+
+    <div class="bubble animate__animated animate__bounceInUp">
+      <small class="message-meta">
+       <strong><%= sender_pet.name %></strong> • <i><%= message.created_at.strftime("%b %-d at %l:%M %p") %></i>
+      </small>
+      <p><%= message.content %></p>
+    </div>
   </div>
-
-  <small class="message-meta">
-    <i><%= message.created_at.strftime("%a %b %e at %l:%M %p") %></i>
-  </small>
-
-  <p class="pet-message-content"><%= message.content %></p>
-</div>
+<% else %>
+  <p class="error-message">Message is being processed...</p>
+<% end %>
