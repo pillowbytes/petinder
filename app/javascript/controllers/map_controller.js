@@ -67,7 +67,7 @@ export default class extends Controller {
 
     this.map = new mapboxgl.Map({
       container: this.element,
-      style: "mapbox://styles/pillowbytes/cm8j9rtdq00zh01s537xp6rz2"
+      style: "mapbox://styles/pillowbytes/cm8kcktg500o801pabjxk6vzv"
     })
 
     this.map.on("load", () => {

@@ -137,7 +137,11 @@
   transform: translateX(-50%);
   width: 60%;
   max-width: 400px;
+  z-index: 3;
+}
 
+.navcolor-primary {
+  background: #6A35CB;
 
   .nav-btn {
     font-size: 24px;
@@ -150,6 +154,23 @@
     }
   }
 }
+.navcolor-secondary {
+  background: #FFFAF2;
+  // border: 1.5px solid #6A35CB;
+
+
+  .nav-btn {
+    font-size: 24px;
+    color: #6A35CB;
+    text-decoration: none;
+    transition: color 1s ease;
+
+    &.active {
+      color: #FFFAF2;
+    }
+  }
+}
+
 
 body.scrollable {
   animation: appear linear;
