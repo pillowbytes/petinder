@@ -37,4 +37,51 @@ img.rounded-full {
 
 .map_container {
   height: 100vh;
+  margin-top: -90px;
+  position: relative;
+  z-index: 2;
+  overflow-y: hidden;
+}
+
+.map-loading {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: #fff8f0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  font-family: 'Comic Sans MS', sans-serif;
+  font-size: 1.4rem;
+  text-align: center;
+}
+
+.animals {
+  margin-top: 1rem;
+  display: flex;
+  gap: 2rem;
+}
+
+img.dog, img.cat {
+  width: 60px;
+  height: 60px;
+}
+
+img.dog {
+  animation: jump 0.8s ease-in-out infinite;
+}
+
+img.cat {
+  animation: spin 1.5s linear infinite;
+}
+
+@keyframes jump {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
