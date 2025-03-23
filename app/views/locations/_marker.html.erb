@@ -3,8 +3,8 @@
     <% if pet.id == @current_pet.id %>
       <%= cl_image_tag pet.photos.first.key,
           transformation: [{ width: 100, height: 100, crop: "fill" }],
-          alt: "#{pet.name}'s profile picture (Big)",
-          class: "avatar-bordered animate__animated animate__rubberBand" %>
+          alt: "#{pet.name}'s profile picture",
+          class: "avatar-bordered map-user-marker animate__animated animate__rubberBand" %>
     <% else %>
       <%= cl_image_tag pet.photos.first.key,
           transformation: [{ width: 80, height: 80, crop: "fill" }],
