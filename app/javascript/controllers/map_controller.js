@@ -74,6 +74,11 @@ export default class extends Controller {
       this.#addUserLocation()
       this.#addMarkersToMap()
       this.#fitMapToMarkers()
+
+      // 🔥 Warm-up reverse geocoding to avoid delay on first click
+      fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/0,0.json?access_token=${this.apiKeyValue}`)
+        .then(() => console.log("Mapbox geocoding warmed up"))
+        .catch(() => console.warn("Geocoding warm-up failed"))
     })
 
     // 👇 Handle map clicks to show rich address info
@@ -124,6 +129,7 @@ export default class extends Controller {
       }
     })
   }
+
 
 
   #addUserLocation() {
@@ -259,6 +265,6 @@ export default class extends Controller {
   #fitMapToMarkers() {
     const bounds = new mapboxgl.LngLatBounds()
     this.markersValue.forEach(marker => bounds.extend([marker.lng, marker.lat]))
-    this.map.fitBounds(bounds, { padding: 70, maxZoom: 15, duration: 0 })
+    this.map.fitBounds(bounds, { padding: 70, maxZoom: 15, duration: 2000 })
   }
 }
