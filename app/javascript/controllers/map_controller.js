@@ -75,7 +75,56 @@ export default class extends Controller {
       this.#addMarkersToMap()
       this.#fitMapToMarkers()
     })
+
+    // 👇 Handle map clicks to show rich address info
+    this.map.on("click", async (e) => {
+      const lng = e.lngLat.lng
+      const lat = e.lngLat.lat
+
+      try {
+        const response = await fetch(
+          `https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?access_token=${this.apiKeyValue}`
+        )
+        const data = await response.json()
+
+        const feature = data.features[0]
+        const name = feature?.text || "Local"
+        const fullName = feature?.place_name || "Endereço desconhecido"
+        const category = feature?.properties?.category || null
+        const context = feature?.context?.map(c => c.text).join(", ") || ""
+
+        navigator.geolocation.getCurrentPosition((position) => {
+          const userLat = position.coords.latitude
+          const userLng = position.coords.longitude
+
+          const googleMapsRoute = `https://www.google.com/maps/dir/?api=1&origin=${userLat},${userLng}&destination=${lat},${lng}&travelmode=walking`
+
+          new mapboxgl.Popup()
+            .setLngLat([lng, lat])
+            .setHTML(`
+              <div style="text-align: center; font-family: sans-serif;">
+                <div style="font-size: 16px; margin-bottom: 4px;">
+                  <i class="fas fa-map-marker-alt" style="color: #6A35CB;"></i>
+                  <strong>${name}</strong>
+                </div>
+                <small style="color: gray;">${fullName}</small><br>
+                ${category ? `<div style="margin-top: 4px;"><i class="fas fa-tag"></i> ${category}</div>` : ""}
+                <a href="${googleMapsRoute}"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   style="display: inline-block; margin-top: 8px; padding: 6px 12px; background: #6A35CB; color: white; border-radius: 6px; text-decoration: none; font-weight: bold;">
+                  <i class="fas fa-walking"></i> Como chegar
+                </a>
+              </div>
+            `)
+            .addTo(this.map)
+        })
+      } catch (err) {
+        console.error("Erro ao buscar o local:", err)
+      }
+    })
   }
+
 
   #addUserLocation() {
     navigator.geolocation.getCurrentPosition((position) => {
