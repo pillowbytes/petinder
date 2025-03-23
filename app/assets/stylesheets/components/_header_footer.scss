@@ -171,6 +171,9 @@
   }
 }
 
+.rotated {
+  transform: rotate(135deg);
+}
 
 body.scrollable {
   animation: appear linear;
