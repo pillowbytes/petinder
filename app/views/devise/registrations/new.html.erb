@@ -25,22 +25,22 @@
 
   <div class="form-group">
     <%= f.label :zip_code, "CEP", class: "control-label" %>
-    <%= f.input :zip_code, required: true, label: false, input_html: { class: "form-control", id: "cep", placeholder: "12422-000", data: {"cep-target": "zipCode", action: "blur->cep#findAddress input->cep#formatCep" }} %>
+    <%= f.input :zip_code, required: true, label: false, input_html: { class: "form-control", id: "cep", placeholder: "Informe seu CEP", data: {"cep-target": "zipCode", action: "blur->cep#findAddress input->cep#formatCep" }} %>
   </div>
 
   <div class="form-group">
     <%= f.label :street, "Endereço", class: "control-label" %>
-    <%= f.input :street, required: true, label: false, input_html: { class: "form-control", id: "rua", placeholder: "Rua adamastor", data: {"cep-target": "street"} } %>
+    <%= f.input :street, required: true, label: false, input_html: { class: "form-control", id: "rua", placeholder: "Seu Endereço", data: {"cep-target": "street"} } %>
   </div>
 
   <div class="form-group">
     <%= f.label :city, "Cidade", class: "control-label" %>
-    <%= f.input :city, required: true, label: false, input_html: { class: "form-control", id: "cidade", placeholder: "Pindamonhangaba", data: {"cep-target": "city"} } %>
+    <%= f.input :city, required: true, label: false, input_html: { class: "form-control", id: "cidade", placeholder: "Sua Cidade", data: {"cep-target": "city"} } %>
   </div>
 
   <div class="form-group">
     <%= f.label :state, "Estado", class: "control-label" %>
-    <%= f.input :state, required: true, label: false, input_html: { class: "form-control", id: "estado", placeholder: "São Paulo", data: {"cep-target": "state"} } %>
+    <%= f.input :state, required: true, label: false, input_html: { class: "form-control", id: "estado", placeholder: "Seu Estado", data: {"cep-target": "state"} } %>
   </div>
 
   <div class="form-group">
