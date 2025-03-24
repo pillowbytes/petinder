@@ -33,67 +33,37 @@ export default class extends Controller {
 
     // 👇 Handle map clicks to show rich address info
     this.map.on("click", async (e) => {
-      // ⛔ Prevent triggering if clicking on a marker or popup
-      const clickedElement = e.originalEvent.target
-      if (
-        clickedElement.closest(".mapboxgl-marker") ||
-        clickedElement.closest(".mapboxgl-popup")
-      ) return
+      performance.mark("click-start")
+      console.log("📍 User clicked on map")
 
       const lng = e.lngLat.lng
       const lat = e.lngLat.lat
 
-      // Show loading popup right away
-      const loadingPopup = new mapboxgl.Popup()
-        .setLngLat([lng, lat])
-        .setHTML(`
-          <div style="text-align: center; font-family: sans-serif; padding: 10px;">
-            <i class="fas fa-spinner fa-spin" style="font-size: 24px; color: #6A35CB;"></i><br />
-            <small>Buscando endereço...</small>
-          </div>
-        `)
-        .addTo(this.map)
+      const popup = new mapboxgl.Popup().setLngLat([lng, lat]).setHTML("Carregando...").addTo(this.map)
 
-      try {
-        const response = await fetch(
-          `https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?access_token=${this.apiKeyValue}`
-        )
-        const data = await response.json()
+      performance.mark("fetch-start")
+      const response = await fetch(
+        `https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?access_token=${this.apiKeyValue}`
+      )
+      performance.mark("fetch-end")
+      const data = await response.json()
+      performance.mark("json-parsed")
 
-        const feature = data.features[0]
-        const name = feature?.text || "Local"
-        const fullName = feature?.place_name || "Endereço desconhecido"
-        const category = feature?.properties?.category || null
-        const context = feature?.context?.map(c => c.text).join(", ") || ""
+      // Simulate location logic
+      navigator.geolocation.getCurrentPosition((position) => {
+        performance.mark("geo-done")
 
-        navigator.geolocation.getCurrentPosition((position) => {
-          const userLat = position.coords.latitude
-          const userLng = position.coords.longitude
+        const html = `<div>Endereço carregado</div>`
+        popup.setHTML(html)
 
-          const googleMapsRoute = `https://www.google.com/maps/dir/?api=1&origin=${userLat},${userLng}&destination=${lat},${lng}&travelmode=walking`
+        performance.mark("popup-set")
+        performance.measure("1. Fetch duration", "fetch-start", "fetch-end")
+        performance.measure("2. JSON parse duration", "fetch-end", "json-parsed")
+        performance.measure("3. Geolocation delay", "json-parsed", "geo-done")
+        performance.measure("4. Popup render delay", "geo-done", "popup-set")
 
-          // Replace loading popup content with real info
-          loadingPopup.setHTML(`
-            <div style="text-align: center; font-family: sans-serif;">
-              <div style="font-size: 16px; margin-bottom: 4px;">
-                <i class="fas fa-map-marker-alt" style="color: #6A35CB;"></i>
-                <strong>${name}</strong>
-              </div>
-              <small style="color: gray;">${fullName}</small><br>
-              ${category ? `<div style="margin-top: 4px;"><i class="fas fa-tag"></i> ${category}</div>` : ""}
-              <a href="${googleMapsRoute}"
-                 target="_blank"
-                 rel="noopener noreferrer"
-                 style="display: inline-block; margin-top: 8px; padding: 6px 12px; background: #6A35CB; color: white; border-radius: 6px; text-decoration: none; font-weight: bold;">
-                <i class="fas fa-walking"></i> Como chegar
-              </a>
-            </div>
-          `)
-        })
-      } catch (err) {
-        console.error("Erro ao buscar o local:", err)
-        loadingPopup.setHTML(`<div style="text-align: center; color: red;">Erro ao buscar endereço</div>`)
-      }
+        console.table(performance.getEntriesByType("measure"))
+      })
     })
 
 
