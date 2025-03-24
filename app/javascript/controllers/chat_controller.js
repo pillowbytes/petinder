@@ -18,7 +18,7 @@ export default class extends Controller {
 
   // Clear input after message sent
   clearInput() {
-    console.log("messages connected")
+    // console.log("messages connected")
     this.inputTarget.value = ""
     this.scrollToBottom()
   }
@@ -32,4 +32,6 @@ export default class extends Controller {
       messagesContainer.scrollTop = messagesContainer.scrollHeight
     }
   }
+
+
 }
