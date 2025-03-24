@@ -9,6 +9,9 @@ export default class extends Controller {
     userMarker: Object
   }
 
+  userLat = null
+  userLng = null
+
   connect() {
     mapboxgl.accessToken = this.apiKeyValue
 
@@ -33,47 +36,74 @@ export default class extends Controller {
 
     // 👇 Handle map clicks to show rich address info
     this.map.on("click", async (e) => {
-      performance.mark("click-start")
-      console.log("📍 User clicked on map")
+      const clickedElement = e.originalEvent.target
+      if (
+        clickedElement.closest(".mapboxgl-marker") ||
+        clickedElement.closest(".mapboxgl-popup")
+      ) return
 
       const lng = e.lngLat.lng
       const lat = e.lngLat.lat
 
-      const popup = new mapboxgl.Popup().setLngLat([lng, lat]).setHTML("Carregando...").addTo(this.map)
+      const loadingPopup = new mapboxgl.Popup()
+        .setLngLat([lng, lat])
+        .setHTML(`
+          <div style="text-align: center; font-family: sans-serif; padding: 10px;">
+            <i class="fas fa-spinner fa-spin" style="font-size: 24px; color: #6A35CB;"></i><br />
+            <small>Buscando endereço...</small>
+          </div>
+        `)
+        .addTo(this.map)
 
-      performance.mark("fetch-start")
-      const response = await fetch(
-        `https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?access_token=${this.apiKeyValue}`
-      )
-      performance.mark("fetch-end")
-      const data = await response.json()
-      performance.mark("json-parsed")
+      try {
+        const response = await fetch(
+          `https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?access_token=${this.apiKeyValue}`
+        )
+        const data = await response.json()
 
-      // Simulate location logic
-      navigator.geolocation.getCurrentPosition((position) => {
-        performance.mark("geo-done")
+        const feature = data.features[0]
+        const name = feature?.text || "Local"
+        const fullName = feature?.place_name || "Endereço desconhecido"
+        const category = feature?.properties?.category || null
 
-        const html = `<div>Endereço carregado</div>`
-        popup.setHTML(html)
+        let directionsLink = ""
+        if (this.userLat && this.userLng) {
+          const googleMapsRoute = `https://www.google.com/maps/dir/?api=1&origin=${this.userLat},${this.userLng}&destination=${lat},${lng}&travelmode=walking`
+          directionsLink = `<a href="${googleMapsRoute}"
+              target="_blank"
+              rel="noopener noreferrer"
+              style="display: inline-block; margin-top: 8px; padding: 6px 12px; background: #6A35CB; color: white; border-radius: 6px; text-decoration: none; font-weight: bold;">
+              <i class="fas fa-walking"></i> Como chegar
+            </a>`
+        }
 
-        performance.mark("popup-set")
-        performance.measure("1. Fetch duration", "fetch-start", "fetch-end")
-        performance.measure("2. JSON parse duration", "fetch-end", "json-parsed")
-        performance.measure("3. Geolocation delay", "json-parsed", "geo-done")
-        performance.measure("4. Popup render delay", "geo-done", "popup-set")
-
-        console.table(performance.getEntriesByType("measure"))
-      })
+        loadingPopup.setHTML(`
+          <div style="text-align: center; font-family: sans-serif;">
+            <div style="font-size: 16px; margin-bottom: 4px;">
+              <i class="fas fa-map-marker-alt" style="color: #6A35CB;"></i>
+              <strong>${name}</strong>
+            </div>
+            <small style="color: gray;">${fullName}</small><br>
+            ${category ? `<div style="margin-top: 4px;"><i class="fas fa-tag"></i> ${category}</div>` : ""}
+            ${directionsLink}
+          </div>
+        `)
+      } catch (err) {
+        console.error("Erro ao buscar o local:", err)
+        loadingPopup.setHTML(`<div style="text-align: center; color: red;">Erro ao buscar endereço</div>`)
+      }
     })
-
-
   }
 
   #addUserLocation() {
     navigator.geolocation.getCurrentPosition((position) => {
       const customMarker = document.createElement("div")
       customMarker.innerHTML = this.userMarkerValue.marker_html
+
       const { latitude, longitude } = position.coords
+      this.userLat = latitude
+      this.userLng = longitude
+
       this.map.setCenter([longitude, latitude])
       new mapboxgl.Marker(customMarker)
         .setLngLat([longitude, latitude])
@@ -111,7 +141,6 @@ export default class extends Controller {
       clusterRadius: 50
     })
 
-    // Cluster circles
     this.map.addLayer({
       id: "clusters",
       type: "circle",
@@ -124,7 +153,6 @@ export default class extends Controller {
       }
     })
 
-    // Cluster count label
     this.map.addLayer({
       id: "cluster-count",
       type: "symbol",
@@ -136,7 +164,6 @@ export default class extends Controller {
       }
     })
 
-    // Custom unclustered pins with improved popups
     features.forEach((feature) => {
       const { coordinates } = feature.geometry
       const { marker_html, name, last_seen, user_count } = feature.properties
@@ -160,7 +187,6 @@ export default class extends Controller {
         .addTo(this.map)
     })
 
-    // Zoom into cluster when clicked
     this.map.on("click", "clusters", (e) => {
       const features = this.map.queryRenderedFeatures(e.point, {
         layers: ["clusters"]
@@ -183,7 +209,6 @@ export default class extends Controller {
       })
     })
 
-    // Change cursor on cluster hover
     this.map.on("mouseenter", "clusters", () => {
       this.map.getCanvas().style.cursor = "pointer"
     })
@@ -191,7 +216,6 @@ export default class extends Controller {
       this.map.getCanvas().style.cursor = ""
     })
 
-    // Accessibility fix for Mapbox popup close button
     setTimeout(() => {
       document.querySelectorAll(".mapboxgl-popup-close-button").forEach((btn) => {
         btn.removeAttribute("aria-hidden")
