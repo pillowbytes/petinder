@@ -4,7 +4,7 @@
     <p>Entre na sua conta para continuar<br>seus matches</p>
   </div>
 
-  <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "form-horizontal" }) do |f| %>
+  <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "form-horizontal", autocomplete: "on" }) do |f| %>
     <div class="form-inputs">
       <%= f.label :email, "E-mail" %>
       <%= f.input :email, required: false, autofocus: true, label: false,  input_html: { class: "form-control", placeholder: "we@matchpet.com" } %>
