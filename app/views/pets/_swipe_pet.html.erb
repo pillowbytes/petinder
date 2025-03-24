@@ -1,7 +1,7 @@
 <% if potential_pet.present? %>
   <%= turbo_frame_tag "pet_card" do %>
     <div class="pet-card ">
-      <div class="pet-image-container animate__animated animate__flipInX4">
+      <div class="pet-image-container animate__animated animate__flipInX">
 
         <% if potential_pet.photos.attached? %>
           <%= cl_image_tag potential_pet.photos.first.key,

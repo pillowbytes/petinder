@@ -1,11 +1,32 @@
+// ==============================
+// Swipe Page Styles
+// ==============================
+
+.swipe-container {
+  height: calc(100vh - 95px - 70px);
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
 .pet-card {
-  height: 75vh;
+  height: 100%;
+  max-height: 100%;
+  width: 100%;
+  max-width: 400px;
   background: #fdf9f3;
   padding: 25px;
   border-radius: 20px;
   text-align: center;
-  max-width: 400px;
   margin: auto;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
 }
 
 .pet-image-container {
@@ -15,10 +36,12 @@
   margin-bottom: 15px;
   border: 1px solid white;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  flex: 1;
 
   .pet-image {
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
     border-radius: 20px;
   }
 
@@ -32,19 +55,14 @@
     color: white;
     text-align: left;
     border-radius: 0 0 20px 20px;
+    box-sizing: border-box;
   }
-}
-
-.swipe-container {
-  height: 74vh;
-  overflow: hidden;
-  padding: 20px;
 }
 
 .swipe-buttons {
   display: flex;
   justify-content: space-around;
-  margin-top: 40px;
+  margin-top: 30px;
 
   .btn-swipe {
     width: 50px;

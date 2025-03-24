@@ -1,0 +1,36 @@
+#desktop-blocker {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: #fffaf2;
+  color: #5c457e;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 30px;
+
+  .blocker-container {
+    max-width: 400px;
+    padding: 20px;
+  }
+
+  .blocker-logo {
+    width: 150px;
+    margin-bottom: 50px;
+  }
+
+  h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  p {
+    font-size: 1.2rem;
+    line-height: 1.5;
+  }
+}
