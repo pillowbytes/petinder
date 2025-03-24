@@ -13,27 +13,38 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body data-current-user-id="<%= current_user ? current_user.id : '' %>">
-    <%= render "shared/flashes" %>
-    <% if current_page?(pets_path) || current_page?(nearby_locations_path) || request.path.include?("swipe") || (request.path.include?("match") && !request.path.include?("messages"))%>
-      <% if @current_pet %>
-        <%= render "shared/header_nav" %>
-      <% end %>
-    <% end %>
+  <body data-controller="viewport" data-current-user-id="<%= current_user ? current_user.id : '' %>">
+    <div id="desktop-blocker" data-viewport-target="blocker">
+      <div class="blocker-container">
+        <%= image_tag "matchpet-logo-big.svg", alt: "MatchPet logo", class: "blocker-logo animate__animated animate__bounce" %>
+        <h1>Ops! 😅</h1>
+        <p>Esse app foi feito especialmente para telas de celular.<br> Tente acessar pelo seu smartphone.</p>
+      </div>
+    </div>
 
-    <% if current_page?(pets_path) || current_page?(nearby_locations_path) || request.path.include?("swipe") || (request.path.include?("match") && !request.path.include?("messages")) %>
-      <main class="main-content">
+    <div id="mobile-app" data-viewport-target="app">
+      <%= render "shared/flashes" %>
+
+      <% if current_page?(pets_path) || current_page?(nearby_locations_path) || request.path.include?("swipe") || (request.path.include?("match") && !request.path.include?("messages"))%>
+        <% if @current_pet %>
+          <%= render "shared/header_nav" %>
+        <% end %>
+      <% end %>
+
+      <% if current_page?(pets_path) || current_page?(nearby_locations_path) || request.path.include?("swipe") || (request.path.include?("match") && !request.path.include?("messages")) %>
+        <main class="main-content">
+          <%= yield %>
+        </main>
+      <% else %>
         <%= yield %>
-      </main>
-    <% else %>
-      <%= yield %>
-    <% end %>
-
-    <% if (request.path.include?("match") && !request.path.include?("messages")) || request.path.include?("swipe") || request.path.include?("nearby") || current_page?(select_pet_path) %>
-
-      <% if @current_pet %>
-        <%= render "shared/footer_nav" %>
       <% end %>
-    <% end %>
+
+      <% if (request.path.include?("match") && !request.path.include?("messages")) || request.path.include?("swipe") || request.path.include?("nearby") || current_page?(select_pet_path) %>
+        <% if @current_pet %>
+          <%= render "shared/footer_nav" %>
+        <% end %>
+      <% end %>
+    </div>
   </body>
+
 </html>
