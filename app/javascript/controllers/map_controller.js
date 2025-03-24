@@ -43,6 +43,17 @@ export default class extends Controller {
       const lng = e.lngLat.lng
       const lat = e.lngLat.lat
 
+      // Show loading popup right away
+      const loadingPopup = new mapboxgl.Popup()
+        .setLngLat([lng, lat])
+        .setHTML(`
+          <div style="text-align: center; font-family: sans-serif; padding: 10px;">
+            <i class="fas fa-spinner fa-spin" style="font-size: 24px; color: #6A35CB;"></i><br />
+            <small>Buscando endereço...</small>
+          </div>
+        `)
+        .addTo(this.map)
+
       try {
         const response = await fetch(
           `https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?access_token=${this.apiKeyValue}`
@@ -61,30 +72,30 @@ export default class extends Controller {
 
           const googleMapsRoute = `https://www.google.com/maps/dir/?api=1&origin=${userLat},${userLng}&destination=${lat},${lng}&travelmode=walking`
 
-          new mapboxgl.Popup()
-            .setLngLat([lng, lat])
-            .setHTML(`
-              <div style="text-align: center; font-family: sans-serif;">
-                <div style="font-size: 16px; margin-bottom: 4px;">
-                  <i class="fas fa-map-marker-alt" style="color: #6A35CB;"></i>
-                  <strong>${name}</strong>
-                </div>
-                <small style="color: gray;">${fullName}</small><br>
-                ${category ? `<div style="margin-top: 4px;"><i class="fas fa-tag"></i> ${category}</div>` : ""}
-                <a href="${googleMapsRoute}"
-                   target="_blank"
-                   rel="noopener noreferrer"
-                   style="display: inline-block; margin-top: 8px; padding: 6px 12px; background: #6A35CB; color: white; border-radius: 6px; text-decoration: none; font-weight: bold;">
-                  <i class="fas fa-walking"></i> Como chegar
-                </a>
+          // Replace loading popup content with real info
+          loadingPopup.setHTML(`
+            <div style="text-align: center; font-family: sans-serif;">
+              <div style="font-size: 16px; margin-bottom: 4px;">
+                <i class="fas fa-map-marker-alt" style="color: #6A35CB;"></i>
+                <strong>${name}</strong>
               </div>
-            `)
-            .addTo(this.map)
+              <small style="color: gray;">${fullName}</small><br>
+              ${category ? `<div style="margin-top: 4px;"><i class="fas fa-tag"></i> ${category}</div>` : ""}
+              <a href="${googleMapsRoute}"
+                 target="_blank"
+                 rel="noopener noreferrer"
+                 style="display: inline-block; margin-top: 8px; padding: 6px 12px; background: #6A35CB; color: white; border-radius: 6px; text-decoration: none; font-weight: bold;">
+                <i class="fas fa-walking"></i> Como chegar
+              </a>
+            </div>
+          `)
         })
       } catch (err) {
         console.error("Erro ao buscar o local:", err)
+        loadingPopup.setHTML(`<div style="text-align: center; color: red;">Erro ao buscar endereço</div>`)
       }
     })
+
 
   }
 
