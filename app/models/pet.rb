@@ -25,28 +25,28 @@ class Pet < ApplicationRecord
 
   ### CONSTANTS FOR SELECT OPTIONS ###
 
-  SPECIES_OPTIONS = %w[dog cat].freeze
+  SPECIES_OPTIONS = ["Cachorro", "Gato"].freeze
   BREED_OPTIONS = {
-    'dog' => %w[Labrador Golden_Retriever Bulldog Poodle Other Don't_Know],
-    'cat' => %w[Persian Siamese Maine_Coon Bengal Other Don't_Know]
+    "Cachorro" => ["Labrador", "Golden Retriever", "Bulldog", "Poodle", "Outro"],
+    "Gato" => ["Persa", "Siamês", "Maine Coon", "Bengal", "Outro"]
   }.freeze
-  GENDER_OPTIONS = %w[male female unknown].freeze
-  SIZE_OPTIONS = %w[small medium large].freeze
-  AGE_GROUP_OPTIONS = %w[puppy kitten adult senior].freeze
-  TEMPERAMENT_OPTIONS = %w[calm energetic protective playful shy friendly].freeze
-  PERSONALITY_TRAITS_OPTIONS = %w[affectionate independent curious social intelligent loyal playful active gentle].freeze
-  LOOKING_FOR_OPTIONS = %w[socialize breeding].freeze
-  PREFERRED_SPECIES_OPTIONS = %w[dog cat anything].freeze
-  STATUS_OPTIONS = %w[available adopted looking inactive].freeze
+  GENDER_OPTIONS = ["Macho", "Fêmea", "Desconhecido"].freeze
+  SIZE_OPTIONS = ["Pequeno", "Médio", "Grande"].freeze
+  AGE_GROUP_OPTIONS = ["Filhote", "Adulto", "Sênior"].freeze
+  TEMPERAMENT_OPTIONS = ["Calmo", "Energético", "Protetor", "Brincalhão", "Tímido", "Amigável"].freeze
+  PERSONALITY_TRAITS_OPTIONS = ["Afetuoso", "Independente", "Curioso", "Sociável", "Inteligente", "Leal", "Brincalhão", "Ativo", "Gentil"].freeze
+  LOOKING_FOR_OPTIONS = ["Socializar", "Reprodução"].freeze
+  PREFERRED_SPECIES_OPTIONS = ["Cachorro", "Gato", "Qualquer"].freeze
+  STATUS_OPTIONS = ["Disponível", "Adotado", "Procurando", "Inativo"].freeze
 
-  ### VALIDATIONS ###
+  ### VALIDAÇÕES ###
 
-  ## Basic Info (Text Inputs)
+  ## Informações Básicas (Campos de Texto)
   validates :name, presence: true, length: { maximum: 50 }
   validates :bio, length: { maximum: 500 }, allow_blank: true
   validates :age, presence: true, numericality: { only_integer: true, greater_than: 0, less_than_or_equal_to: 25 }
 
-  ## Selection Fields (Dropdowns/Badges)
+  ## Campos de Seleção (Dropdowns/Badges)
   validates :species, presence: true, inclusion: { in: SPECIES_OPTIONS }
   validates :breed, presence: true, length: { maximum: 50 }
   validates :gender, presence: true, inclusion: { in: GENDER_OPTIONS }
@@ -54,14 +54,14 @@ class Pet < ApplicationRecord
   validates :age_group, presence: true, inclusion: { in: AGE_GROUP_OPTIONS }
   validates :temperament, presence: true, inclusion: { in: TEMPERAMENT_OPTIONS }
 
-  ## Multi-Select Fields (Badges)
-  validates :personality_traits, length: { maximum: 4, message: 'You can select up to 4 traits' }, inclusion: { in: PERSONALITY_TRAITS_OPTIONS }, allow_blank: true
-  validates :looking_for, length: { is: 1, message: 'You must choose either Socialize or Breeding' }, inclusion: { in: LOOKING_FOR_OPTIONS }
-  validates :preferred_species, length: { is: 1, message: 'Choose one preferred species' }, inclusion: { in: PREFERRED_SPECIES_OPTIONS }
+  ## Campos de Múltipla Seleção (Badges)
+  validates :personality_traits, length: { maximum: 4, message: "Você pode selecionar até 4 traços" }, inclusion: { in: PERSONALITY_TRAITS_OPTIONS }, allow_blank: true
+  validates :looking_for, length: { is: 1, message: "Você deve escolher entre Socializar ou Reprodução" }, inclusion: { in: LOOKING_FOR_OPTIONS }
+  validates :preferred_species, length: { is: 1, message: "Escolha uma espécie preferida" }, inclusion: { in: PREFERRED_SPECIES_OPTIONS }
 
-  ## Boolean Fields (Yes/No Toggles)
+  ## Campos Booleanos (Alternância Sim/Não)
   validates :is_vaccinated, :is_neutered, :is_available_for_breeding, :registered_pedigree, inclusion: { in: [true, false] }
 
-  ## Status Field
+  ## Campo de Status
   validates :status, inclusion: { in: STATUS_OPTIONS }, allow_nil: true
 end

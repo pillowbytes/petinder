@@ -11,6 +11,40 @@
   margin-top: 10px;
 }
 
+.tag-item {
+  display: inline-block;
+}
+
+.tag-selector {
+  position: absolute;
+  transform: scale(0); // Esconde o input padrão
+}
+
+.tag-selector + label {
+  cursor: pointer;
+  display: inline-block;
+  font-size: 0.875rem; // 14px
+  // font-weight: 500;
+  border-radius: 50rem;
+  padding: 0.4rem 0.8rem;
+  background-color: white;
+  color: $pet-color-primary;
+  border: 1px solid $pet-color-primary;
+  margin-right: 0.6rem;
+  margin-bottom: 0.4rem;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    background-color: #D9D4FF;
+  }
+}
+
+.tag-selector:checked + label {
+  background-color: $pet-color-primary;
+  color: $pet-color-background;
+  border-color: $pet-color-primary;
+}
+
 .select-pet-card {
   background: #fff;
   border-radius: 25px;

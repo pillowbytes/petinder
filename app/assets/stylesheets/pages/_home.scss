@@ -3,7 +3,7 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh; /* Viewport height to make it full-screen */
+  height: 100dvh; /* Dynamic viewport height */
   background-size: cover; /* Ensures the image covers the whole div */
   z-index: -1; /* Keeps the image in the background */
 }
