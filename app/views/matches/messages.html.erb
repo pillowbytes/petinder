@@ -4,7 +4,7 @@
     <a href="<%= matches_path %>" class="back-button animate__animated animate__backInRight">
       <i class="fas fa-arrow-left"></i>
     </a>
-    <h2>Chat between <%= @match.pet.name %> & <%= @match.matched_pet.name %></h2>
+    <h2>Conversa Entre <%= @match.pet.name %> & <%= @match.matched_pet.name %></h2>
   </div>
 
   <!-- Turbo Stream for Live Updates -->
@@ -18,10 +18,17 @@
   </div>
 
   <!-- Fixed Message Input Box -->
-  <div class="chat-input">
-    <%= form_with model: [@match, Message.new], url: pet_match_messages_path(@match.pet, @match), data: { turbo_stream: true } do |form| %>
+  <div class="chat-input" data-controller="chat">
+    <%= form_with model: [@match, Message.new],
+                  url: pet_match_messages_path(@match.pet, @match),
+                  data: { turbo_stream: true, action: "turbo:submit-end->chat#clearInput" },
+                  html: { data: { chat_target: "form" } } do |form| %>
       <div class="input-group">
-        <%= form.text_area :content, class: "form-control", placeholder: "Type a message..." %>
+        <%= form.text_area :content,
+                           class: "form-control",
+                           placeholder: "Escreva algo aqui...",
+                           data: { chat_target: "input" } %>
+
         <%= form.hidden_field :pet_id, value: (@match.pet.user == current_user ? @match.pet.id : @match.matched_pet.id) %>
         <button class="send-button">
           <i class="fas fa-paper-plane"></i>

@@ -14,18 +14,18 @@
             </div>
             <div class="match-details">
               <strong><%= match.pet.name %> & <%= match.matched_pet.name %></strong>
-              <% no_messages_phrases = [
-                "No messages yet. Say hi! 👋",
-                "Break the ice with a message! ❄️",
-                "Start a conversation! 🗨️",
-                "Don't be shy, send a message! 😊",
-                "Introduce your pet with a fun fact! 🐾",
-                "This chat is too quiet... fix that! 🎤",
-                "Your pet is waiting for a message! 🐶",
-                "First message magic happens here! ✨",
-                "Start chatting and make a new friend! ❤️",
-                "Send a message and see where it goes! 🚀"
-              ] %>
+                <% no_messages_phrases = [
+                  "Nenhuma mensagem ainda. Dá um oi! 👋",
+                  "Que tal quebrar o gelo com uma mensagem? ❄️",
+                  "Comece a conversa! 🗨️",
+                  "Não precisa ter vergonha, mande uma mensagem! 😊",
+                  "Apresente seu pet com uma curiosidade divertida! 🐾",
+                  "Esse chat tá quieto demais... bora animar! 🎤",
+                  "Seu pet tá esperando por uma mensagem! 🐶",
+                  "A primeira mensagem pode ser mágica! ✨",
+                  "Puxe papo e faça um novo amigo! ❤️",
+                  "Mande uma mensagem e veja onde vai dar! 🚀"
+                ] %>
               <p><%= match.messages.any? ? match.messages.last.content : no_messages_phrases.sample %></p>
             </div>
           </div>
@@ -34,7 +34,7 @@
       <% end %>
 
     <% else %>
-      <p>No messages yet.</p>
+      <p>Suas mensagens aparecerão aqui.</p>
     <% end %>
   </div>
 </div>
