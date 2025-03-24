@@ -23,8 +23,11 @@ export default class extends Controller {
       this.#fitMapToMarkers()
 
       // 🔥 Warm-up reverse geocoding to avoid delay on first click
-      fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/0,0.json?access_token=${this.apiKeyValue}`)
-        .then(() => console.log("Mapbox geocoding warmed up"))
+      fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/0,0.json?access_token=${this.apiKeyValue}`, {
+        method: "GET",
+        keepalive: true,
+        cache: "no-cache"
+      }).then(() => console.log("Mapbox geocoding warmed up"))
         .catch(() => console.warn("Geocoding warm-up failed"))
     })
 
