@@ -1,9 +1,9 @@
 <div class="form-horizontal">
   <div class="header">
-  <h2>Editar Usuário</h2>
+    <h2>Editar Usuário</h2>
   </div>
-<%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%= f.error_notification %>
+
+  <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, data: {controller: "cep"} }) do |f| %>
 
     <div class="form-group">
       <%= f.label :email, "E-mail", class: "control-label" %>
@@ -11,66 +11,67 @@
     </div>
 
     <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-      <p>Currently waiting confirmation for: <%= resource.unconfirmed_email %></p>
+        <p>Currently waiting confirmation for: <%= resource.unconfirmed_email %></p>
     <% end %>
 
     <%= f.label :password, "Senha", class: "control-label" %>
     <%= f.input :password,
-                hint: "Deixe em branco para manter a senha",
-                required: false,
-                label: false,
-                input_html: { autocomplete: "new-password" } %>
+      hint: "Deixe em branco para manter a senha",
+      required: false,
+      label: false,
+      input_html: { autocomplete: "new-password" } %>
 
     <%= f.label :password, "Confirme sua senha", class: "control-label" %>
     <%= f.input :password_confirmation,
-                required: false,
-                label: false,
-                input_html: { autocomplete: "new-password" } %>
-<div class="form-group">
-    <%= f.label :first_name, "Nome", class: "control-label" %>
-    <%= f.input :first_name, required: true, label: false, input_html: { class: "form-control", placeholder: "Nome" } %>
-  </div>
+      required: false,
+      label: false,
+      input_html: { autocomplete: "new-password" } %>
 
-  <div class="form-group">
+    <div class="form-group">
+      <%= f.label :first_name, "Nome", class: "control-label" %>
+      <%= f.input :first_name, required: true, label: false, input_html: { class: "form-control", placeholder: "Nome" } %>
+    </div>
+
+    <div class="form-group">
       <%= f.label :last_name, "Sobrenome", class: "control-label" %>
       <%= f.input :last_name, required: true, label: false, input_html: { class: "form-control", placeholder: "Sobrenome" } %>
-  </div>
+    </div>
 
-  <div class="form-group">
-    <%= f.label :zip_code, "CEP", class: "control-label" %>
-    <%= f.input :zip_code, required: true, label: false, input_html: { class: "form-control", placeholder: "12422-000" } %>
-  </div>
+    <div class="form-group">
+      <%= f.label :zip_code, "CEP", class: "control-label" %>
+      <%= f.input :zip_code, required: true, label: false, input_html: { class: "form-control", id: "cep", placeholder: "Informe seu CEP", data: {"cep-target": "zipCode", action: "blur->cep#findAddress input->cep#formatCep" }} %>
+    </div>
 
-  <div class="form-group">
-    <%= f.label :street, "Endereço", class: "control-label" %>
-    <%= f.input :street, required: true, label: false, input_html: { class: "form-control", placeholder: "Rua adamastor" } %>
-  </div>
+    <div class="form-group">
+      <%= f.label :street, "Endereço", class: "control-label" %>
+      <%= f.input :street, required: true, label: false, input_html: { class: "form-control", id: "rua", placeholder: "Seu Endereço", data: {"cep-target": "street"} } %>
+    </div>
 
-  <div class="form-group">
-    <%= f.label :city, "Cidade", class: "control-label" %>
-    <%= f.input :city, required: true, label: false, input_html: { class: "form-control", placeholder: "Pindamonhangaba" } %>
-  </div>
+    <div class="form-group">
+      <%= f.label :city, "Cidade", class: "control-label" %>
+      <%= f.input :city, required: true, label: false, input_html: { class: "form-control", id: "cidade", placeholder: "Sua Cidade", data: {"cep-target": "city"} } %>
+    </div>
 
-  <div class="form-group">
-    <%= f.label :state, "Estado", class: "control-label" %>
-    <%= f.input :state, required: true, label: false, input_html: { class: "form-control", placeholder: "São Paulo" } %>
-  </div>
+    <div class="form-group">
+      <%= f.label :state, "Estado", class: "control-label" %>
+      <%= f.input :state, required: true, label: false, input_html: { class: "form-control", id: "estado", placeholder: "Seu Estado", data: {"cep-target": "state"} } %>
+    </div>
 
-    <%= f.label :current_password, "Senha atual", class: "control-label" %>
-    <%= f.input :current_password,
-                hint: "Senha atual para confirmar as mudanças",
-                required: false,
-                label: false,
-                input_html: { autocomplete: "current-password" } %>
-  </div>
+    <div class="form-group">
+      <%= f.label :current_password, "Senha atual", class: "control-label" %>
+      <%= f.input :current_password,
+        hint: "Senha atual para confirmar as mudanças",
+        required: true,
+        label: false,
+        input_html: { autocomplete: "current-password" } %>
+    </div>
 
-  <div class="form-actions">
-  <%= f.button :submit, "Atualizar", class: "pet-btn-primary" %><br>
+    <div class="form-actions">
+      <%= f.button :submit, "Atualizar", class: "pet-btn-primary" %><br>
 
-  <%= link_to "Excluir Conta",
-              registration_path(resource_name),
-              class: "pet-btn-excluir mb-5",
-              data: { turbo_method: :delete, turbo_confirm: "Tem certeza que deseja excluir sua conta?" } %>
-</div>
-<% end %>
+      <%= link_to "Excluir Conta", registration_path(resource_name),
+        class: "pet-btn-excluir mb-5",
+        data: { turbo_method: :delete, turbo_confirm: "Tem certeza que deseja excluir sua conta?" } %>
+    </div>
+  <% end %>
 </div>
