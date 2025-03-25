@@ -39,7 +39,7 @@
         <%= yield %>
       <% end %>
 
-      <% if (request.path.include?("match") && !request.path.include?("messages")) || request.path.include?("swipe") || request.path.include?("nearby") || current_page?(select_pet_path) %>
+      <% if (request.path.include?("match") && !request.path.include?("messages")) || request.path.include?("swipe") || request.path.include?("nearby") || current_page?(select_pet_path) || current_page?(pet_path) %>
         <% if @current_pet %>
           <%= render "shared/footer_nav" %>
         <% end %>

@@ -1,70 +1,88 @@
-  <div class="container mt-4">
-              <div class="row mb-3">
-            <div class="col-4">
-              <%= link_to "Swipe", swipe_pet_path(@pet), method: :get, class: "pet-btn-accent" %>
-            </div>
-            <div class="col-4">
-              <%= link_to "Edit", edit_pet_path, class: "pet-btn-disabled" %>
-            </div>
-            <div class="col-4">
-              <%= link_to "Back", pets_path, class: "pet-btn-accent" %>
-            </div>
-          </div>
-    <div class="card shadow-sm">
-      <div class="card-body">
+<div class="pet-container mt-5 mb-5">
 
-        <div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-center" style="margin-left: 35px; margin-right: 35px;">
+      <% if @pet.photos.attached? %>
+        <%= cl_image_tag @pet.photos.first.key, transformation: [{ width: 250, height: 250, crop: "fill" }], alt: "#{@pet.name}'s profile picture", class: "avatar-main-profile" %>
+      <% else %>
+        <%= image_tag "pet_placeholder.webp", alt: "Default pet profile picture", class: "avatar-main-profile" %>
+      <% end %>
+    </div>
 
-          <% if @pet.photos.attached? %>
-          <%= cl_image_tag @pet.photos.first.key, transformation: [{ width: 300, height: 300, crop: "fill" }], alt: "#{@pet.name}'s profile picture", class: "avatar-main-profile" %>
-          <% else %>
-          <%= image_tag "pet_placeholder.webp", alt: "Default pet profile picture", class: "avatar-main-profile" %>
-          <% end %>
-        </div>
+  <h2 class="card-title text-center">
+    <%= @pet.name %>, <%= @pet.age %> anos
+    <span class="edit-icon">
+      <%= link_to edit_pet_path do %>
+        <i class="fa-solid fa-pen"></i>
+      <% end %>
+    </span>
+  </h2>
+  <h6 class="text-muted text-center mt-2"><%= @pet.breed %></h6>
+
+  <div class="pet-basics">
+    <span class="tag-pill"><%= @pet.gender.capitalize %></span>
+    <span class="tag-pill"><%= @pet.size.capitalize %></span>
+    <span class="tag-pill"><%= @pet.age_group.capitalize %></span>
+  </div>
+
+    <div class="row g1">
+      <div class="col-6">
+        <p class="mb-1"><strong>Temperamento</strong></p>
       </div>
-      <h2 class="card-title text-center"><%= @pet.name %></h2>
-      <h6 class="text-muted text-center"><%= @pet.species %> | <%= @pet.breed %></h6>
+      <div class="col-6">
+        <p><%= @pet.temperament.capitalize %></p>
+      </div>
+    </div>
 
-      <hr>
+    <div class="row g-1">
+      <div class="col-6">
+        <p class="mb-1"><strong>Personalidade</strong></p>
+      </div>
+      <div class="col-6">
+        <p><%= @pet.personality_traits.any? ? @pet.personality_traits.join(', ') : 'Not specified' %></p>
+      </div>
+    </div>
 
-      <p class="mb-1"><strong>Age:</strong> <%= @pet.age %> years</p>
-      <p class="mb-1"><strong>Gender:</strong> <%= @pet.gender.capitalize %></p>
-      <p class="mb-1"><strong>Size:</strong> <%= @pet.size.capitalize %></p>
-      <p class="mb-1"><strong>Age Group:</strong> <%= @pet.age_group.capitalize %></p>
-      <p class="mb-3"><strong>Bio:</strong> <%= @pet.bio.presence || 'No bio provided' %></p>
+  <h2 class="row-title">Preferências</h2>
+  <div class="pet-basics">
+    <span class="tag-pill"><%= @pet.looking_for.join(', ') %></span>
+    <span class="tag-pill"><%= @pet.preferred_species.join(', ') %></span>
+    <span class="tag-pill"><%= @pet.preferred_size.any? ? @pet.preferred_size.join(', ') : 'Not specified' %></span>
 
-      <hr>
-
-      <p class="mb-1"><strong>Temperament:</strong> <%= @pet.temperament.capitalize %></p>
-      <p class="mb-1"><strong>Personality Traits:</strong>
-        <%= @pet.personality_traits.any? ? @pet.personality_traits.join(', ') : 'Not specified' %>
-      </p>
-
-      <hr>
-
-      <p class="mb-1"><strong>Looking For:</strong> <%= @pet.looking_for.join(', ') %></p>
-      <p class="mb-1"><strong>Preferred Species:</strong> <%= @pet.preferred_species.join(', ') %></p>
-      <p class="mb-1"><strong>Preferred Size:</strong>
-        <%= @pet.preferred_size.any? ? @pet.preferred_size.join(', ') : 'Not specified' %>
-      </p>
-
-      <hr>
-
-      <p class="mb-1"><strong>Medical Conditions:</strong>
-        <%= @pet.medical_conditions.any? ? @pet.medical_conditions.join(', ') : 'None' %>
-      </p>
-
-      <hr>
-
-      <p class="mb-1"><strong>Vaccinated:</strong> <%= @pet.is_vaccinated ? 'Yes' : 'No' %></p>
-      <p class="mb-1"><strong>Neutered:</strong> <%= @pet.is_neutered ? 'Yes' : 'No' %></p>
-      <p class="mb-1"><strong>Available for Breeding:</strong> <%= @pet.is_available_for_breeding ? 'Yes' : 'No' %></p>
-      <p class="mb-1"><strong>Registered Pedigree:</strong> <%= @pet.registered_pedigree ? 'Yes' : 'No' %></p>
-
-      <hr>
-
-
-
+  </div>
+  <h2 class="row-title">Saúde e reprodução</h2>
+  <div class="row">
+    <div class="col-6">
+      <p class="mb-1"><strong>Vacinado?</strong></p>
+    </div>
+    <div class="col-6">
+      <p><%= @pet.is_vaccinated ? 'Sim' : 'Não' %></p>
     </div>
   </div>
+
+  <div class="row">
+    <div class="col-6">
+      <p class="mb-1"><strong>Castrado?</strong></p>
+    </div>
+    <div class="col-6">
+      <p><%= @pet.is_neutered ? 'Sim' : 'Não' %></p>
+    </div>
   </div>
+
+  <div class="row">
+    <div class="col-6">
+      <p class="mb-1"><strong>Disponível para reprodução?</strong></p>
+    </div>
+    <div class="col-6">
+      <p><%= @pet.is_available_for_breeding ? 'Sim' : 'Não' %></p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-6">
+      <p class="mb-1"><strong>Pedigree?</strong></p>
+    </div>
+    <div class="col-6">
+      <p><%= @pet.registered_pedigree ? 'Sim' : 'Não' %></p>
+    </div>
+  </div>
+</div>
