@@ -18,12 +18,14 @@ export default class extends Controller {
 
   // Clear input after message sent
   clearInput() {
+    console.log("Triggered clear input")
     this.inputTarget.value = ""
     this.scrollToBottom()
   }
 
   // Scroll messages container to bottom
   scrollToBottom() {
+    console.log("Triggered Scroll")
     const messagesContainer = document.querySelector(".turbo-messages")
     if (messagesContainer) {
       messagesContainer.scrollTop = messagesContainer.scrollHeight

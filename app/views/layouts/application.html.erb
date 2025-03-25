@@ -24,7 +24,6 @@
 
     <div id="mobile-app" data-viewport-target="app">
       <%= render "shared/flashes" %>
-
       <% if current_page?(pets_path) || current_page?(nearby_locations_path) || request.path.include?("swipe") || (request.path.include?("match") && !request.path.include?("messages"))%>
         <% if @current_pet %>
           <%= render "shared/header_nav" %>

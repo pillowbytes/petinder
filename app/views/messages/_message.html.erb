@@ -1,10 +1,9 @@
 <% if message.present? && message.pet_id.present? %>
   <% sender_pet = Pet.find_by(id: message.pet_id) %>
-  <% resolved_match = (defined?(match) && match.present?) ? match : Match.find_by(id: message.match_id) %>
-  <% is_sent_by_current_pet = message.pet_id == @current_pet.id %>
+  <% is_sent_by_current_pet = message.pet_id == session[:current_pet_id] %>
 
   <div id="message-<%= message.id %>"
-       class="pet-message animate__animated animate__bounceInUp <%= is_sent_by_current_pet ? 'sent' : 'received' %>">
+       class=" pet-message animate__animated animate__bounceInUp <%= is_sent_by_current_pet ? 'sent' : 'received' %>">
 
     <% if sender_pet.present? %>
       <div class="avatar">
@@ -23,5 +22,5 @@
     </div>
   </div>
 <% else %>
-  <p class="error-message">Message is being processed...</p>
+  <p class="error-message">Processando mensagem...</p>
 <% end %>
