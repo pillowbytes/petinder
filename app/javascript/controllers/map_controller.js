@@ -24,6 +24,7 @@ export default class extends Controller {
       this.#addUserLocation()
       this.#addMarkersToMap()
       this.#fitMapToMarkers()
+      this.#startLoadingMessages()
 
       // 🔥 Warm-up reverse geocoding to avoid delay on first click
       fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/0,0.json?access_token=${this.apiKeyValue}`, {
@@ -96,6 +97,14 @@ export default class extends Controller {
   }
 
   #addUserLocation() {
+    const overlay = document.getElementById("map-loading-overlay")
+
+    const options = {
+      enableHighAccuracy: false,
+      timeout: 5000,
+      maximumAge: 60000
+    }
+
     navigator.geolocation.getCurrentPosition((position) => {
       const customMarker = document.createElement("div")
       customMarker.innerHTML = this.userMarkerValue.marker_html
@@ -108,8 +117,25 @@ export default class extends Controller {
       new mapboxgl.Marker(customMarker)
         .setLngLat([longitude, latitude])
         .addTo(this.map)
-    })
+
+      if (overlay) {
+        overlay.style.opacity = "0"
+        setTimeout(() => overlay.remove(), 400)
+      }
+    }, (error) => {
+      console.warn("Geolocation error", error)
+      if (overlay) {
+        overlay.innerHTML = `
+          <i class="fas fa-exclamation-triangle" style="font-size: 40px; color: #FF6B81;"></i>
+          <p style="margin-top: 12px; font-size: 16px; color: #444;">
+            Não conseguimos localizar você :(<br>
+            <small style="color: gray;">Mas o mapa ainda funciona!</small>
+          </p>`
+        setTimeout(() => overlay.remove(), 3000)
+      }
+    }, options)
   }
+
 
   #addMarkersToMap() {
     const features = this.markersValue.map((marker) => {
@@ -227,5 +253,26 @@ export default class extends Controller {
     const bounds = new mapboxgl.LngLatBounds()
     this.markersValue.forEach(marker => bounds.extend([marker.lng, marker.lat]))
     this.map.fitBounds(bounds, { padding: 70, maxZoom: 15, duration: 2000 })
+  }
+
+  #startLoadingMessages() {
+    const tips = [
+      "Ativando o faro dos pets...",
+      "Seu GPS pode demorar um pouquinho se estiver em ambientes fechados.",
+      "Preparando o mapa mais fofo do universo...",
+      "Achando o ponto de encontro dos pets!",
+      "Se demorar muito, verifique se a localização está ativada no navegador."
+    ]
+
+    let index = 0
+    const tipEl = document.getElementById("map-loading-tip")
+    if (!tipEl) return
+
+    tipEl.textContent = tips[index]
+
+    this.loadingTipInterval = setInterval(() => {
+      index = (index + 1) % tips.length
+      tipEl.textContent = tips[index]
+    }, 3000)
   }
 }

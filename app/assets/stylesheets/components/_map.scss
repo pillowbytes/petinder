@@ -129,3 +129,18 @@ img.cat {
     transform: translate(-50%, 0);
   }
 }
+
+@keyframes pawBounce {
+  0%, 80%, 100% {
+    transform: translateY(0);
+    opacity: 0.3;
+  }
+  40% {
+    transform: translateY(-10px);
+    opacity: 1;
+  }
+}
+
+.paw-bounce {
+  animation: pawBounce 1s infinite;
+}

@@ -3,3 +3,22 @@
   data-map-markers-value="<%= @markers.to_json %>"
   data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>"
   data-map-user-marker-value="<%= @user_marker.to_json %>"></div>
+<div id="map-loading-overlay" style="
+  position: fixed;
+  inset: 0;
+  background: white;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: sans-serif;
+  text-align: center;
+  transition: opacity 0.4s ease;
+">
+  <i class="fas fa-paw paw-bounce" style="font-size: 40px; color: #6A35CB;"></i>
+  <p style="margin-top: 12px; font-size: 16px; color: #444;">
+    Procurando você e seus pets no mapa...
+  </p>
+  <small id="map-loading-tip" style="margin-top: 6px; color: gray;"></small>
+</div>
