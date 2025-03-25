@@ -13,6 +13,17 @@
           </button>
 
           <ul class="dropdown-menu animate__animated animate__fadeInUp" aria-labelledby="petDropdown">
+          <div class="header-edit-section text-center">
+            <%= link_to pet_path(@current_pet) do %>
+              <div>
+              <i class="fa-solid fa-pen"></i>
+              <p>Editar <%= @current_pet.name %></p>
+              </div>
+            <% end %>
+
+
+          </div>
+          <hr>
             <% @current_user.pets.each do |pet| %>
               <li>
                 <%= form_with url: set_selected_pet_path, method: :post, data: { turbo: false }, class: "dropdown-item-form" do |f| %>

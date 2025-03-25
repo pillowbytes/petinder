@@ -25,7 +25,7 @@
     <div id="mobile-app" data-viewport-target="app">
       <%= render "shared/flashes" %>
 
-      <% if current_page?(pets_path) || current_page?(nearby_locations_path) || request.path.include?("swipe") || current_page?(pet_path) || (request.path.include?("match") && !request.path.include?("messages"))%>
+      <% if current_page?(pets_path) || current_page?(nearby_locations_path) || request.path.include?("swipe") || (request.path.include?("match") && !request.path.include?("messages")) || current_page?(pet_path(@current_pet))%>
         <% if @current_pet %>
           <%= render "shared/header_nav" %>
         <% end %>
@@ -39,7 +39,7 @@
         <%= yield %>
       <% end %>
 
-      <% if (request.path.include?("match") && !request.path.include?("messages")) || request.path.include?("swipe") || request.path.include?("nearby") || current_page?(select_pet_path) || current_page?(pet_path) %>
+      <% if (request.path.include?("match") && !request.path.include?("messages")) || request.path.include?("swipe") || request.path.include?("nearby") || current_page?(select_pet_path) %>
         <% if @current_pet %>
           <%= render "shared/footer_nav" %>
         <% end %>
