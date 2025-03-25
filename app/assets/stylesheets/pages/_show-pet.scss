@@ -2,6 +2,11 @@
   padding-bottom: 50px;  // Evita que o footer sobreponha o conteúdo
   margin-left: 20px;     // Margem à esquerda
   margin-right: 20px;
+  margin-top: 95px;
+}
+
+.pet-show-container {
+  margin-top: 110px;
 }
 
 .card-body {
@@ -16,7 +21,7 @@
   font-size: 20px;
   margin-bottom: 13px;
   color: $pet-color-font;
-  margin-top: 20px;
+  margin-top: 15px;
 }
 
 .card-title {
@@ -48,7 +53,7 @@
 .tag-pill {
   display: inline-block;
   padding: 6px 12px;
-  border-radius: 16px;
+  border-radius: 22px;
   font-size: 15px;
   font-weight: 500;
   color: $pet-color-primary;
