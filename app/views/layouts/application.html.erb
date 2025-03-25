@@ -25,24 +25,28 @@
     <div id="mobile-app" data-viewport-target="app">
       <%= render "shared/flashes" %>
 
-      <% if current_page?(pets_path) || current_page?(nearby_locations_path) || request.path.include?("swipe") || (request.path.include?("match") && !request.path.include?("messages")) || current_page?(pet_path(@current_pet))%>
-        <% if @current_pet %>
-          <%= render "shared/header_nav" %>
-        <% end %>
-      <% end %>
+      <%= if user_signed_in? %>
 
-      <% if current_page?(pets_path) || current_page?(nearby_locations_path) || request.path.include?("swipe") || (request.path.include?("match") && !request.path.include?("messages")) %>
-        <main class="main-content">
-          <%= yield %>
-        </main>
+        <% if current_page?(pets_path) || current_page?(nearby_locations_path) || request.path.include?("swipe") || (request.path.include?("match") && !request.path.include?("messages")) || current_page?(pet_path(@current_pet))%>
+          <% if @current_pet %>
+            <%= render "shared/header_nav" %>
+          <% end %>
+        <% end %>
+
+        <% if current_page?(pets_path) || current_page?(nearby_locations_path) || request.path.include?("swipe") || (request.path.include?("match") && !request.path.include?("messages")) %>
+           <main class="main-content">
+              <%= yield %>
+            </main>
+        <% end %>
+
+        <% if (request.path.include?("match") && !request.path.include?("messages")) || request.path.include?("swipe") || request.path.include?("nearby") || current_page?(select_pet_path) %>
+          <% if @current_pet %>
+            <%= render "shared/footer_nav" %>
+          <% end %>
+        <% end %>
+
       <% else %>
         <%= yield %>
-      <% end %>
-
-      <% if (request.path.include?("match") && !request.path.include?("messages")) || request.path.include?("swipe") || request.path.include?("nearby") || current_page?(select_pet_path) %>
-        <% if @current_pet %>
-          <%= render "shared/footer_nav" %>
-        <% end %>
       <% end %>
     </div>
   </body>
