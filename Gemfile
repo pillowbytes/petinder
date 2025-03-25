@@ -49,7 +49,7 @@ gem "autoprefixer-rails"
 gem "font-awesome-sass", "~> 6.1"
 gem "sassc-rails"
 gem "devise", "~> 4.9"
-
+gem "faker"
 
 gem "simple_form", "~> 5.3"
 
