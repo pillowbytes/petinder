@@ -1,388 +1,450 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
+# db/seeds.rb
 require 'open-uri'
+require 'faker'
 
-# Clean existing data
-puts "🧹 Cleaning database..."
+# Configurar Faker para pt-BR
+Faker::Config.locale = 'pt-BR'
+
+# Limpar sessões ativas do Devise (caso use ActiveRecord::SessionStore)
+puts "🔒 Limpando sessões ativas de Devise..."
+if defined?(ActiveRecord::SessionStore)
+  ActiveRecord::SessionStore::Session.delete_all
+  puts "🔒 Sessões ativas removidas."
+else
+  puts "🔒 ActiveRecord::SessionStore não definido, pulando limpeza de sessões."
+end
+
+# Limpar dados existentes
+puts "🧹 Limpando banco de dados..."
 Location.destroy_all
 Pet.destroy_all
 User.destroy_all
 
-puts "🌱 Creating users, pets and locations..."
+puts "🌱 Criando usuários, pets e localizações..."
 
-# Location coordinates for Largo da Batata area (with small variations)
-largo_da_batata_coordinates = [
-  { lat: -23.56683315047247, lng: -46.694642897321124 },
-  { lat: -23.566842984462173, lng: -46.69512837714322 },
-  { lat: -23.56715275476089, lng: -46.69447928257445 },
-  { lat: -23.5672019245824, lng: -46.69428348132024 },
-  { lat: -23.567315015102, lng: -46.69476091451545 }
-]
+# ----------------------------
+# 1. 50 USUÁRIOS GENÉRICOS
+# ----------------------------
+# Definindo um box mais restrito para que os endereços fiquem concentrados em SP
+generic_lat_range = (-23.600..-23.550)
+generic_lng_range = (-46.700..-46.650)
 
-# User data
-users_data = [
-  {
-    email: "maria@example.com",
-    password: "password123",
-    first_name: "Maria",
-    last_name: "Silva",
-    street: "Rua Padre Carvalho, 25",
-    city: "São Paulo",
-    state: "SP",
-    zip_code: "05424-010",
-    country: "Brasil"
-  },
-  {
-    email: "joao@example.com",
-    password: "password123",
-    first_name: "João",
-    last_name: "Santos",
-    street: "Rua Cardeal Arcoverde, 745",
-    city: "São Paulo",
-    state: "SP",
-    zip_code: "05408-001",
-    country: "Brasil"
-  },
-  {
-    email: "ana@example.com",
-    password: "password123",
-    first_name: "Ana",
-    last_name: "Ferreira",
-    street: "Rua dos Pinheiros, 320",
-    city: "São Paulo",
-    state: "SP",
-    zip_code: "05422-001",
-    country: "Brasil"
-  },
-  {
-    email: "pedro@example.com",
-    password: "password123",
-    first_name: "Pedro",
-    last_name: "Costa",
-    street: "Rua Teodoro Sampaio, 112",
-    city: "São Paulo",
-    state: "SP",
-    zip_code: "05406-000",
-    country: "Brasil"
-  },
-  {
-    email: "julia@example.com",
-    password: "password123",
-    first_name: "Julia",
-    last_name: "Lima",
-    street: "Rua Fidalga, 58",
-    city: "São Paulo",
-    state: "SP",
-    zip_code: "05432-000",
-    country: "Brasil"
-  }
-]
+# Listas de nomes para pets
+dog_names = ["Thor", "Luna", "Max", "Bella", "Buddy", "Charlie", "Rocky", "Duke", "Cooper", "Zeus", "Marley", "Toby"]
+cat_names = ["Simba", "Nala", "Oliver", "Lucy", "Milo", "Loki", "Chloe", "Leo", "Lily", "Sophie", "Mimi"]
 
-# Pet data
-pets_data = [
-  {
-    name: "Thor",
-    species: "dog",
-    breed: "Labrador",
-    age: 3,
-    gender: "male",
-    bio: "Um cachorrinho brincalhão que adora passeios longos e brincar de buscar.",
-    temperament: "friendly",
-    size: "large",
-    age_group: "adult",
-    is_vaccinated: true,
-    is_neutered: true,
-    is_available_for_breeding: false,
-    registered_pedigree: true,
-    personality_traits: ["affectionate", "loyal", "playful"],
-    looking_for: ["socialize"],
-    preferred_species: ["dog"],
-    preferred_size: ["medium"],
-    status: "available",
-    image_url: "https://images.unsplash.com/photo-1587300003388-59208cc962cb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
-  },
-  {
-    name: "Luna",
-    species: "dog",
-    breed: "Golden_Retriever",
-    age: 2,
-    gender: "female",
-    bio: "Uma companheira leal que adora carinhos e cafunés na barriga.",
-    temperament: "calm",
-    size: "large",
-    age_group: "adult",
-    is_vaccinated: true,
-    is_neutered: false,
-    is_available_for_breeding: true,
-    registered_pedigree: true,
-    personality_traits: ["affectionate", "loyal", "intelligent"],
-    looking_for: ["breeding"],
-    preferred_species: ["dog"],
-    preferred_size: ["large"],
-    status: "available",
-    image_url: "https://images.unsplash.com/photo-1552053831-71594a27632d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1624&q=80"
-  },
-  {
-    name: "Max",
-    species: "dog",
-    breed: "Bulldog",
-    age: 4,
-    gender: "male",
-    bio: "Um cachorro energético que adora correr e brincar ao ar livre.",
-    temperament: "energetic",
-    size: "medium",
-    age_group: "adult",
-    is_vaccinated: true,
-    is_neutered: true,
-    is_available_for_breeding: false,
-    registered_pedigree: false,
-    personality_traits: ["active", "playful", "social"],
-    looking_for: ["socialize"],
-    preferred_species: ["dog"],
-    preferred_size: ["medium"],
-    status: "available",
-    image_url: "https://images.unsplash.com/photo-1583337130417-3346a1be7dee?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1644&q=80"
-  },
-  {
-    name: "Bella",
-    species: "dog",
-    breed: "Poodle",
-    age: 1,
-    gender: "female",
-    bio: "Uma cachorrinha doce que se dá bem com crianças e outros animais.",
-    temperament: "playful",
-    size: "small",
-    age_group: "puppy",
-    is_vaccinated: true,
-    is_neutered: false,
-    is_available_for_breeding: false,
-    registered_pedigree: true,
-    personality_traits: ["affectionate", "intelligent", "curious"],
-    looking_for: ["socialize"],
-    preferred_species: ["dog"],
-    preferred_size: ["small"],
-    status: "available",
-    image_url: "https://images.unsplash.com/photo-1594149929911-78975a43d4f5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
-  },
-  {
-    name: "Simba",
-    species: "cat",
-    breed: "Maine_Coon",
-    age: 3,
-    gender: "male",
-    bio: "Um gato curioso que adora explorar e escalar.",
-    temperament: "friendly",
-    size: "large",
-    age_group: "adult",
-    is_vaccinated: true,
-    is_neutered: true,
-    is_available_for_breeding: false,
-    registered_pedigree: true,
-    personality_traits: ["curious", "intelligent", "active"],
-    looking_for: ["socialize"],
-    preferred_species: ["cat"],
-    preferred_size: ["medium"],
-    status: "available",
-    image_url: "https://images.unsplash.com/photo-1533738363-b7f9aef128ce?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
-  },
-  {
-    name: "Nala",
-    species: "cat",
-    breed: "Siamese",
-    age: 2,
-    gender: "female",
-    bio: "Uma felina preguiçosa que adora tomar sol perto da janela.",
-    temperament: "calm",
-    size: "medium",
-    age_group: "adult",
-    is_vaccinated: true,
-    is_neutered: false,
-    is_available_for_breeding: true,
-    registered_pedigree: true,
-    personality_traits: ["independent", "affectionate", "intelligent"],
-    looking_for: ["breeding"],
-    preferred_species: ["cat"],
-    preferred_size: ["medium"],
-    status: "available",
-    image_url: "https://images.unsplash.com/photo-1573865526739-10659fec78a5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
-  },
-  {
-    name: "Oliver",
-    species: "cat",
-    breed: "Bengal",
-    age: 1,
-    gender: "male",
-    bio: "Um gatinho brincalhão que adora perseguir brinquedos e fios.",
-    temperament: "energetic",
-    size: "medium",
-    age_group: "kitten",
-    is_vaccinated: true,
-    is_neutered: false,
-    is_available_for_breeding: false,
-    registered_pedigree: true,
-    personality_traits: ["playful", "active", "curious"],
-    looking_for: ["socialize"],
-    preferred_species: ["cat"],
-    preferred_size: ["medium"],
-    status: "available",
-    image_url: "https://images.unsplash.com/photo-1577023311546-cdc07a8454d9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1828&q=80"
-  },
-  {
-    name: "Lucy",
-    species: "cat",
-    breed: "Persian",
-    age: 5,
-    gender: "female",
-    bio: "Uma gata digna que aprecia um ambiente tranquilo.",
-    temperament: "shy",
-    size: "small",
-    age_group: "senior",
-    is_vaccinated: true,
-    is_neutered: true,
-    is_available_for_breeding: false,
-    registered_pedigree: true,
-    personality_traits: ["affectionate", "gentle", "independent"],
-    looking_for: ["socialize"],
-    preferred_species: ["cat"],
-    preferred_size: ["small"],
-    status: "available",
-    image_url: "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
-  }
-]
+50.times do |i|
+  first_name = Faker::Name.first_name
+  last_name  = Faker::Name.last_name
+  email      = Faker::Internet.unique.email(name: "#{first_name} #{last_name}")
+  street     = Faker::Address.street_address
+  city       = "São Paulo"
+  state      = "SP"
+  zip_code   = Faker::Address.zip_code[0..8]
+  country    = "Brasil"
 
-# Create users, locations, and pets
-users_data.each_with_index do |user_data, index|
-  # Create user
   user = User.create!(
-    email: user_data[:email],
-    password: user_data[:password],
-    first_name: user_data[:first_name],
-    last_name: user_data[:last_name],
-    street: user_data[:street],
-    city: user_data[:city],
-    state: user_data[:state],
-    zip_code: user_data[:zip_code],
-    country: user_data[:country]
+    email: email,
+    password: "password123",
+    first_name: first_name,
+    last_name: last_name,
+    street: street,
+    city: city,
+    state: state,
+    zip_code: zip_code,
+    country: country
   )
+  # Gerar coordenadas dentro do box definido para SP
+  lat = rand(generic_lat_range)
+  lng = rand(generic_lng_range)
+  address = "#{street}, #{city}"
 
-  puts "👤 Criado usuário: #{user.first_name} #{user.last_name}"
-
-  # Create location for user
-  coords = largo_da_batata_coordinates[index]
-  location = Location.create!(
+  Location.create!(
     user: user,
-    address: user_data[:street] + ", " + user_data[:city],
-    latitude: coords[:lat],
-    longitude: coords[:lng],
-    city: user_data[:city],
-    state: user_data[:state],
-    zipcode: user_data[:zip_code]
+    address: address,
+    latitude: lat,
+    longitude: lng,
+    city: city,
+    state: state,
+    zipcode: zip_code
   )
 
-  puts "📍 Criada localização para #{user.first_name} em Largo da Batata"
+  # Criar dados do pet
+  species = Pet::SPECIES_OPTIONS.sample  # "Cachorro" ou "Gato"
+  pet_name = species == "Cachorro" ? dog_names.sample : cat_names.sample
+  breed = species == "Cachorro" ? Pet::BREED_OPTIONS["Cachorro"].sample : Pet::BREED_OPTIONS["Gato"].sample
+  gender = Pet::GENDER_OPTIONS.sample
+  age = rand(1..15)
+  age_group = if age < 2 then "Filhote" elsif age > 7 then "Sênior" else "Adulto" end
+  bio = Faker::Lorem.sentence(word_count: 10)
+  temperament = Pet::TEMPERAMENT_OPTIONS.sample
+  size = Pet::SIZE_OPTIONS.sample
+  is_vaccinated = [true, false].sample
+  is_neutered = [true, false].sample
+  is_available_for_breeding = [true, false].sample
+  registered_pedigree = [true, false].sample
+  personality_traits = Pet::PERSONALITY_TRAITS_OPTIONS.sample(rand(1..4))
+  looking_for = [Pet::LOOKING_FOR_OPTIONS.sample]
+  preferred_species = [Pet::PREFERRED_SPECIES_OPTIONS.sample]
+  preferred_size = [Pet::SIZE_OPTIONS.sample]
+  status = "Disponível"
 
-  # Assign 1-2 pets to each user
-  start_index = index
-  num_pets = [1, 2].sample
+  pet = Pet.new(
+    user: user,
+    name: pet_name,
+    species: species,
+    breed: breed,
+    age: age,
+    gender: gender,
+    bio: bio,
+    temperament: temperament,
+    size: size,
+    age_group: age_group,
+    is_vaccinated: is_vaccinated,
+    is_neutered: is_neutered,
+    is_available_for_breeding: is_available_for_breeding,
+    registered_pedigree: registered_pedigree,
+    personality_traits: personality_traits,
+    looking_for: looking_for,
+    preferred_species: preferred_species,
+    preferred_size: preferred_size,
+    status: status
+  )
 
-  num_pets.times do |i|
-    pet_index = (start_index + i) % pets_data.length
-    pet_data = pets_data[pet_index]
+  # Anexar imagem única para o pet
+  image_url = "https://picsum.photos/seed/#{pet.name.parameterize}-#{i}/500/500"
+  begin
+    file = URI.open(image_url)
+    pet.photos.attach(io: file, filename: "pet_generic_#{i+1}.jpg", content_type: "image/jpeg")
+  rescue => e
+    puts "⚠️ Erro ao anexar imagem para #{pet.name}: #{e.message}"
+  end
+  pet.save!
+end
 
-    # Create pet
+# ----------------------------
+# 2. USUÁRIOS A PARTIR DE COORDENADAS ESPECÍFICAS
+# ----------------------------
+coordinate_groups = {
+  "Parque Villa-Lobos" => [
+    { lat: -23.542867, lng: -46.729952 },
+    { lat: -23.543497, lng: -46.727571 },
+    { lat: -23.547264, lng: -46.728751 },
+    { lat: -23.544903, lng: -46.723837 },
+    { lat: -23.545887, lng: -46.720017 },
+    { lat: -23.544293, lng: -46.732248 },
+    { lat: -23.548169, lng: -46.722507 },
+    { lat: -23.544313, lng: -46.724963 },
+    { lat: -23.545710, lng: -46.719653 },
+    { lat: -23.546703, lng: -46.725543 },
+    { lat: -23.547357, lng: -46.729287 }
+  ],
+  "Largo da Batata" => [
+    { lat: -23.566751, lng: -46.695388 },
+    { lat: -23.566788, lng: -46.694599 },
+    { lat: -23.567043, lng: -46.694653 },
+    { lat: -23.567239, lng: -46.694293 },
+    { lat: -23.567033, lng: -46.695134 }
+  ],
+  "Praça do Por do Sol" => [
+    { lat: -23.552719, lng: -46.703700 },
+    { lat: -23.554922, lng: -46.700873 },
+    { lat: -23.554042, lng: -46.701672 },
+    { lat: -23.553889, lng: -46.702981 },
+    { lat: -23.553830, lng: -46.702101 },
+    { lat: -23.554646, lng: -46.700642 },
+    { lat: -23.553702, lng: -46.703249 }
+  ],
+  "Praça Panamericana" => [
+    { lat: -23.553739, lng: -46.709628 },
+    { lat: -23.553174, lng: -46.708946 },
+    { lat: -23.554113, lng: -46.708710 },
+    { lat: -23.553806, lng: -46.709212 },
+    { lat: -23.553292, lng: -46.708968 },
+    { lat: -23.553700, lng: -46.708215 }
+  ],
+  "Parquinho Conde de Barcelos" => [
+    { lat: -23.552632, lng: -46.713018 },
+    { lat: -23.551215, lng: -46.714413 },
+    { lat: -23.552322, lng: -46.713753 }
+  ]
+}
+
+coordinate_groups.each do |group_name, coords_array|
+  coords_array.each do |coord|
+    first_name = Faker::Name.first_name
+    last_name  = Faker::Name.last_name
+    email = Faker::Internet.unique.email(name: "#{first_name} #{last_name}")
+    street = Faker::Address.street_address
+    city = "São Paulo"
+    state = "SP"
+    zip_code = Faker::Address.zip_code[0..8]
+    country = "Brasil"
+
+    user = User.create!(
+      email: email,
+      password: "password123",
+      first_name: first_name,
+      last_name: last_name,
+      street: street,
+      city: city,
+      state: state,
+      zip_code: zip_code,
+      country: country
+    )
+
+    Location.create!(
+      user: user,
+      address: group_name,
+      latitude: coord[:lat],
+      longitude: coord[:lng],
+      city: city,
+      state: state,
+      zipcode: zip_code
+    )
+
+    # Criar pet para este usuário
+    species = Pet::SPECIES_OPTIONS.sample
+    pet_name = species == "Cachorro" ? dog_names.sample : cat_names.sample
+    breed = species == "Cachorro" ? Pet::BREED_OPTIONS["Cachorro"].sample : Pet::BREED_OPTIONS["Gato"].sample
+    gender = Pet::GENDER_OPTIONS.sample
+    age = rand(1..15)
+    age_group = if age < 2 then "Filhote" elsif age > 7 then "Sênior" else "Adulto" end
+    bio = Faker::Lorem.sentence(word_count: 10)
+    temperament = Pet::TEMPERAMENT_OPTIONS.sample
+    size = Pet::SIZE_OPTIONS.sample
+    is_vaccinated = [true, false].sample
+    is_neutered = [true, false].sample
+    is_available_for_breeding = [true, false].sample
+    registered_pedigree = [true, false].sample
+    personality_traits = Pet::PERSONALITY_TRAITS_OPTIONS.sample(rand(1..4))
+    looking_for = [Pet::LOOKING_FOR_OPTIONS.sample]
+    preferred_species = [Pet::PREFERRED_SPECIES_OPTIONS.sample]
+    preferred_size = [Pet::SIZE_OPTIONS.sample]
+    status = "Disponível"
+
     pet = Pet.new(
       user: user,
-      name: pet_data[:name],
-      species: pet_data[:species],
-      breed: pet_data[:breed],
-      age: pet_data[:age],
-      gender: pet_data[:gender],
-      bio: pet_data[:bio],
-      temperament: pet_data[:temperament],
-      size: pet_data[:size],
-      age_group: pet_data[:age_group],
-      is_vaccinated: pet_data[:is_vaccinated],
-      is_neutered: pet_data[:is_neutered],
-      is_available_for_breeding: pet_data[:is_available_for_breeding],
-      registered_pedigree: pet_data[:registered_pedigree],
-      personality_traits: pet_data[:personality_traits],
-      looking_for: pet_data[:looking_for],
-      preferred_species: pet_data[:preferred_species],
-      preferred_size: pet_data[:preferred_size],
-      status: pet_data[:status]
+      name: pet_name,
+      species: species,
+      breed: breed,
+      age: age,
+      gender: gender,
+      bio: bio,
+      temperament: temperament,
+      size: size,
+      age_group: age_group,
+      is_vaccinated: is_vaccinated,
+      is_neutered: is_neutered,
+      is_available_for_breeding: is_available_for_breeding,
+      registered_pedigree: registered_pedigree,
+      personality_traits: personality_traits,
+      looking_for: looking_for,
+      preferred_species: preferred_species,
+      preferred_size: preferred_size,
+      status: status
     )
 
+    image_url = "https://picsum.photos/seed/#{pet.name.parameterize}-#{rand(1000)}/500/500"
     begin
-      # Attach image from URL
-      file = URI.open(pet_data[:image_url])
-      pet.photos.attach(io: file, filename: "#{pet_data[:name].downcase}.jpg", content_type: "image/jpeg")
-
-      pet.save!
-      puts "🐾 Criado pet: #{pet.name} (#{pet.species}) para #{user.first_name}"
+      file = URI.open(image_url)
+      pet.photos.attach(io: file, filename: "#{pet.name.parameterize}-#{rand(1000)}.jpg", content_type: "image/jpeg")
     rescue => e
-      puts "⚠️ Erro ao anexar imagem: #{e.message}"
-
-      # Fallback to alternative image URL if the primary fails
-      begin
-        file = URI.open("https://picsum.photos/seed/#{pet_data[:name].sum}/500/500")
-        pet.photos.attach(io: file, filename: "#{pet_data[:name].downcase}_alt.jpg", content_type: "image/jpeg")
-        pet.save!
-        puts "🐾 Criado pet com imagem alternativa: #{pet.name}"
-      rescue => e2
-        puts "❌ Não foi possível anexar nem mesmo uma imagem alternativa: #{e2.message}"
-        # Ensure at least one pet per user by continuing without image
-        pet.save(validate: false)
-        puts "🐾 Criado pet sem imagem: #{pet.name}"
-      end
+      puts "⚠️ Erro ao anexar imagem para #{pet.name}: #{e.message}"
     end
+    pet.save!
   end
+end
 
-  # Ensure each user has at least one pet
-  if user.pets.empty?
-    # Add a fallback pet if all attempts failed
-    fallback_pet = Pet.new(
-      user: user,
-      name: "Pet #{user.first_name}",
-      species: ["dog", "cat"].sample,
-      breed: "Other",
-      age: rand(1..10),
-      gender: ["male", "female"].sample,
-      bio: "Pet de emergência criado para #{user.first_name}.",
-      temperament: Pet::TEMPERAMENT_OPTIONS.sample,
-      size: Pet::SIZE_OPTIONS.sample,
-      age_group: Pet::AGE_GROUP_OPTIONS.sample,
-      is_vaccinated: true,
-      is_neutered: true,
-      is_available_for_breeding: false,
-      registered_pedigree: false,
-      personality_traits: [Pet::PERSONALITY_TRAITS_OPTIONS.sample],
-      looking_for: ["socialize"],
-      preferred_species: ["anything"],
-      preferred_size: [Pet::SIZE_OPTIONS.sample],
-      status: "available"
-    )
+# ----------------------------
+# 3. USUÁRIOS PARA ÁREAS ADICIONAIS
+#    a) Parque da USP – 11 usuários
+#    b) Praça Victor Civita – 7 usuários
+# ----------------------------
 
-    # Try to attach a generic image
-    begin
-      file = URI.open("https://picsum.photos/seed/fallback#{rand(1000)}/500/500")
-      fallback_pet.photos.attach(io: file, filename: "fallback_pet.jpg", content_type: "image/jpeg")
-    rescue => e
-      puts "⚠️ Não foi possível anexar imagem para pet de emergência: #{e.message}"
-    end
+# a) Parque da USP
+11.times do |i|
+  first_name = Faker::Name.first_name
+  last_name  = Faker::Name.last_name
+  email = Faker::Internet.unique.email(name: "#{first_name} #{last_name}")
+  street = Faker::Address.street_address
+  city = "São Paulo"
+  state = "SP"
+  zip_code = Faker::Address.zip_code[0..8]
+  country = "Brasil"
 
-    fallback_pet.save!
-    puts "🆘 Criado pet de emergência para #{user.first_name}"
+  user = User.create!(
+    email: email,
+    password: "password123",
+    first_name: first_name,
+    last_name: last_name,
+    street: street,
+    city: city,
+    state: state,
+    zip_code: zip_code,
+    country: country
+  )
+
+  # Base para Parque da USP
+  base_lat = -23.5615
+  base_lng = -46.7310
+  lat = base_lat + rand(-0.001..0.001)
+  lng = base_lng + rand(-0.001..0.001)
+  address = "Parque da USP"
+
+  Location.create!(
+    user: user,
+    address: address,
+    latitude: lat,
+    longitude: lng,
+    city: city,
+    state: state,
+    zipcode: zip_code
+  )
+
+  species = Pet::SPECIES_OPTIONS.sample
+  pet_name = species == "Cachorro" ? dog_names.sample : cat_names.sample
+  breed = species == "Cachorro" ? Pet::BREED_OPTIONS["Cachorro"].sample : Pet::BREED_OPTIONS["Gato"].sample
+  gender = Pet::GENDER_OPTIONS.sample
+  age = rand(1..15)
+  age_group = if age < 2 then "Filhote" elsif age > 7 then "Sênior" else "Adulto" end
+  bio = Faker::Lorem.sentence(word_count: 10)
+  temperament = Pet::TEMPERAMENT_OPTIONS.sample
+  size = Pet::SIZE_OPTIONS.sample
+  is_vaccinated = [true, false].sample
+  is_neutered = [true, false].sample
+  is_available_for_breeding = [true, false].sample
+  registered_pedigree = [true, false].sample
+  personality_traits = Pet::PERSONALITY_TRAITS_OPTIONS.sample(rand(1..4))
+  looking_for = [Pet::LOOKING_FOR_OPTIONS.sample]
+  preferred_species = [Pet::PREFERRED_SPECIES_OPTIONS.sample]
+  preferred_size = [Pet::SIZE_OPTIONS.sample]
+  status = "Disponível"
+
+  pet = Pet.new(
+    user: user,
+    name: pet_name,
+    species: species,
+    breed: breed,
+    age: age,
+    gender: gender,
+    bio: bio,
+    temperament: temperament,
+    size: size,
+    age_group: age_group,
+    is_vaccinated: is_vaccinated,
+    is_neutered: is_neutered,
+    is_available_for_breeding: is_available_for_breeding,
+    registered_pedigree: registered_pedigree,
+    personality_traits: personality_traits,
+    looking_for: looking_for,
+    preferred_species: preferred_species,
+    preferred_size: preferred_size,
+    status: status
+  )
+
+  image_url = "https://picsum.photos/seed/#{pet.name.parameterize}-usp-#{i}/500/500"
+  begin
+    file = URI.open(image_url)
+    pet.photos.attach(io: file, filename: "usp_pet#{i+1}.jpg", content_type: "image/jpeg")
+  rescue => e
+    puts "⚠️ Erro ao anexar imagem para #{pet.name}: #{e.message}"
   end
+  pet.save!
+end
+
+# b) Praça Victor Civita
+7.times do |i|
+  first_name = Faker::Name.first_name
+  last_name  = Faker::Name.last_name
+  email = Faker::Internet.unique.email(name: "#{first_name} #{last_name}")
+  street = Faker::Address.street_address
+  city = "São Paulo"
+  state = "SP"
+  zip_code = Faker::Address.zip_code[0..8]
+  country = "Brasil"
+
+  user = User.create!(
+    email: email,
+    password: "password123",
+    first_name: first_name,
+    last_name: last_name,
+    street: street,
+    city: city,
+    state: state,
+    zip_code: zip_code,
+    country: country
+  )
+
+  # Base para Praça Victor Civita
+  base_lat = -23.565
+  base_lng = -46.688
+  lat = base_lat + rand(-0.001..0.001)
+  lng = base_lng + rand(-0.001..0.001)
+  address = "Praça Victor Civita"
+
+  Location.create!(
+    user: user,
+    address: address,
+    latitude: lat,
+    longitude: lng,
+    city: city,
+    state: state,
+    zipcode: zip_code
+  )
+
+  species = Pet::SPECIES_OPTIONS.sample
+  pet_name = species == "Cachorro" ? dog_names.sample : cat_names.sample
+  breed = species == "Cachorro" ? Pet::BREED_OPTIONS["Cachorro"].sample : Pet::BREED_OPTIONS["Gato"].sample
+  gender = Pet::GENDER_OPTIONS.sample
+  age = rand(1..15)
+  age_group = if age < 2 then "Filhote" elsif age > 7 then "Sênior" else "Adulto" end
+  bio = Faker::Lorem.sentence(word_count: 10)
+  temperament = Pet::TEMPERAMENT_OPTIONS.sample
+  size = Pet::SIZE_OPTIONS.sample
+  is_vaccinated = [true, false].sample
+  is_neutered = [true, false].sample
+  is_available_for_breeding = [true, false].sample
+  registered_pedigree = [true, false].sample
+  personality_traits = Pet::PERSONALITY_TRAITS_OPTIONS.sample(rand(1..4))
+  looking_for = [Pet::LOOKING_FOR_OPTIONS.sample]
+  preferred_species = [Pet::PREFERRED_SPECIES_OPTIONS.sample]
+  preferred_size = [Pet::SIZE_OPTIONS.sample]
+  status = "Disponível"
+
+  pet = Pet.new(
+    user: user,
+    name: pet_name,
+    species: species,
+    breed: breed,
+    age: age,
+    gender: gender,
+    bio: bio,
+    temperament: temperament,
+    size: size,
+    age_group: age_group,
+    is_vaccinated: is_vaccinated,
+    is_neutered: is_neutered,
+    is_available_for_breeding: is_available_for_breeding,
+    registered_pedigree: registered_pedigree,
+    personality_traits: personality_traits,
+    looking_for: looking_for,
+    preferred_species: preferred_species,
+    preferred_size: preferred_size,
+    status: status
+  )
+
+  image_url = "https://picsum.photos/seed/#{pet.name.parameterize}-vitorcivita-#{i}/500/500"
+  begin
+    file = URI.open(image_url)
+    pet.photos.attach(io: file, filename: "vitorcivita_pet#{i+1}.jpg", content_type: "image/jpeg")
+  rescue => e
+    puts "⚠️ Erro ao anexar imagem para #{pet.name}: #{e.message}"
+  end
+  pet.save!
 end
 
 puts "✅ Seeding completo!"
 puts "👥 Criados #{User.count} usuários"
 puts "🐶🐱 Criados #{Pet.count} pets"
-puts "📍 Criados #{Location.count} localizações"
+puts "📍 Criadas #{Location.count} localizações"
