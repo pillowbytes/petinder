@@ -21,8 +21,7 @@
   <div class="chat-input" data-controller="chat">
     <%= form_with model: [@match, Message.new],
                   url: pet_match_messages_path(@match.pet, @match),
-                  data: { turbo_stream: true, action: "turbo:submit-end->chat#clearInput" },
-                  html: { data: { chat_target: "form" } } do |form| %>
+                  html: { data: { chat_target: "form", turbo_stream: true, action: "turbo:submit-end->chat#clearInput" } } do |form| %>
       <div class="input-group">
         <%= form.text_area :content,
                            class: "form-control input_chat",
